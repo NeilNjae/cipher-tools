@@ -1,4 +1,5 @@
 import string
+import collections
 
 
 def caesar_cipher_letter(letter, shift):
@@ -21,3 +22,11 @@ def caesar_cipher_message(message, shift):
 
 def caesar_decipher_message(message, shift):
     return caesar_cipher_message(message, -shift)
+
+def letter_frequencies(message):
+    frequencies = collections.defaultdict(int)
+    for letter in message: 
+        if letter in  string.ascii_letters:
+            frequencies[letter.lower()]+=1
+    return frequencies
+
