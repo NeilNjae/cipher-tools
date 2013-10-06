@@ -96,6 +96,27 @@ def l3(frequencies1, frequencies2):
         total += abs(frequencies1[k] - frequencies2[k]) ** 3
     return total ** (1/3)
 
+def geometric_mean(frequencies1, frequencies2):
+    """Finds the distances between two frequency profiles, expressed as dictionaries.
+    Assumes every key in frequencies1 is also in frequencies2
+
+    """
+    total = 0
+    for k in frequencies1.keys():
+        total *= abs(frequencies1[k] - frequencies2[k])
+    return total
+
+def harmonic_mean(frequencies1, frequencies2):
+    """Finds the distances between two frequency profiles, expressed as dictionaries.
+    Assumes every key in frequencies1 is also in frequencies2
+
+    """
+    total = 0
+    for k in frequencies1.keys():
+        total += 1 / abs(frequencies1[k] - frequencies2[k])
+    return 1 / total
+
+
 def cosine_distance(frequencies1, frequencies2):
     """Finds the distances between two frequency profiles, expressed as dictionaries.
     Assumes every key in frequencies1 is also in frequencies2

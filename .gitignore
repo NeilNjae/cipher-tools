@@ -1,0 +1,8 @@
+*~
+/.bundle
+/config/database.yml
+/config/deploy.rb
+*doc
+/log/*log
+/tmp
+
