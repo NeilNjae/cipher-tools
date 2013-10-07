@@ -114,7 +114,7 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
     (4, 0.3186395289018361)
     >>> caesar_break('jhzhuhfrqilqhgwrdevwudfwuhdvrqlqjwkhqkdylqjvxemhfwhgwrfulwlflvpwkhhasodqdwlrqrisrzhuwkdwmxulglfdovfl')
-    (3, 0.32902042861730835)
+    (3, 0.3290204286173084)
     >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
     (19, 0.4215290123583277)
     >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
