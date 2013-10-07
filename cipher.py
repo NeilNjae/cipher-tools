@@ -10,6 +10,13 @@ with open('count_1l.txt', 'r') as f:
 normalised_english_counts = norms.normalise(english_counts)        
 
 
+modular_division_table = [[0]*26 for x in range(26)]
+for a in range(26):
+    for b in range(26):
+        c = (a * b) % 26
+        modular_division_table[b][c] = a
+
+
 def sanitise(text):
     """Remove all non-alphabetic characters and convert the text to lowercase
     
@@ -107,13 +114,52 @@ def caesar_decipher(message, shift):
     """
     return caesar_encipher(message, -shift)
 
+def affine_encipher_letter(letter, multiplier, adder, multiply_then_add=True):
+    if letter in string.ascii_letters:
+        if letter in string.ascii_uppercase:
+            alphabet_start = ord('A')
+        else:
+            alphabet_start = ord('a')
+        letter_number = ord(letter) - alphabet_start
+        cipher_number = 0
+        if multiply_then_add:
+            cipher_number = (letter_number * multiplier + adder) % 26
+        else:
+            cipher_number = ((letter_number + adder) * multiplier) % 26
+        return chr(cipher_number + alphabet_start)
+    else:
+        return letter
+
+def affine_decipher_letter(letter, multiplier, adder, multiply_then_add=True):
+    if letter in string.ascii_letters:
+        if letter in string.ascii_uppercase:
+            alphabet_start = ord('A')
+        else:
+            alphabet_start = ord('a')
+        cipher_number = ord(letter) - alphabet_start
+        plaintext_number = 0
+        if multiply_then_add:
+            plaintext_number = modular_division_table[multiplier][(cipher_number - adder + 26) % 26]
+        else:
+            plaintext_number = (modular_division_table[multiplier][cipher_number] - adder) % 26
+        return chr(plaintext_number + alphabet_start)
+    else:
+        return letter
+
+def affine_encipher(message, multiplier, adder, multiply_then_add=True):
+    enciphered = [affine_encipher_letter(l, multiplier, adder, multiply_then_add) for l in message]
+    return ''.join(enciphered)
+
+def affine_decipher(message, multiplier, adder, multiply_then_add=True):
+    enciphered = [affine_decipher_letter(l, multiplier, adder, multiply_then_add) for l in message]
+    return ''.join(enciphered)
+
+
 def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a Caesar cipher using frequency analysis
     
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
     (4, 0.3186395289018361)
-    >>> caesar_break('jhzhuhfrqilqhgwrdevwudfwuhdvrqlqjwkhqkdylqjvxemhfwhgwrfulwlflvpwkhhasodqdwlrqrisrzhuwkdwmxulglfdovfl')
-    (3, 0.3290204286173084)
     >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
     (19, 0.4215290123583277)
     >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
@@ -130,6 +176,31 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
             best_fit = fit
             best_shift = shift
     return best_shift, best_fit
+
+def affine_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
+    """Breaks a Caesar cipher using frequency analysis
+    
+    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
+    (4, 0.3186395289018361)
+    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
+    (19, 0.4215290123583277)
+    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
+    (13, 0.31602920807545154)
+    """
+    sanitised_message = sanitise(message)
+    best_multiplier = 0
+    best_adder = 0
+    best_fit = float("inf")
+    for multiplier in range(1, 26, 2):
+        for adder in range(26):
+            plaintext = affine_decipher(sanitised_message, multiplier, adder)
+            frequencies = message_frequency_scaling(letter_frequencies(plaintext))
+            fit = metric(target_frequencies, frequencies)
+            if fit < best_fit:
+                best_fit = fit
+                best_multiplier = multiplier
+                best_adder = adder
+    return (best_multiplier, best_adder), best_fit
 
 
 if __name__ == "__main__":
