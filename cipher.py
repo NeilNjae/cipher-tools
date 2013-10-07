@@ -178,14 +178,7 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
     return best_shift, best_fit
 
 def affine_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
-    """Breaks a Caesar cipher using frequency analysis
-    
-    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
-    (4, 0.3186395289018361)
-    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
-    (19, 0.4215290123583277)
-    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
-    (13, 0.31602920807545154)
+    """Breaks an affine cipher using frequency analysis
     """
     sanitised_message = sanitise(message)
     best_multiplier = 0
