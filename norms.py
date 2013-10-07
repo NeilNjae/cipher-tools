@@ -97,24 +97,52 @@ def l3(frequencies1, frequencies2):
     return total ** (1/3)
 
 def geometric_mean(frequencies1, frequencies2):
-    """Finds the distances between two frequency profiles, expressed as dictionaries.
+    """Finds the geometric mean of the absolute differences between two frequency profiles, 
+    expressed as dictionaries.
     Assumes every key in frequencies1 is also in frequencies2
-
+    
+    >>> geometric_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
+    1
+    >>> geometric_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
+    1
+    >>> geometric_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':5, 'c':1})
+    3
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':5, 'c':1}))
+    0.057022248808851934
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':1}))
+    0.0
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':0}))
+    0.009720703533656434
     """
-    total = 0
+    total = 1
     for k in frequencies1.keys():
         total *= abs(frequencies1[k] - frequencies2[k])
     return total
 
 def harmonic_mean(frequencies1, frequencies2):
-    """Finds the distances between two frequency profiles, expressed as dictionaries.
+    """Finds the harmonic mean of the absolute differences between two frequency profiles, 
+    expressed as dictionaries.
     Assumes every key in frequencies1 is also in frequencies2
 
+    >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
+    1.0
+    >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
+    1.0
+    >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':5, 'c':1})
+    1.2857142857142858
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':5, 'c':1}))
+    0.3849001794597505
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':1}))
+    0
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':0}))
+    0.17497266360581604
     """
     total = 0
     for k in frequencies1.keys():
+        if abs(frequencies1[k] - frequencies2[k]) == 0:
+            return 0
         total += 1 / abs(frequencies1[k] - frequencies2[k])
-    return 1 / total
+    return len(frequencies1) / total
 
 
 def cosine_distance(frequencies1, frequencies2):

@@ -11,7 +11,7 @@ scaled_english_counts = norms.scale(english_counts)
 metrics = [norms.l1, norms.l2, norms.l3, norms.cosine_distance, norms.harmonic_mean, norms.geometric_mean]
 corpus_frequencies = [normalised_english_counts, scaled_english_counts]
 scalings = [norms.normalise, norms.scale]
-message_lengths = [3000, 1000, 300, 100, 50, 30, 20, 10, 5]
+message_lengths = [300, 100, 50, 30, 20, 10, 5]
 
 metric_names = ['l1', 'l2', 'l3', 'cosine_distance', 'harmonic_mean', 'geometric_mean']
 corpus_frequency_names = ['normalised_english_counts', 'scaled_english_counts']

@@ -21,6 +21,9 @@ def sanitise(text):
     sanitised = [c.lower() for c in text if c in string.ascii_letters]
     return ''.join(sanitised)
 
+def ngrams(text, n):
+    return [tuple(text[i:i+n]) for i in range(len(text)-n+1)]
+
 def letter_frequencies(text):
     """Count the number of occurrences of each character in text
     
@@ -105,10 +108,22 @@ def caesar_decipher(message, shift):
     return caesar_encipher(message, -shift)
 
 def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
+    """Breaks a Caesar cipher using frequency analysis
+    
+    
+    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
+    (4, 0.3186395289018361)
+    >>> caesar_break('jhzhuhfrqilqhgwrdevwudfwuhdvrqlqjwkhqkdylqjvxemhfwhgwrfulwlflvpwkhhasodqdwlrqrisrzhuwkdwmxulglfdovfl')
+    (3, 0.32902042861730835)
+    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
+    (19, 0.4215290123583277)
+    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
+    (13, 0.31602920807545154)
+    """
     sanitised_message = sanitise(message)
     best_shift = 0
     best_fit = float("inf")
-    for shift in range(1, 25):
+    for shift in range(26):
         plaintext = caesar_decipher(sanitised_message, shift)
         frequencies = message_frequency_scaling(letter_frequencies(plaintext))
         fit = metric(target_frequencies, frequencies)
