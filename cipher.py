@@ -1,6 +1,12 @@
 import string
 import collections
 import norms
+import logging
+
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.FileHandler('cipher.log'))
+# logging.basicConfig(filename='cipher.log',level=logging.WARNING)
+logger.setLevel(logging.INFO)
 
 english_counts = collections.defaultdict(int)
 with open('count_1l.txt', 'r') as f:
@@ -172,9 +178,11 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
         plaintext = caesar_decipher(sanitised_message, shift)
         frequencies = message_frequency_scaling(letter_frequencies(plaintext))
         fit = metric(target_frequencies, frequencies)
+        logger.info('Caesar break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
         if fit < best_fit:
             best_fit = fit
             best_shift = shift
+    logger.info('Caesar break best fit: key {0} gives fit of {1} and decrypt starting: {2}'.format(best_shift, best_fit, caesar_decipher(sanitised_message, best_shift)[:50]))
     return best_shift, best_fit
 
 def affine_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
@@ -183,17 +191,22 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
     sanitised_message = sanitise(message)
     best_multiplier = 0
     best_adder = 0
+    best_multiply_then_add = True
     best_fit = float("inf")
-    for multiplier in range(1, 26, 2):
-        for adder in range(26):
-            plaintext = affine_decipher(sanitised_message, multiplier, adder)
-            frequencies = message_frequency_scaling(letter_frequencies(plaintext))
-            fit = metric(target_frequencies, frequencies)
-            if fit < best_fit:
-                best_fit = fit
-                best_multiplier = multiplier
-                best_adder = adder
-    return (best_multiplier, best_adder), best_fit
+    for multiply_then_add in [True, False]:
+        for multiplier in range(1, 26, 2):
+            for adder in range(26):
+                plaintext = affine_decipher(sanitised_message, multiplier, adder, multiply_then_add)
+                frequencies = message_frequency_scaling(letter_frequencies(plaintext))
+                fit = metric(target_frequencies, frequencies)
+                logger.info('Affine break attempt using key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(multiplier, adder, multiply_then_add, fit, plaintext[:50]))
+                if fit < best_fit:
+                    best_fit = fit
+                    best_multiplier = multiplier
+                    best_adder = adder
+                    best_multiply_then_add = multiply_then_add
+    logger.info('Affine break best fit with key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(best_multiplier, best_adder, best_multiply_then_add, best_fit, affine_decipher(sanitised_message, best_multiplier, best_adder, best_multiply_then_add)[:50]))
+    return (best_multiplier, best_adder, best_multiply_then_add), best_fit
 
 
 if __name__ == "__main__":
