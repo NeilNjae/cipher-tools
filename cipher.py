@@ -1,6 +1,21 @@
 import string
 import collections
 
+english_counts = collections.defaultdict(int)
+with open('count_1l.txt', 'r') as f:
+    for line in f:
+        (letter, count) = line.split("\t")
+        english_counts[letter] = int(count)
+
+def sanitise(text):
+    sanitised = [c.lower() for c in text if c in string.ascii_letters]
+    return ''.join(sanitised)
+
+def letter_frequencies(message):
+    frequencies = collections.defaultdict(int)
+    for letter in sanitise(message): 
+        frequencies[letter]+=1
+    return frequencies
 
 def caesar_cipher_letter(letter, shift):
     if letter in string.ascii_letters:
@@ -22,11 +37,3 @@ def caesar_cipher_message(message, shift):
 
 def caesar_decipher_message(message, shift):
     return caesar_cipher_message(message, -shift)
-
-def letter_frequencies(message):
-    frequencies = collections.defaultdict(int)
-    for letter in message: 
-        if letter in  string.ascii_letters:
-            frequencies[letter.lower()]+=1
-    return frequencies
-
