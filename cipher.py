@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.FileHandler('cipher.log'))
 logger.setLevel(logging.WARNING)
-logger.setLevel(logging.INFO)
+#logger.setLevel(logging.INFO)
 
 english_counts = collections.defaultdict(int)
 with open('count_1l.txt', 'r') as f:
@@ -42,6 +42,13 @@ def sanitise(text):
     return ''.join(sanitised)
 
 def ngrams(text, n):
+    """Returns all n-grams of a text
+    
+    >>> ngrams(sanitise('the quick brown fox'), 2)
+    [('t', 'h'), ('h', 'e'), ('e', 'q'), ('q', 'u'), ('u', 'i'), ('i', 'c'), ('c', 'k'), ('k', 'b'), ('b', 'r'), ('r', 'o'), ('o', 'w'), ('w', 'n'), ('n', 'f'), ('f', 'o'), ('o', 'x')]
+    >>> ngrams(sanitise('the quick brown fox'), 4)
+    [('t', 'h', 'e', 'q'), ('h', 'e', 'q', 'u'), ('e', 'q', 'u', 'i'), ('q', 'u', 'i', 'c'), ('u', 'i', 'c', 'k'), ('i', 'c', 'k', 'b'), ('c', 'k', 'b', 'r'), ('k', 'b', 'r', 'o'), ('b', 'r', 'o', 'w'), ('r', 'o', 'w', 'n'), ('o', 'w', 'n', 'f'), ('w', 'n', 'f', 'o'), ('n', 'f', 'o', 'x')]
+    """
     return [tuple(text[i:i+n]) for i in range(len(text)-n+1)]
 
 def letter_frequencies(text):
