@@ -15,6 +15,10 @@ with open('count_1l.txt', 'r') as f:
         english_counts[letter] = int(count)
 normalised_english_counts = norms.normalise(english_counts)        
 
+keywords = []
+with open('words.txt', 'r') as f:
+    keywords = [line.rstrip() for line in f]
+
 
 modular_division_table = [[0]*26 for x in range(26)]
 for a in range(26):
@@ -67,6 +71,11 @@ def letter_frequencies(text):
     for c in text: 
         counts[c] += 1
     return counts
+
+def deduplicate(text):
+    return list(collections.OrderedDict.fromkeys(text))
+
+
 
 def caesar_encipher_letter(letter, shift):
     """Encipher a letter, given a shift amount
@@ -204,6 +213,17 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     return ''.join(enciphered)
 
 
+def keyword_encipher(message, keyword):
+    cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    cipher_translation = ''.maketrans(string.ascii_lowercase, cipher_alphabet)
+    return message.lower().translate(cipher_translation)
+
+def keyword_decipher(message, keyword):
+    cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    cipher_translation = ''.maketrans(cipher_alphabet, string.ascii_lowercase)
+    return message.lower().translate(cipher_translation)
+
+
 def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a Caesar cipher using frequency analysis
     
@@ -253,6 +273,21 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
                     best_one_based = one_based
     logger.info('Affine break best fit with key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(best_multiplier, best_adder, best_one_based, best_fit, affine_decipher(sanitised_message, best_multiplier, best_adder, best_one_based)[:50]))
     return (best_multiplier, best_adder, best_one_based), best_fit
+
+
+def keyword_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
+    best_keyword = ''
+    best_fit = float("inf")
+    for keyword in keywords:
+        plaintext = keyword_decipher(message, keyword)
+        frequencies = message_frequency_scaling(letter_frequencies(plaintext))
+        fit = metric(target_frequencies, frequencies)
+        logger.info('Keyword break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(keyword, fit, plaintext[:50]))
+        if fit < best_fit:
+            best_fit = fit
+            best_keyword = keyword
+    logger.info('Keyword break best fit with key {0} gives fit of {1} and decrypt starting: {2}'.format(best_keyword, best_fit, keyword_decipher(message, best_keyword)[:50]))
+    return best_keyword, best_fit
 
 
 if __name__ == "__main__":
