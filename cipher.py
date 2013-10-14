@@ -240,11 +240,11 @@ def keyword_decipher(message, keyword, wrap_alphabet=False):
 def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a Caesar cipher using frequency analysis
     
-    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
+    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
     (4, 0.31863952890183...)
-    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
+    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert') # doctest: +ELLIPSIS
     (19, 0.42152901235832...)
-    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
+    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur') # doctest: +ELLIPSIS
     (13, 0.316029208075451...)
     """
     sanitised_message = sanitise(message)
@@ -264,7 +264,7 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
 def affine_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks an affine cipher using frequency analysis
     
-    >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd clm ckuxj.')
+    >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd clm ckuxj.') # doctest: +ELLIPSIS
     ((15, 22, True), 0.23570361818655...)
     """
     sanitised_message = sanitise(message)
