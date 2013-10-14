@@ -213,13 +213,26 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     return ''.join(enciphered)
 
 
-def keyword_encipher(message, keyword):
-    cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+def keyword_encipher(message, keyword, wrap_alphabet=False):
+    cipher_alphabet = ''
+    if wrap_alphabet:
+        last_keyword_letter = deduplicate(sanitise(keyword))[-1]
+        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase[:last_keyword_position]))
+    else:
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
     cipher_translation = ''.maketrans(string.ascii_lowercase, cipher_alphabet)
     return message.lower().translate(cipher_translation)
 
-def keyword_decipher(message, keyword):
-    cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+def keyword_decipher(message, keyword, wrap_alphabet=False):
+    cipher_alphabet = ''
+    if wrap_alphabet:
+        last_keyword_letter = deduplicate(sanitise(keyword))[-1]
+        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase[:last_keyword_position]))
+    else:
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    #cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
     cipher_translation = ''.maketrans(cipher_alphabet, string.ascii_lowercase)
     return message.lower().translate(cipher_translation)
 
@@ -228,11 +241,11 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
     """Breaks a Caesar cipher using frequency analysis
     
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm')
-    (4, 0.3186395289018361)
+    (4, 0.31863952890183...)
     >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert')
-    (19, 0.4215290123583277)
+    (19, 0.42152901235832...)
     >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur')
-    (13, 0.31602920807545154)
+    (13, 0.316029208075451...)
     """
     sanitised_message = sanitise(message)
     best_shift = 0
@@ -252,7 +265,7 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
     """Breaks an affine cipher using frequency analysis
     
     >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd clm ckuxj.')
-    ((15, 22, True), 0.2357036181865554)
+    ((15, 22, True), 0.23570361818655...)
     """
     sanitised_message = sanitise(message)
     best_multiplier = 0
@@ -277,17 +290,20 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
 
 def keyword_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     best_keyword = ''
+    best_wrap_alphabet = True
     best_fit = float("inf")
-    for keyword in keywords:
-        plaintext = keyword_decipher(message, keyword)
-        frequencies = message_frequency_scaling(letter_frequencies(plaintext))
-        fit = metric(target_frequencies, frequencies)
-        logger.info('Keyword break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(keyword, fit, plaintext[:50]))
-        if fit < best_fit:
-            best_fit = fit
-            best_keyword = keyword
-    logger.info('Keyword break best fit with key {0} gives fit of {1} and decrypt starting: {2}'.format(best_keyword, best_fit, keyword_decipher(message, best_keyword)[:50]))
-    return best_keyword, best_fit
+    for wrap_alphabet in [True, False]:
+        for keyword in keywords:
+            plaintext = keyword_decipher(message, keyword, wrap_alphabet)
+            frequencies = message_frequency_scaling(letter_frequencies(plaintext))
+            fit = metric(target_frequencies, frequencies)
+            logger.info('Keyword break attempt using key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+            if fit < best_fit:
+                best_fit = fit
+                best_keyword = keyword
+                best_wrap_alphabet = wrap_alphabet
+    logger.info('Keyword break best fit with key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(best_keyword, best_wrap_alphabet, best_fit, sanitise(keyword_decipher(message, best_keyword))[:50]))
+    return (best_keyword, best_wrap_alphabet), best_fit
 
 
 if __name__ == "__main__":
