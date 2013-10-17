@@ -316,8 +316,8 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
 def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a keyword substitution cipher using a dictionary and frequency analysis
 
-    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', True))
-    (('elephant', True), 0.41643991598441...) # doctest: +ELLIPSIS
+    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', True), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    (('elephant', True), 0.41643991598441...)
     """
     best_keyword = ''
     best_wrap_alphabet = True

@@ -15,40 +15,50 @@ def memo(f):
 
 @memo
 def segment(text):
-    "Return a list of words that is the best segmentation of text."
+    """Return a list of words that is the best segmentation of text.
+    """
     if not text: return []
     candidates = ([first]+segment(rem) for first,rem in splits(text))
     return max(candidates, key=Pwords)
 
 def splits(text, L=20):
-    "Return a list of all possible (first, rem) pairs, len(first)<=L."
+    """Return a list of all possible (first, rest) pairs, len(first)<=L.
+    """
     return [(text[:i+1], text[i+1:]) 
             for i in range(min(len(text), L))]
 
 def Pwords(words): 
-    "The Naive Bayes probability of a sequence of words."
-    return product(Pw(w) for w in words)
+    """The Naive Bayes log probability of a sequence of words.
+    """
+    return sum(Pw(w) for w in words)
 
 class Pdist(dict):
-    "A probability distribution estimated from counts in datafile."
-    def __init__(self, data=[], N=None, missingfn=None):
-        for key,count in data:
-            self[key] = self.get(key, 0) + int(count)
-        self.N = float(N or sum(self.itervalues()))
-        self.missingfn = missingfn or (lambda k, N: 1./N)
+    """A probability distribution estimated from counts in datafile.
+    Values are stored and returned as log probabilities.
+    """
+    def __init__(self, data=[], estimate_of_missing=None):
+        self.total = sum([int(d[1]) for d in data])
+        for key, count in data:
+            self[key] = log10(int(count) / self.total)
+        self.estimate_of_missing = estimate_of_missing or (lambda k, N: 1./N)
     def __call__(self, key): 
-        if key in self: return self[key]/self.N  
-        else: return self.missingfn(key, self.N)
+        if key in self: 
+            return self[key]  
+        else: 
+            return self.estimate_of_missing(key, self.total)
 
 def datafile(name, sep='\t'):
-    "Read key,value pairs from file."
-    for line in file(name):
-        yield line.split(sep)
+    """Read key,value pairs from file.
+    """
+    with open(name, 'r') as f:
+        for line in f:
+            yield line.split(sep)
 
 def avoid_long_words(key, N):
-    "Estimate the probability of an unknown word."
-    return 10./(N * 10**len(key))
+    """Estimate the probability of an unknown word.
+    """
+    return -log10((N * 10**(len(key) - 2)))
 
 N = 1024908267229 ## Number of tokens
 
-Pw  = Pdist(datafile('count_1w.txt'), N, avoid_long_words)
+Pw  = Pdist(datafile('count_1w.txt'), avoid_long_words)
