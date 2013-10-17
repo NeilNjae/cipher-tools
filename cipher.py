@@ -213,26 +213,51 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     return ''.join(enciphered)
 
 
-def keyword_encipher(message, keyword, wrap_alphabet=False):
+def keyword_cipher_alphabet_of(keyword, wrap_alphabet=False):
+    """Find the cipher alphabet given a keyword
+
+    >>> keyword_cipher_alphabet_of('harry')
+    'harybcdefgijklmnopqstuvwxz'
+    >>> keyword_cipher_alphabet_of('harry', True)
+    'haryzbcdefgijklmnopqstuvwx'
+    >>> keyword_cipher_alphabet_of('harry', False)
+    'harybcdefgijklmnopqstuvwxz'
+    """
     cipher_alphabet = ''
     if wrap_alphabet:
         last_keyword_letter = deduplicate(sanitise(keyword))[-1]
         last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase[:last_keyword_position]))
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase))
     else:
         cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    return cipher_alphabet
+
+
+def keyword_encipher(message, keyword, wrap_alphabet=False):
+    """Enciphers a message with a keyword substitution cipher
+
+    >>> keyword_encipher('test message', 'harry')
+    'sbqs kbqqhdb'
+    >>> keyword_encipher('test message', 'harry', True)
+    'qzpq jzpphcz'
+    >>> keyword_encipher('test message', 'harry', False)
+    'sbqs kbqqhdb'
+    """
+    cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
     cipher_translation = ''.maketrans(string.ascii_lowercase, cipher_alphabet)
     return message.lower().translate(cipher_translation)
 
 def keyword_decipher(message, keyword, wrap_alphabet=False):
-    cipher_alphabet = ''
-    if wrap_alphabet:
-        last_keyword_letter = deduplicate(sanitise(keyword))[-1]
-        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase[:last_keyword_position]))
-    else:
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
-    #cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    """Deciphers a message with a keyword substitution cipher
+
+    >>> keyword_decipher('sbqs kbqqhdb', 'harry')
+    'test message'
+    >>> keyword_decipher('qzpq jzpphcz', 'harry', True)
+    'test message'
+    >>> keyword_decipher('sbqs kbqqhdb', 'harry', False)
+    'test message'
+    """
+    cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
     cipher_translation = ''.maketrans(cipher_alphabet, string.ascii_lowercase)
     return message.lower().translate(cipher_translation)
 
@@ -254,7 +279,7 @@ def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=no
         plaintext = caesar_decipher(sanitised_message, shift)
         frequencies = message_frequency_scaling(letter_frequencies(plaintext))
         fit = metric(target_frequencies, frequencies)
-        logger.info('Caesar break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
+        logger.debug('Caesar break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
         if fit < best_fit:
             best_fit = fit
             best_shift = shift
@@ -278,7 +303,7 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
                 plaintext = affine_decipher(sanitised_message, multiplier, adder, one_based)
                 frequencies = message_frequency_scaling(letter_frequencies(plaintext))
                 fit = metric(target_frequencies, frequencies)
-                logger.info('Affine break attempt using key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(multiplier, adder, one_based, fit, plaintext[:50]))
+                logger.debug('Affine break attempt using key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(multiplier, adder, one_based, fit, plaintext[:50]))
                 if fit < best_fit:
                     best_fit = fit
                     best_multiplier = multiplier
@@ -288,16 +313,21 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
     return (best_multiplier, best_adder, best_one_based), best_fit
 
 
-def keyword_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
+def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
+    """Breaks a keyword substitution cipher using a dictionary and frequency analysis
+
+    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', True))
+    (('elephant', True), 0.41643991598441...) # doctest: +ELLIPSIS
+    """
     best_keyword = ''
     best_wrap_alphabet = True
     best_fit = float("inf")
     for wrap_alphabet in [True, False]:
-        for keyword in keywords:
+        for keyword in wordlist:
             plaintext = keyword_decipher(message, keyword, wrap_alphabet)
             frequencies = message_frequency_scaling(letter_frequencies(plaintext))
             fit = metric(target_frequencies, frequencies)
-            logger.info('Keyword break attempt using key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+            logger.debug('Keyword break attempt using key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
             if fit < best_fit:
                 best_fit = fit
                 best_keyword = keyword
