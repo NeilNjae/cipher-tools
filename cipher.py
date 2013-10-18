@@ -15,10 +15,8 @@ with open('count_1l.txt', 'r') as f:
         english_counts[letter] = int(count)
 normalised_english_counts = norms.normalise(english_counts)        
 
-keywords = []
 with open('words.txt', 'r') as f:
     keywords = [line.rstrip() for line in f]
-
 
 modular_division_table = [[0]*26 for x in range(26)]
 for a in range(26):
@@ -157,7 +155,8 @@ def affine_encipher_letter(letter, multiplier=1, adder=0, one_based=True):
         else:
             alphabet_start = ord('a')
         letter_number = ord(letter) - alphabet_start
-        if one_based: letter_number += 1
+        if one_based: 
+            letter_number += 1
         raw_cipher_number = (letter_number * multiplier + adder)
         cipher_number = 0
         if one_based: 
@@ -182,7 +181,8 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
         else:
             alphabet_start = ord('a')
         cipher_number = ord(letter) - alphabet_start
-        if one_based: cipher_number += 1
+        if one_based: 
+            cipher_number += 1
         plaintext_number = 0
         if one_based:
             plaintext_number = (modular_division_table_one_based[multiplier][(cipher_number - adder + 26) % 26] - 1) % 26
@@ -199,7 +199,6 @@ def affine_encipher(message, multiplier=1, adder=0, one_based=True):
     >>> affine_encipher('hours passed during which jerico tried every trick he could think of', 15, 22, True)
     'lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh'
     """
-    
     enciphered = [affine_encipher_letter(l, multiplier, adder, one_based) for l in message]
     return ''.join(enciphered)
 
@@ -213,48 +212,73 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     return ''.join(enciphered)
 
 
-def keyword_cipher_alphabet_of(keyword, wrap_alphabet=False):
-    """Find the cipher alphabet given a keyword
+def keyword_cipher_alphabet_of(keyword, wrap_alphabet=0):
+    """Find the cipher alphabet given a keyword.
+    wrap_alphabet controls how the rest of the alphabet is added
+    after the keyword.
+    0 : from 'a'
+    1 : from the last letter in the sanitised keyword
+    2 : from the largest letter in the sanitised keyword
 
-    >>> keyword_cipher_alphabet_of('harry')
-    'harybcdefgijklmnopqstuvwxz'
-    >>> keyword_cipher_alphabet_of('harry', True)
-    'haryzbcdefgijklmnopqstuvwx'
-    >>> keyword_cipher_alphabet_of('harry', False)
-    'harybcdefgijklmnopqstuvwxz'
+    >>> keyword_cipher_alphabet_of('bayes')
+    'bayescdfghijklmnopqrtuvwxz'
+    >>> keyword_cipher_alphabet_of('bayes', 0)
+    'bayescdfghijklmnopqrtuvwxz'
+    >>> keyword_cipher_alphabet_of('bayes', 1)
+    'bayestuvwxzcdfghijklmnopqr'
+    >>> keyword_cipher_alphabet_of('bayes', 2)
+    'bayeszcdfghijklmnopqrtuvwx'
     """
-    cipher_alphabet = ''
-    if wrap_alphabet:
-        last_keyword_letter = deduplicate(sanitise(keyword))[-1]
-        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase[last_keyword_position:] + string.ascii_lowercase))
-    else:
+    if wrap_alphabet == 0:
         cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+    else:
+        if wrap_alphabet == 1:
+            last_keyword_letter = deduplicate(sanitise(keyword))[-1]
+        else:
+            last_keyword_letter = sorted(sanitise(keyword))[-1]
+        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + 
+                                              string.ascii_lowercase[last_keyword_position:] + 
+                                              string.ascii_lowercase))
     return cipher_alphabet
 
 
-def keyword_encipher(message, keyword, wrap_alphabet=False):
-    """Enciphers a message with a keyword substitution cipher
+def keyword_encipher(message, keyword, wrap_alphabet=0):
+    """Enciphers a message with a keyword substitution cipher.
+    wrap_alphabet controls how the rest of the alphabet is added
+    after the keyword.
+    0 : from 'a'
+    1 : from the last letter in the sanitised keyword
+    2 : from the largest letter in the sanitised keyword
 
-    >>> keyword_encipher('test message', 'harry')
-    'sbqs kbqqhdb'
-    >>> keyword_encipher('test message', 'harry', True)
-    'qzpq jzpphcz'
-    >>> keyword_encipher('test message', 'harry', False)
-    'sbqs kbqqhdb'
+    >>> keyword_encipher('test message', 'bayes')
+    'rsqr ksqqbds'
+    >>> keyword_encipher('test message', 'bayes', 0)
+    'rsqr ksqqbds'
+    >>> keyword_encipher('test message', 'bayes', 1)
+    'lskl dskkbus'
+    >>> keyword_encipher('test message', 'bayes', 2)
+    'qspq jsppbcs'
     """
     cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
     cipher_translation = ''.maketrans(string.ascii_lowercase, cipher_alphabet)
     return message.lower().translate(cipher_translation)
 
-def keyword_decipher(message, keyword, wrap_alphabet=False):
-    """Deciphers a message with a keyword substitution cipher
-
-    >>> keyword_decipher('sbqs kbqqhdb', 'harry')
+def keyword_decipher(message, keyword, wrap_alphabet=0):
+    """Deciphers a message with a keyword substitution cipher.
+    wrap_alphabet controls how the rest of the alphabet is added
+    after the keyword.
+    0 : from 'a'
+    1 : from the last letter in the sanitised keyword
+    2 : from the largest letter in the sanitised keyword
+    
+    >>> keyword_decipher('rsqr ksqqbds', 'bayes')
     'test message'
-    >>> keyword_decipher('qzpq jzpphcz', 'harry', True)
+    >>> keyword_decipher('rsqr ksqqbds', 'bayes', 0)
     'test message'
-    >>> keyword_decipher('sbqs kbqqhdb', 'harry', False)
+    >>> keyword_decipher('lskl dskkbus', 'bayes', 1)
+    'test message'
+    >>> keyword_decipher('qspq jsppbcs', 'bayes', 2)                                                                                            
     'test message'
     """
     cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
@@ -316,23 +340,23 @@ def affine_break(message, metric=norms.euclidean_distance, target_frequencies=no
 def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a keyword substitution cipher using a dictionary and frequency analysis
 
-    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', True), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    (('elephant', True), 0.41643991598441...)
+    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    (('elephant', 1), 0.41643991598441...)
     """
     best_keyword = ''
     best_wrap_alphabet = True
     best_fit = float("inf")
-    for wrap_alphabet in [True, False]:
+    for wrap_alphabet in range(3):
         for keyword in wordlist:
             plaintext = keyword_decipher(message, keyword, wrap_alphabet)
             frequencies = message_frequency_scaling(letter_frequencies(plaintext))
             fit = metric(target_frequencies, frequencies)
-            logger.debug('Keyword break attempt using key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+            logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
             if fit < best_fit:
                 best_fit = fit
                 best_keyword = keyword
                 best_wrap_alphabet = wrap_alphabet
-    logger.info('Keyword break best fit with key {0} ({1}) gives fit of {2} and decrypt starting: {3}'.format(best_keyword, best_wrap_alphabet, best_fit, sanitise(keyword_decipher(message, best_keyword))[:50]))
+    logger.info('Keyword break best fit with key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(best_keyword, best_wrap_alphabet, best_fit, sanitise(keyword_decipher(message, best_keyword))[:50]))
     return (best_keyword, best_wrap_alphabet), best_fit
 
 
