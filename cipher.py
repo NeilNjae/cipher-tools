@@ -2,6 +2,7 @@ import string
 import collections
 import norms
 import logging
+from segment import segment
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.FileHandler('cipher.log'))
