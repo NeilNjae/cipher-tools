@@ -58,7 +58,5 @@ def avoid_long_words(key, N):
     """
     return -log10((N * 10**(len(key) - 2)))
 
-# N = 1024908267229 ## Number of tokens
-
 Pw  = Pdist(datafile('count_1w.txt'), avoid_long_words)
     
