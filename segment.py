@@ -3,6 +3,8 @@ import string
 import collections
 from math import log10
 import itertools
+import sys
+sys.setrecursionlimit(1000000)
 
 def memo(f):
     "Memoize function f."
