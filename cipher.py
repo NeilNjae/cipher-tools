@@ -4,6 +4,13 @@ import norms
 import logging
 from segment import segment
 
+# To time a run:
+#
+# import timeit
+# c5a = open('2012/5a.ciphertext', 'r').read()
+# timeit.timeit('keyword_break(c5a)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break', number=1)
+
+
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.FileHandler('cipher.log'))
 logger.setLevel(logging.WARNING)
