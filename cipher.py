@@ -2,6 +2,7 @@ import string
 import collections
 import norms
 import logging
+from itertools import zip_longest
 from segment import segment
 
 # To time a run:
@@ -60,6 +61,33 @@ def ngrams(text, n):
     [('t', 'h', 'e', 'q'), ('h', 'e', 'q', 'u'), ('e', 'q', 'u', 'i'), ('q', 'u', 'i', 'c'), ('u', 'i', 'c', 'k'), ('i', 'c', 'k', 'b'), ('c', 'k', 'b', 'r'), ('k', 'b', 'r', 'o'), ('b', 'r', 'o', 'w'), ('r', 'o', 'w', 'n'), ('o', 'w', 'n', 'f'), ('w', 'n', 'f', 'o'), ('n', 'f', 'o', 'x')]
     """
     return [tuple(text[i:i+n]) for i in range(len(text)-n+1)]
+
+def every_nth(text, n):
+    """Returns n strings, each of which consists of every nth character, 
+    starting with the 0th, 1st, 2nd, ... (n-1)th character
+    
+    >>> every_nth(string.ascii_lowercase, 5)                                                                                                               
+    ['afkpuz', 'bglqv', 'chmrw', 'dinsx', 'ejoty']                                                                                                         
+    >>> every_nth(string.ascii_lowercase, 1)                                                                                                              
+    ['abcdefghijklmnopqrstuvwxyz']                                                                                                                         
+    >>> every_nth(string.ascii_lowercase, 26)
+    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    """
+    split_text = [text[i:i+n] for i in range(0, len(text), n)]
+    return [''.join(l) for l in zip_longest(*split_text, fillvalue='')]
+
+def combine_every_nth(split_text):
+    """Reforms a text split into every_nth strings
+    
+    >>> combine_every_nth(every_nth(string.ascii_lowercase, 5))
+    'abcdefghijklmnopqrstuvwxyz'
+    >>> combine_every_nth(every_nth(string.ascii_lowercase, 1))
+    'abcdefghijklmnopqrstuvwxyz'
+    >>> combine_every_nth(every_nth(string.ascii_lowercase, 26))
+    'abcdefghijklmnopqrstuvwxyz'
+    """
+    return ''.join([''.join(l) for l in zip_longest(*split_text, fillvalue='')])
+
 
 def letter_frequencies(text):
     """Count the number of occurrences of each character in text
