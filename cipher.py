@@ -66,10 +66,10 @@ def every_nth(text, n):
     """Returns n strings, each of which consists of every nth character, 
     starting with the 0th, 1st, 2nd, ... (n-1)th character
     
-    >>> every_nth(string.ascii_lowercase, 5)                                                                                                               
-    ['afkpuz', 'bglqv', 'chmrw', 'dinsx', 'ejoty']                                                                                                         
+    >>> every_nth(string.ascii_lowercase, 5)
+    ['afkpuz', 'bglqv', 'chmrw', 'dinsx', 'ejoty']
     >>> every_nth(string.ascii_lowercase, 1)                                                                                                              
-    ['abcdefghijklmnopqrstuvwxyz']                                                                                                                         
+    ['abcdefghijklmnopqrstuvwxyz']
     >>> every_nth(string.ascii_lowercase, 26)
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     """
