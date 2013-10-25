@@ -33,13 +33,6 @@ for a in range(26):
         c = (a * b) % 26
         modular_division_table[b][c] = a
 
-modular_division_table_one_based = [[0]*27 for x in range(27)]
-for a in range(27):
-    for b in range(27):
-        c = ((a * b)-1) % 26 + 1
-        modular_division_table_one_based[b][c] = a
-
-
 
 def sanitise(text):
     """Remove all non-alphabetic characters and convert the text to lowercase
@@ -191,14 +184,10 @@ def affine_encipher_letter(letter, multiplier=1, adder=0, one_based=True):
         else:
             alphabet_start = ord('a')
         letter_number = ord(letter) - alphabet_start
-        if one_based: 
-            letter_number += 1
-        raw_cipher_number = (letter_number * multiplier + adder)
-        if one_based: 
-            cipher_number = (raw_cipher_number - 1) % 26
-        else:
-            cipher_number = raw_cipher_number % 26        
-        return chr(cipher_number + alphabet_start)
+        if one_based: letter_number += 1
+        cipher_number = (letter_number * multiplier + adder) % 26
+        if one_based: cipher_number -= 1
+        return chr(cipher_number % 26 + alphabet_start)
     else:
         return letter
 
@@ -216,11 +205,10 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
         else:
             alphabet_start = ord('a')
         cipher_number = ord(letter) - alphabet_start
-        if one_based:
-            plaintext_number = (modular_division_table_one_based[multiplier][(cipher_number + 1 - adder + 26) % 26] - 1) % 26
-        else:
-            plaintext_number = modular_division_table[multiplier][(cipher_number - adder + 26) % 26]            
-        return chr(plaintext_number + alphabet_start)
+        if one_based: cipher_number += 1
+        plaintext_number = modular_division_table[multiplier][(cipher_number - adder) % 26]
+        if one_based: plaintext_number -= 1
+        return chr(plaintext_number % 26 + alphabet_start) 
     else:
         return letter
 
