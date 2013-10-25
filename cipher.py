@@ -53,6 +53,24 @@ def caesar_cipher_message(message, shift):
 def caesar_decipher_message(message, shift):
     return caesar_cipher_message(message, -shift)
 
+def affine_cipher_letter(letter, multiplier, shift, one_based=True):
+    if letter in string.ascii_letters:
+        if letter in string.ascii_lowercase:
+            alphastart = ord('a')
+        else:
+            alphastart = ord('A')
+        letter_number = ord(letter) - alphastart
+        if one_based: letter_number += 1  
+        enciphered_letter_number = letter_number * multiplier + shift
+        if one_based: enciphered_letter_number -=1
+        enciphered_letter = chr(enciphered_letter_number % 26 + alphastart)
+        return enciphered_letter
+    else:
+        return letter
+         
+
+
+
 def caesar_break(message):
     best_key = 0
     best_fit = float("inf")
@@ -66,3 +84,4 @@ def caesar_break(message):
             best_key = shift
             best_fit = fit
     return best_key
+
