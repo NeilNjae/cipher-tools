@@ -125,7 +125,7 @@ def affine_break(message):
                 lettertxt = letter_frequencies(plaintxt)
                 total1 = scale_freq(lettertxt)
                 total2 = scale_freq(english_counts)
-                fit = value_diff(total2, total1)c
+                fit = value_diff(total2, total1)
                 if fit < best_fit:
                     best_key = (multiplier, shift, one_based)
                     best_fit = fit
