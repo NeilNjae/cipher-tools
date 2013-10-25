@@ -194,7 +194,6 @@ def affine_encipher_letter(letter, multiplier=1, adder=0, one_based=True):
         if one_based: 
             letter_number += 1
         raw_cipher_number = (letter_number * multiplier + adder)
-        cipher_number = 0
         if one_based: 
             cipher_number = (raw_cipher_number - 1) % 26
         else:
@@ -217,13 +216,9 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
         else:
             alphabet_start = ord('a')
         cipher_number = ord(letter) - alphabet_start
-        if one_based: 
-            cipher_number += 1
-        plaintext_number = 0
         if one_based:
-            plaintext_number = (modular_division_table_one_based[multiplier][(cipher_number - adder + 26) % 26] - 1) % 26
+            plaintext_number = (modular_division_table_one_based[multiplier][(cipher_number + 1 - adder + 26) % 26] - 1) % 26
         else:
-            #plaintext_number = (modular_division_table[multiplier][cipher_number] - adder) % 26
             plaintext_number = modular_division_table[multiplier][(cipher_number - adder + 26) % 26]            
         return chr(plaintext_number + alphabet_start)
     else:
