@@ -2,6 +2,7 @@ import string
 import collections
 import norms
 import logging
+import math
 from itertools import zip_longest
 from segment import segment
 
@@ -303,6 +304,40 @@ def keyword_decipher(message, keyword, wrap_alphabet=0):
     cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
     cipher_translation = ''.maketrans(cipher_alphabet, string.ascii_lowercase)
     return message.lower().translate(cipher_translation)
+
+def scytale_encipher(message, rows):
+    """Enciphers using the scytale transposition cipher
+    
+    >>> scytale_encipher('thequickbrownfox', 3)
+    'tcnhkfeboqrxuoiw'
+    >>> scytale_encipher('thequickbrownfox', 4)
+    'tubnhirfecooqkwx'
+    >>> scytale_encipher('thequickbrownfox', 5)
+    'tubnhirfecooqkwx'
+    >>> scytale_encipher('thequickbrownfox', 6)
+    'tqcrnxhukofeibwo'
+    >>> scytale_encipher('thequickbrownfox', 7)
+    'tqcrnxhukofeibwo'
+    """
+    row_length = math.ceil(len(message) / rows)
+    slices = [message[i:i+row_length] for i in range(0, len(message), row_length)]
+    return ''.join([''.join(r) for r in zip_longest(*slices, fillvalue='')])
+
+def scytale_decipher(message, rows):
+    """Deciphers using the scytale transposition cipher
+    
+    >>> scytale_decipher('tcnhkfeboqrxuoiw', 3)
+    'thequickbrownfox'
+    """
+    cols = math.ceil(len(message) / rows)
+    if len(message) % rows == 0:
+        part_cols = 0
+    else:
+        part_cols = rows - len(message) % rows
+    full_cols = cols - part_cols
+    columns = [message[i:i+rows] for i in range(0, full_cols * rows, rows)] + \
+              [message[i:i+rows-1] for i in range(full_cols * rows, len(message), rows - 1)]
+    return ''.join([''.join(c) for c in zip_longest(*columns, fillvalue='')])
 
 
 def caesar_break(message, metric=norms.euclidean_distance, target_frequencies=normalised_english_counts, message_frequency_scaling=norms.normalise):
