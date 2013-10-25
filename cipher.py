@@ -7,6 +7,14 @@ with open('count_1l.txt', 'r') as f:
         (letter, count) = line.split("\t")
         english_counts[letter] = int(count)
 
+modular_division = [[0]* 26 for i in range(26)]
+for i in range(26):
+    for j in range(26):
+        t = (i*j) % 26
+        # therefore,  i = t / j
+        modular_division[t][j] = i
+
+
 def sanitise(text):
     sanitised = [c.lower() for c in text if c in string.ascii_letters]
     return ''.join(sanitised)
@@ -68,7 +76,29 @@ def affine_cipher_letter(letter, multiplier, shift, one_based=True):
     else:
         return letter
          
-
+def affine_decipher_letter(letter, multiplier, shift, one_based=True):
+    if letter in string.ascii_letters:
+        if letter in string.ascii_lowercase:
+            alphastart = ord('a')
+        else:
+            alphastart = ord('A')  
+        letter_number = ord(letter) - alphastart
+        if one_based: letter_number +=1   
+        after_unshift = letter_number - shift 
+        deciphered_letter_number = modular_division[after_unshift % 26][multiplier]
+        if one_based: deciphered_letter_number -=1
+        deciphered_letter = chr(deciphered_letter_number % 26 + alphastart)
+        return deciphered_letter
+    else:
+        return letter
+    
+def affine_cipher_message(message, multiplier, shift, one_based=True):
+    big_cipher = [affine_cipher_letter(l, multiplier, shift, one_based) for l in message]
+    return ''.join(big_cipher)    
+      
+def affine_decipher_message(message, multiplier, shift, one_based=True):
+    big_decipher = [affine_decipher_letter(l, multiplier, shift, one_based) for l in message]
+    return ''.join(big_decipher)
 
 
 def caesar_break(message):
@@ -85,3 +115,18 @@ def caesar_break(message):
             best_fit = fit
     return best_key
 
+def affine_break(message):
+    best_key = (0, 0, 0)
+    best_fit = float("inf")
+    for multiplier in range(1, 26, 2):
+        for shift in range(26):
+            for one_based in [True, False]:
+                plaintxt = affine_decipher_message(message, multiplier, shift, one_based)
+                lettertxt = letter_frequencies(plaintxt)
+                total1 = scale_freq(lettertxt)
+                total2 = scale_freq(english_counts)
+                fit = value_diff(total2, total1)c
+                if fit < best_fit:
+                    best_key = (multiplier, shift, one_based)
+                    best_fit = fit
+    return best_key
