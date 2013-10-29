@@ -306,37 +306,43 @@ def keyword_decipher(message, keyword, wrap_alphabet=0):
     return message.lower().translate(cipher_translation)
 
 def scytale_encipher(message, rows):
-    """Enciphers using the scytale transposition cipher
-    
+    """Enciphers using the scytale transposition cipher.
+    Message is padded with spaces to allow all rows to be the same length.
+
     >>> scytale_encipher('thequickbrownfox', 3)
-    'tcnhkfeboqrxuoiw'
+    'tcnhkfeboqrxuo iw '
     >>> scytale_encipher('thequickbrownfox', 4)
     'tubnhirfecooqkwx'
     >>> scytale_encipher('thequickbrownfox', 5)
-    'tubnhirfecooqkwx'
+    'tubn hirf ecoo qkwx '
     >>> scytale_encipher('thequickbrownfox', 6)
-    'tqcrnxhukofeibwo'
+    'tqcrnxhukof eibwo '
     >>> scytale_encipher('thequickbrownfox', 7)
-    'tqcrnxhukofeibwo'
+    'tqcrnx hukof  eibwo  '
     """
-    row_length = math.ceil(len(message) / rows)
+    if len(message) % rows != 0:
+        message += ' '*(rows - len(message) % rows)
+    row_length = round(len(message) / rows)
     slices = [message[i:i+row_length] for i in range(0, len(message), row_length)]
     return ''.join([''.join(r) for r in zip_longest(*slices, fillvalue='')])
 
 def scytale_decipher(message, rows):
-    """Deciphers using the scytale transposition cipher
+    """Deciphers using the scytale transposition cipher.
+    Assumes the message is padded so that all rows are the same length.
     
-    >>> scytale_decipher('tcnhkfeboqrxuoiw', 3)
+    >>> scytale_decipher('tcnhkfeboqrxuo iw ', 3)
+    'thequickbrownfox  '
+    >>> scytale_decipher('tubnhirfecooqkwx', 4)
     'thequickbrownfox'
+    >>> scytale_decipher('tubn hirf ecoo qkwx ', 5)
+    'thequickbrownfox    '
+    >>> scytale_decipher('tqcrnxhukof eibwo ', 6)
+    'thequickbrownfox  '
+    >>> scytale_decipher('tqcrnx hukof  eibwo  ', 7)
+    'thequickbrownfox     '
     """
-    cols = math.ceil(len(message) / rows)
-    if len(message) % rows == 0:
-        part_cols = 0
-    else:
-        part_cols = rows - len(message) % rows
-    full_cols = cols - part_cols
-    columns = [message[i:i+rows] for i in range(0, full_cols * rows, rows)] + \
-              [message[i:i+rows-1] for i in range(full_cols * rows, len(message), rows - 1)]
+    cols = round(len(message) / rows)
+    columns = [message[i:i+rows] for i in range(0, cols * rows, rows)]
     return ''.join([''.join(c) for c in zip_longest(*columns, fillvalue='')])
 
 
