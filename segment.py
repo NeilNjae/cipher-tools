@@ -4,19 +4,10 @@ import collections
 from math import log10
 import itertools
 import sys
+from functools import lru_cache
 sys.setrecursionlimit(1000000)
 
-def memo(f):
-    "Memoize function f."
-    table = {}
-    def fmemo(*args):
-        if args not in table:
-            table[args] = f(*args)
-        return table[args]
-    fmemo.memo = table
-    return fmemo
-
-@memo
+@lru_cache()
 def segment(text):
     """Return a list of words that is the best segmentation of text.
     """
