@@ -436,9 +436,9 @@ def keyword_break_mp(message, wordlist=keywords, metric=norms.euclidean_distance
     (('elephant', 1), 0.41643991598441...)
     """
     with Pool() as pool:
-        keys = [(word, wrap) for word in wordlist for wrap in range(3)]
+        helper_args = [(message, word, wrap, metric, target_counts, message_frequency_scaling) for word in wordlist for wrap in range(3)]
         # breaks = map(lambda kw: keyword_break_one(message, kw[0], kw[1], metric, target_counts, message_frequency_scaling), keys)
-        breaks = pool.starmap(lambda k, w: keyword_break_one(message, k, w, metric, target_counts, message_frequency_scaling), keys, 1000)
+        breaks = pool.starmap(keyword_break_one, helper_args, 1000)
         return min(breaks, key=lambda k: k[1])
 
 def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, message_frequency_scaling):
