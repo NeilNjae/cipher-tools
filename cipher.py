@@ -5,6 +5,7 @@ import logging
 import math
 from itertools import zip_longest
 from segment import segment
+from multiprocessing import Pool
 
 # To time a run:
 #
@@ -427,6 +428,26 @@ def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, t
                 best_wrap_alphabet = wrap_alphabet
     logger.info('Keyword break best fit with key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(best_keyword, best_wrap_alphabet, best_fit, sanitise(keyword_decipher(message, best_keyword))[:50]))
     return (best_keyword, best_wrap_alphabet), best_fit
+
+def keyword_break_mp(message, wordlist=keywords, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise):
+    """Breaks a keyword substitution cipher using a dictionary and frequency analysis
+
+    >>> keyword_break_mp(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    (('elephant', 1), 0.41643991598441...)
+    """
+    with Pool() as pool:
+        helper_args = [(message, word, wrap, metric, target_counts, message_frequency_scaling) for word in wordlist for wrap in range(3)]
+        # breaks = map(lambda kw: keyword_break_one(message, kw[0], kw[1], metric, target_counts, message_frequency_scaling), keys)
+        breaks = pool.starmap(keyword_break_one, helper_args, 1000)
+        return min(breaks, key=lambda k: k[1])
+
+def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, message_frequency_scaling):
+    plaintext = keyword_decipher(message, keyword, wrap_alphabet)
+    counts = message_frequency_scaling(letter_frequencies(plaintext))
+    fit = metric(target_counts, counts)
+    logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+    return (keyword, wrap_alphabet), fit
+
 
 def scytale_break(message, metric=norms.euclidean_distance, target_counts=normalised_english_bigram_counts, message_frequency_scaling=norms.normalise):
     """Breaks a Scytale cipher
