@@ -12,7 +12,7 @@ from multiprocessing import Pool
 # import timeit
 # c5a = open('2012/5a.ciphertext', 'r').read()
 # timeit.timeit('keyword_break(c5a)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break', number=1)
-
+# timeit.repeat('keyword_break_mp(c5a, chunksize=500)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break_mp', repeat=5, number=1
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.FileHandler('cipher.log'))
@@ -406,7 +406,6 @@ def affine_break(message, metric=norms.euclidean_distance, target_counts=normali
     logger.info('Affine break best fit with key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(best_multiplier, best_adder, best_one_based, best_fit, affine_decipher(sanitised_message, best_multiplier, best_adder, best_one_based)[:50]))
     return (best_multiplier, best_adder, best_one_based), best_fit
 
-
 def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise):
     """Breaks a keyword substitution cipher using a dictionary and frequency analysis
 
@@ -437,8 +436,7 @@ def keyword_break_mp(message, wordlist=keywords, metric=norms.euclidean_distance
     """
     with Pool() as pool:
         helper_args = [(message, word, wrap, metric, target_counts, message_frequency_scaling) for word in wordlist for wrap in range(3)]
-        # breaks = map(lambda kw: keyword_break_one(message, kw[0], kw[1], metric, target_counts, message_frequency_scaling), keys)
-        breaks = pool.starmap(keyword_break_one, helper_args, chunksize)
+        breaks = pool.starmap(keyword_break_one, helper_args, chunksize) # Gotcha: the helper function here needs to be defined at the top level (limitation of Pool.starmap)
         return min(breaks, key=lambda k: k[1])
 
 def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, message_frequency_scaling):
@@ -447,7 +445,6 @@ def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, me
     fit = metric(target_counts, counts)
     logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
     return (keyword, wrap_alphabet), fit
-
 
 def scytale_break(message, metric=norms.euclidean_distance, target_counts=normalised_english_bigram_counts, message_frequency_scaling=norms.normalise):
     """Breaks a Scytale cipher
