@@ -58,10 +58,12 @@ def sanitise(text):
 def ngrams(text, n):
     """Returns all n-grams of a text
     
-    >>> ngrams(sanitise('the quick brown fox'), 2)
-    ['th', 'he', 'eq', 'qu', 'ui', 'ic', 'ck', 'kb', 'br', 'ro', 'ow', 'wn', 'nf', 'fo', 'ox']
-    >>> ngrams(sanitise('the quick brown fox'), 4)
-    ['theq', 'hequ', 'equi', 'quic', 'uick', 'ickb', 'ckbr', 'kbro', 'brow', 'rown', 'ownf', 'wnfo', 'nfox']
+    >>> ngrams(sanitise('the quick brown fox'), 2) # doctest: +NORMALIZE_WHITESPACE
+    ['th', 'he', 'eq', 'qu', 'ui', 'ic', 'ck', 'kb', 'br', 'ro', 'ow', 'wn', 
+     'nf', 'fo', 'ox']
+    >>> ngrams(sanitise('the quick brown fox'), 4) # doctest: +NORMALIZE_WHITESPACE
+    ['theq', 'hequ', 'equi', 'quic', 'uick', 'ickb', 'ckbr', 'kbro', 'brow', 
+     'rown', 'ownf', 'wnfo', 'nfox']
     """
     return [text[i:i+n] for i in range(len(text)-n+1)]
 
@@ -73,8 +75,9 @@ def every_nth(text, n):
     ['afkpuz', 'bglqv', 'chmrw', 'dinsx', 'ejoty']
     >>> every_nth(string.ascii_lowercase, 1)                                                                                                              
     ['abcdefghijklmnopqrstuvwxyz']
-    >>> every_nth(string.ascii_lowercase, 26)
-    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    >>> every_nth(string.ascii_lowercase, 26) # doctest: +NORMALIZE_WHITESPACE
+    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 
+     'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     """
     split_text = [text[i:i+n] for i in range(0, len(text), n)]
     return [''.join(l) for l in zip_longest(*split_text, fillvalue='')]
@@ -89,7 +92,8 @@ def combine_every_nth(split_text):
     >>> combine_every_nth(every_nth(string.ascii_lowercase, 26))
     'abcdefghijklmnopqrstuvwxyz'
     """
-    return ''.join([''.join(l) for l in zip_longest(*split_text, fillvalue='')])
+    return ''.join([''.join(l) 
+                    for l in zip_longest(*split_text, fillvalue='')])
 
 
 def frequencies(text):
@@ -97,12 +101,22 @@ def frequencies(text):
     
     >>> sorted(frequencies('abcdefabc').items())
     [('a', 2), ('b', 2), ('c', 2), ('d', 1), ('e', 1), ('f', 1)]
-    >>> sorted(frequencies('the quick brown fox jumped over the lazy dog').items())
-    [(' ', 8), ('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), ('g', 1), ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('n', 1), ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), ('v', 1), ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
-    >>> sorted(frequencies('The Quick BROWN fox jumped! over... the (9lazy) DOG').items())
-    [(' ', 8), ('!', 1), ('(', 1), (')', 1), ('.', 3), ('9', 1), ('B', 1), ('D', 1), ('G', 1), ('N', 1), ('O', 2), ('Q', 1), ('R', 1), ('T', 1), ('W', 1), ('a', 1), ('c', 1), ('d', 1), ('e', 4), ('f', 1), ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('o', 2), ('p', 1), ('r', 1), ('t', 1), ('u', 2), ('v', 1), ('x', 1), ('y', 1), ('z', 1)]
-    >>> sorted(frequencies(sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')).items())
-    [('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), ('g', 1), ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('n', 1), ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), ('v', 1), ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
+    >>> sorted(frequencies('the quick brown fox jumped over the lazy dog').items()) # doctest: +NORMALIZE_WHITESPACE
+    [(' ', 8), ('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), 
+     ('g', 1), ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), 
+     ('n', 1), ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), 
+     ('v', 1), ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
+    >>> sorted(frequencies('The Quick BROWN fox jumped! over... the (9lazy) DOG').items()) # doctest: +NORMALIZE_WHITESPACE
+    [(' ', 8), ('!', 1), ('(', 1), (')', 1), ('.', 3), ('9', 1), ('B', 1), 
+     ('D', 1), ('G', 1), ('N', 1), ('O', 2), ('Q', 1), ('R', 1), ('T', 1), 
+     ('W', 1), ('a', 1), ('c', 1), ('d', 1), ('e', 4), ('f', 1), ('h', 2), 
+     ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('o', 2), ('p', 1), 
+     ('r', 1), ('t', 1), ('u', 2), ('v', 1), ('x', 1), ('y', 1), ('z', 1)]
+    >>> sorted(frequencies(sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')).items()) # doctest: +NORMALIZE_WHITESPACE
+    [('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), ('g', 1), 
+     ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('n', 1), 
+     ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), ('v', 1), 
+     ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
     """
     counts = collections.defaultdict(int)
     for c in text: 
@@ -140,7 +154,8 @@ def caesar_encipher_letter(letter, shift):
             alphabet_start = ord('A')
         else:
             alphabet_start = ord('a')
-        return chr(((ord(letter) - alphabet_start + shift) % 26) + alphabet_start)
+        return chr(((ord(letter) - alphabet_start + shift) % 26) + 
+                   alphabet_start)
     else:
         return letter
 
@@ -217,7 +232,8 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
             alphabet_start = ord('a')
         cipher_number = ord(letter) - alphabet_start
         if one_based: cipher_number += 1
-        plaintext_number = modular_division_table[multiplier][(cipher_number - adder) % 26]
+        plaintext_number = ( modular_division_table[multiplier]
+                                                   [(cipher_number - adder) % 26] )
         if one_based: plaintext_number -= 1
         return chr(plaintext_number % 26 + alphabet_start) 
     else:
@@ -229,7 +245,8 @@ def affine_encipher(message, multiplier=1, adder=0, one_based=True):
     >>> affine_encipher('hours passed during which jerico tried every trick he could think of', 15, 22, True)
     'lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh'
     """
-    enciphered = [affine_encipher_letter(l, multiplier, adder, one_based) for l in message]
+    enciphered = [affine_encipher_letter(l, multiplier, adder, one_based) 
+                  for l in message]
     return ''.join(enciphered)
 
 def affine_decipher(message, multiplier=1, adder=0, one_based=True):
@@ -238,7 +255,8 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     >>> affine_decipher('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh', 15, 22, True)
     'hours passed during which jerico tried every trick he could think of'
     """
-    enciphered = [affine_decipher_letter(l, multiplier, adder, one_based) for l in message]
+    enciphered = [affine_decipher_letter(l, multiplier, adder, one_based) 
+                  for l in message]
     return ''.join(enciphered)
 
 
@@ -260,16 +278,19 @@ def keyword_cipher_alphabet_of(keyword, wrap_alphabet=0):
     'bayeszcdfghijklmnopqrtuvwx'
     """
     if wrap_alphabet == 0:
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + string.ascii_lowercase))
+        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + 
+                                              string.ascii_lowercase))
     else:
         if wrap_alphabet == 1:
             last_keyword_letter = deduplicate(sanitise(keyword))[-1]
         else:
             last_keyword_letter = sorted(sanitise(keyword))[-1]
-        last_keyword_position = string.ascii_lowercase.find(last_keyword_letter) + 1
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + 
-                                              string.ascii_lowercase[last_keyword_position:] + 
-                                              string.ascii_lowercase))
+        last_keyword_position = string.ascii_lowercase.find(
+            last_keyword_letter) + 1
+        cipher_alphabet = ''.join(
+            deduplicate(sanitise(keyword) + 
+                        string.ascii_lowercase[last_keyword_position:] + 
+                        string.ascii_lowercase))
     return cipher_alphabet
 
 
@@ -333,7 +354,8 @@ def scytale_encipher(message, rows):
     if len(message) % rows != 0:
         message += ' '*(rows - len(message) % rows)
     row_length = round(len(message) / rows)
-    slices = [message[i:i+row_length] for i in range(0, len(message), row_length)]
+    slices = [message[i:i+row_length] 
+              for i in range(0, len(message), row_length)]
     return ''.join([''.join(r) for r in zip_longest(*slices, fillvalue='')])
 
 def scytale_decipher(message, rows):
@@ -356,7 +378,10 @@ def scytale_decipher(message, rows):
     return ''.join([''.join(c) for c in zip_longest(*columns, fillvalue='')])
 
 
-def caesar_break(message, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise):
+def caesar_break(message, 
+                 metric=norms.euclidean_distance, 
+                 target_counts=normalised_english_counts, 
+                 message_frequency_scaling=norms.normalise):
     """Breaks a Caesar cipher using frequency analysis
     
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
@@ -373,14 +398,20 @@ def caesar_break(message, metric=norms.euclidean_distance, target_counts=normali
         plaintext = caesar_decipher(sanitised_message, shift)
         counts = message_frequency_scaling(letter_frequencies(plaintext))
         fit = metric(target_counts, counts)
-        logger.debug('Caesar break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
+        logger.debug('Caesar break attempt using key {0} gives fit of {1} '
+                      'and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
         if fit < best_fit:
             best_fit = fit
             best_shift = shift
-    logger.info('Caesar break best fit: key {0} gives fit of {1} and decrypt starting: {2}'.format(best_shift, best_fit, caesar_decipher(sanitised_message, best_shift)[:50]))
+    logger.info('Caesar break best fit: key {0} gives fit of {1} and '
+                'decrypt starting: {2}'.format(best_shift, best_fit, 
+                    caesar_decipher(sanitised_message, best_shift)[:50]))
     return best_shift, best_fit
 
-def affine_break(message, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise):
+def affine_break(message, 
+                 metric=norms.euclidean_distance, 
+                 target_counts=normalised_english_counts, 
+                 message_frequency_scaling=norms.normalise):
     """Breaks an affine cipher using frequency analysis
     
     >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd clm ckuxj.') # doctest: +ELLIPSIS
@@ -394,20 +425,33 @@ def affine_break(message, metric=norms.euclidean_distance, target_counts=normali
     for one_based in [True, False]:
         for multiplier in range(1, 26, 2):
             for adder in range(26):
-                plaintext = affine_decipher(sanitised_message, multiplier, adder, one_based)
+                plaintext = affine_decipher(sanitised_message, 
+                                            multiplier, adder, one_based)
                 counts = message_frequency_scaling(letter_frequencies(plaintext))
                 fit = metric(target_counts, counts)
-                logger.debug('Affine break attempt using key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(multiplier, adder, one_based, fit, plaintext[:50]))
+                logger.debug('Affine break attempt using key {0}x+{1} ({2}) '
+                             'gives fit of {3} and decrypt starting: {4}'.
+                             format(multiplier, adder, one_based, fit, 
+                                    plaintext[:50]))
                 if fit < best_fit:
                     best_fit = fit
                     best_multiplier = multiplier
                     best_adder = adder
                     best_one_based = one_based
-    logger.info('Affine break best fit with key {0}x+{1} ({2}) gives fit of {3} and decrypt starting: {4}'.format(best_multiplier, best_adder, best_one_based, best_fit, affine_decipher(sanitised_message, best_multiplier, best_adder, best_one_based)[:50]))
+    logger.info('Affine break best fit with key {0}x+{1} ({2}) gives fit of {3} '
+                'and decrypt starting: {4}'.format(
+                    best_multiplier, best_adder, best_one_based, best_fit, 
+                    affine_decipher(sanitised_message, best_multiplier, 
+                        best_adder, best_one_based)[:50]))
     return (best_multiplier, best_adder, best_one_based), best_fit
 
-def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise):
-    """Breaks a keyword substitution cipher using a dictionary and frequency analysis
+def keyword_break(message, 
+                  wordlist=keywords, 
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_counts, 
+                  message_frequency_scaling=norms.normalise):
+    """Breaks a keyword substitution cipher using a dictionary and 
+    frequency analysis
 
     >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
     (('elephant', 1), 0.41643991598441...)
@@ -420,33 +464,54 @@ def keyword_break(message, wordlist=keywords, metric=norms.euclidean_distance, t
             plaintext = keyword_decipher(message, keyword, wrap_alphabet)
             counts = message_frequency_scaling(letter_frequencies(plaintext))
             fit = metric(target_counts, counts)
-            logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+            logger.debug('Keyword break attempt using key {0} (wrap={1}) '
+                         'gives fit of {2} and decrypt starting: {3}'.format(
+                             keyword, wrap_alphabet, fit, 
+                             sanitise(plaintext)[:50]))
             if fit < best_fit:
                 best_fit = fit
                 best_keyword = keyword
                 best_wrap_alphabet = wrap_alphabet
-    logger.info('Keyword break best fit with key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(best_keyword, best_wrap_alphabet, best_fit, sanitise(keyword_decipher(message, best_keyword))[:50]))
+    logger.info('Keyword break best fit with key {0} (wrap={1}) gives fit of '
+                '{2} and decrypt starting: {3}'.format(best_keyword, 
+                    best_wrap_alphabet, best_fit, sanitise(
+                        keyword_decipher(message, best_keyword, 
+                                         best_wrap_alphabet))[:50]))
     return (best_keyword, best_wrap_alphabet), best_fit
 
-def keyword_break_mp(message, wordlist=keywords, metric=norms.euclidean_distance, target_counts=normalised_english_counts, message_frequency_scaling=norms.normalise, chunksize=500):
-    """Breaks a keyword substitution cipher using a dictionary and frequency analysis
+def keyword_break_mp(message, 
+                     wordlist=keywords, 
+                     metric=norms.euclidean_distance, 
+                     target_counts=normalised_english_counts, 
+                     message_frequency_scaling=norms.normalise, 
+                     chunksize=500):
+    """Breaks a keyword substitution cipher using a dictionary and 
+    frequency analysis
 
     >>> keyword_break_mp(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
     (('elephant', 1), 0.41643991598441...)
     """
     with Pool() as pool:
-        helper_args = [(message, word, wrap, metric, target_counts, message_frequency_scaling) for word in wordlist for wrap in range(3)]
+        helper_args = [(message, word, wrap, metric, target_counts, 
+                        message_frequency_scaling) 
+                       for word in wordlist for wrap in range(3)]
         breaks = pool.starmap(keyword_break_one, helper_args, chunksize) # Gotcha: the helper function here needs to be defined at the top level (limitation of Pool.starmap)
         return min(breaks, key=lambda k: k[1])
 
-def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, message_frequency_scaling):
+def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, 
+                      message_frequency_scaling):
     plaintext = keyword_decipher(message, keyword, wrap_alphabet)
     counts = message_frequency_scaling(letter_frequencies(plaintext))
     fit = metric(target_counts, counts)
-    logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of {2} and decrypt starting: {3}'.format(keyword, wrap_alphabet, fit, sanitise(plaintext)[:50]))
+    logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of '
+                 '{2} and decrypt starting: {3}'.format(keyword, 
+                     wrap_alphabet, fit, sanitise(plaintext)[:50]))
     return (keyword, wrap_alphabet), fit
 
-def scytale_break(message, metric=norms.euclidean_distance, target_counts=normalised_english_bigram_counts, message_frequency_scaling=norms.normalise):
+def scytale_break(message, 
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_bigram_counts, 
+                  message_frequency_scaling=norms.normalise):
     """Breaks a Scytale cipher
     
     >>> scytale_break('tfeulchtrtteehwahsdehneoifeayfsondmwpltmaoalhikotoeredcweatehiplwxsnhooacgorrcrcraotohsgullasenylrendaianeplscdriiotoaek') # doctest: +ELLIPSIS
@@ -457,13 +522,18 @@ def scytale_break(message, metric=norms.euclidean_distance, target_counts=normal
     for key in range(1, 20):
         if len(message) % key == 0:
             plaintext = scytale_decipher(message, key)
-            counts = message_frequency_scaling(frequencies(ngrams(sanitise(plaintext), 2)))
+            counts = message_frequency_scaling(frequencies(
+                         ngrams(sanitise(plaintext), 2)))
             fit = metric(target_counts, counts)
-            logger.debug('Scytale break attempt using key {0} gives fit of {1} and decrypt starting: {2}'.format(key, fit, sanitise(plaintext)[:50]))
+            logger.debug('Scytale break attempt using key {0} gives fit of '
+                         '{1} and decrypt starting: {2}'.format(key, 
+                             fit, sanitise(plaintext)[:50]))
             if fit < best_fit:
                 best_fit = fit
                 best_key = key
-    logger.info('Scytale break best fit with key {0} gives fit of {1} and decrypt starting: {2}'.format(best_key, best_fit, sanitise(scytale_decipher(message, best_key))[:50]))
+    logger.info('Scytale break best fit with key {0} gives fit of {1} and '
+                'decrypt starting: {2}'.format(best_key, best_fit, 
+                    sanitise(scytale_decipher(message, best_key))[:50]))
     return best_key, best_fit
 
 
