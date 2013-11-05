@@ -13,7 +13,8 @@ def normalise(frequencies):
     [(1, 0.4082482904638631), (2, 0.8164965809277261), (3, 0.4082482904638631)]
    """
     length = sum([f ** 2 for f in frequencies.values()]) ** 0.5
-    return collections.defaultdict(int, ((k, v / length) for (k, v) in frequencies.items()))
+    return collections.defaultdict(int, ((k, v / length) 
+        for (k, v) in frequencies.items()))
 
 def scale(frequencies):
     """Scale a set of frequencies so the largest is 1
@@ -28,7 +29,8 @@ def scale(frequencies):
     [(1, 0.5), (2, 1.0), (3, 0.5)]
     """
     largest = max(frequencies.values())
-    return collections.defaultdict(int, ((k, v / largest) for (k, v) in frequencies.items()))
+    return collections.defaultdict(int, ((k, v / largest) 
+        for (k, v) in frequencies.items()))
     
 
 def l2(frequencies1, frequencies2):
