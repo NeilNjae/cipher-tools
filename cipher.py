@@ -101,18 +101,21 @@ def frequencies(text):
     
     >>> sorted(frequencies('abcdefabc').items())
     [('a', 2), ('b', 2), ('c', 2), ('d', 1), ('e', 1), ('f', 1)]
-    >>> sorted(frequencies('the quick brown fox jumped over the lazy dog').items()) # doctest: +NORMALIZE_WHITESPACE
+    >>> sorted(frequencies('the quick brown fox jumped over the lazy ' \
+         'dog').items()) # doctest: +NORMALIZE_WHITESPACE
     [(' ', 8), ('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), 
      ('g', 1), ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), 
      ('n', 1), ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), 
      ('v', 1), ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
-    >>> sorted(frequencies('The Quick BROWN fox jumped! over... the (9lazy) DOG').items()) # doctest: +NORMALIZE_WHITESPACE
+    >>> sorted(frequencies('The Quick BROWN fox jumped! over... the ' \
+         '(9lazy) DOG').items()) # doctest: +NORMALIZE_WHITESPACE
     [(' ', 8), ('!', 1), ('(', 1), (')', 1), ('.', 3), ('9', 1), ('B', 1), 
      ('D', 1), ('G', 1), ('N', 1), ('O', 2), ('Q', 1), ('R', 1), ('T', 1), 
      ('W', 1), ('a', 1), ('c', 1), ('d', 1), ('e', 4), ('f', 1), ('h', 2), 
      ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('o', 2), ('p', 1), 
      ('r', 1), ('t', 1), ('u', 2), ('v', 1), ('x', 1), ('y', 1), ('z', 1)]
-    >>> sorted(frequencies(sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')).items()) # doctest: +NORMALIZE_WHITESPACE
+    >>> sorted(frequencies(sanitise('The Quick BROWN fox jumped! over... ' \
+         'the (9lazy) DOG')).items()) # doctest: +NORMALIZE_WHITESPACE
     [('a', 1), ('b', 1), ('c', 1), ('d', 2), ('e', 4), ('f', 1), ('g', 1), 
      ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('n', 1), 
      ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), ('v', 1), 
@@ -199,9 +202,11 @@ def caesar_decipher(message, shift):
 def affine_encipher_letter(letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> ''.join([affine_encipher_letter(l, 3, 5, True) for l in string.ascii_uppercase])
+    >>> ''.join([affine_encipher_letter(l, 3, 5, True) \
+            for l in string.ascii_uppercase])
     'HKNQTWZCFILORUXADGJMPSVYBE'
-    >>> ''.join([affine_encipher_letter(l, 3, 5, False) for l in string.ascii_uppercase])
+    >>> ''.join([affine_encipher_letter(l, 3, 5, False) \
+            for l in string.ascii_uppercase])
     'FILORUXADGJMPSVYBEHKNQTWZC'
     """
     if letter in string.ascii_letters:
@@ -220,9 +225,11 @@ def affine_encipher_letter(letter, multiplier=1, adder=0, one_based=True):
 def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> ''.join([affine_decipher_letter(l, 3, 5, True) for l in 'HKNQTWZCFILORUXADGJMPSVYBE'])
+    >>> ''.join([affine_decipher_letter(l, 3, 5, True) \
+            for l in 'HKNQTWZCFILORUXADGJMPSVYBE'])
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    >>> ''.join([affine_decipher_letter(l, 3, 5, False) for l in 'FILORUXADGJMPSVYBEHKNQTWZC'])
+    >>> ''.join([affine_decipher_letter(l, 3, 5, False) \
+            for l in 'FILORUXADGJMPSVYBEHKNQTWZC'])
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     """
     if letter in string.ascii_letters:
@@ -242,7 +249,8 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
 def affine_encipher(message, multiplier=1, adder=0, one_based=True):
     """Encipher a message
     
-    >>> affine_encipher('hours passed during which jerico tried every trick he could think of', 15, 22, True)
+    >>> affine_encipher('hours passed during which jerico tried every ' \
+           'trick he could think of', 15, 22, True)
     'lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh'
     """
     enciphered = [affine_encipher_letter(l, multiplier, adder, one_based) 
@@ -252,7 +260,8 @@ def affine_encipher(message, multiplier=1, adder=0, one_based=True):
 def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     """Decipher a message
     
-    >>> affine_decipher('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh', 15, 22, True)
+    >>> affine_decipher('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg ' \
+           'jfaoe ls omytd jlaxe mh', 15, 22, True)
     'hours passed during which jerico tried every trick he could think of'
     """
     enciphered = [affine_decipher_letter(l, multiplier, adder, one_based) 
@@ -384,11 +393,14 @@ def caesar_break(message,
                  message_frequency_scaling=norms.normalise):
     """Breaks a Caesar cipher using frequency analysis
     
-    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrhecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
+    >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrh' \
+          'ecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
     (4, 0.31863952890183...)
-    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgteeraxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert') # doctest: +ELLIPSIS
+    >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgtee' \
+          'raxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert') # doctest: +ELLIPSIS
     (19, 0.42152901235832...)
-    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurersvaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur') # doctest: +ELLIPSIS
+    >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurer' \
+          'svaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur') # doctest: +ELLIPSIS
     (13, 0.316029208075451...)
     """
     sanitised_message = sanitise(message)
@@ -414,7 +426,12 @@ def affine_break(message,
                  message_frequency_scaling=norms.normalise):
     """Breaks an affine cipher using frequency analysis
     
-    >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd clm ckuxj.') # doctest: +ELLIPSIS
+    >>> affine_break('lmyfu bkuusd dyfaxw claol psfaom jfasd snsfg jfaoe ls ' \
+          'omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ' \
+          'ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ' \
+          'ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls ' \
+          'bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd ' \
+          'clm ckuxj.') # doctest: +ELLIPSIS
     ((15, 22, True), 0.23570361818655...)
     """
     sanitised_message = sanitise(message)
@@ -453,7 +470,9 @@ def keyword_break(message,
     """Breaks a keyword substitution cipher using a dictionary and 
     frequency analysis
 
-    >>> keyword_break(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    >>> keyword_break(keyword_encipher('this is a test message for the ' \
+          'keyword decipherment', 'elephant', 1), \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
     (('elephant', 1), 0.41643991598441...)
     """
     best_keyword = ''
@@ -488,7 +507,9 @@ def keyword_break_mp(message,
     """Breaks a keyword substitution cipher using a dictionary and 
     frequency analysis
 
-    >>> keyword_break_mp(keyword_encipher('this is a test message for the keyword decipherment', 'elephant', 1), wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    >>> keyword_break_mp(keyword_encipher('this is a test message for the ' \
+          'keyword decipherment', 'elephant', 1), \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
     (('elephant', 1), 0.41643991598441...)
     """
     with Pool() as pool:
@@ -514,7 +535,9 @@ def scytale_break(message,
                   message_frequency_scaling=norms.normalise):
     """Breaks a Scytale cipher
     
-    >>> scytale_break('tfeulchtrtteehwahsdehneoifeayfsondmwpltmaoalhikotoeredcweatehiplwxsnhooacgorrcrcraotohsgullasenylrendaianeplscdriiotoaek') # doctest: +ELLIPSIS
+    >>> scytale_break('tfeulchtrtteehwahsdehneoifeayfsondmwpltmaoalhikotoere' \
+           'dcweatehiplwxsnhooacgorrcrcraotohsgullasenylrendaianeplscdriioto' \
+           'aek') # doctest: +ELLIPSIS
     (6, 0.83453041115025...)
     """
     best_key = 0
