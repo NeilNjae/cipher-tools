@@ -1,0 +1,6 @@
+1a: caesar_decipher(c1a, 8)
+1b: caesar_decipher(c1b, 14)
+2a: affine_decipher(c2a, 3, 3, True)
+2b: caesar_decipher(c2b, 6)
+3a: affine_decipher(c3a, 7, 8, True)
+3b: keyword_decipher(c3b, 'louvigny', 2)

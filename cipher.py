@@ -516,7 +516,9 @@ def keyword_break_mp(message,
         helper_args = [(message, word, wrap, metric, target_counts, 
                         message_frequency_scaling) 
                        for word in wordlist for wrap in range(3)]
-        breaks = pool.starmap(keyword_break_one, helper_args, chunksize) # Gotcha: the helper function here needs to be defined at the top level (limitation of Pool.starmap)
+        # Gotcha: the helper function here needs to be defined at the top level 
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(keyword_break_one, helper_args, chunksize) 
         return min(breaks, key=lambda k: k[1])
 
 def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, 
