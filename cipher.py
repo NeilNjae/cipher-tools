@@ -120,11 +120,14 @@ def frequencies(text):
      ('h', 2), ('i', 1), ('j', 1), ('k', 1), ('l', 1), ('m', 1), ('n', 1), 
      ('o', 4), ('p', 1), ('q', 1), ('r', 2), ('t', 2), ('u', 2), ('v', 1), 
      ('w', 1), ('x', 1), ('y', 1), ('z', 1)]
+    >>> frequencies('abcdefabcdef')['x']
+    0
     """
-    counts = collections.defaultdict(int)
-    for c in text: 
-        counts[c] += 1
-    return counts
+    #counts = collections.defaultdict(int)
+    #for c in text: 
+    #    counts[c] += 1
+    #return counts
+    return collections.Counter(c for c in text)
 letter_frequencies = frequencies
 
 def deduplicate(text):
