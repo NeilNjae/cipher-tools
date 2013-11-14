@@ -24,7 +24,7 @@ def splits(text, L=20):
 def Pwords(words): 
     """The Naive Bayes log probability of a sequence of words.
     """
-    return sum(Pw[w] for w in words)
+    return sum(Pw[w.lower()] for w in words)
 
 class Pdist(dict):
     """A probability distribution estimated from counts in datafile.

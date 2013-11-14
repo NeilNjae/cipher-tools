@@ -43,6 +43,14 @@ for a in range(26):
         c = (a * b) % 26
         modular_division_table[b][c] = a
 
+def letters(text):
+    """Remove all non-alphabetic characters from a text
+    >>> letters('The Quick')
+    'TheQuick'
+    >>> letters('The Quick BROWN fox jumped! over... the (9lazy) DOG')
+    'TheQuickBROWNfoxjumpedoverthelazyDOG'
+    """
+    return ''.join([c for c in text if c in string.ascii_letters])
 
 def sanitise(text):
     """Remove all non-alphabetic characters and convert the text to lowercase
@@ -52,8 +60,9 @@ def sanitise(text):
     >>> sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')
     'thequickbrownfoxjumpedoverthelazydog'
     """
-    sanitised = [c.lower() for c in text if c in string.ascii_letters]
-    return ''.join(sanitised)
+    # sanitised = [c.lower() for c in text if c in string.ascii_letters]
+    # return ''.join(sanitised)
+    return letters(text).lower()
 
 def ngrams(text, n):
     """Returns all n-grams of a text
