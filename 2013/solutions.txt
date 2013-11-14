@@ -4,3 +4,6 @@
 2b: caesar_decipher(c2b, 6)
 3a: affine_decipher(c3a, 7, 8, True)
 3b: keyword_decipher(c3b, 'louvigny', 2)
+4a: keyword_decipher(c4a, 'montal', 2)
+4b: keyword_decipher(c4b, 'salvation', 2)
+
