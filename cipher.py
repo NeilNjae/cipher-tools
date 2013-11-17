@@ -3,7 +3,7 @@ import collections
 import norms
 import logging
 import math
-from itertools import zip_longest
+from itertools import zip_longest, repeat
 from segment import segment
 from multiprocessing import Pool
 
@@ -67,20 +67,22 @@ def ngrams(text, n):
     """
     return [text[i:i+n] for i in range(len(text)-n+1)]
 
-def every_nth(text, n):
+def every_nth(text, n, fillvalue=''):
     """Returns n strings, each of which consists of every nth character, 
     starting with the 0th, 1st, 2nd, ... (n-1)th character
     
     >>> every_nth(string.ascii_lowercase, 5)
     ['afkpuz', 'bglqv', 'chmrw', 'dinsx', 'ejoty']
-    >>> every_nth(string.ascii_lowercase, 1)                                                                                                              
+    >>> every_nth(string.ascii_lowercase, 1)
     ['abcdefghijklmnopqrstuvwxyz']
     >>> every_nth(string.ascii_lowercase, 26) # doctest: +NORMALIZE_WHITESPACE
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 
      'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    >>> every_nth(string.ascii_lowercase, 5, fillvalue='!')
+    ['afkpuz', 'bglqv!', 'chmrw!', 'dinsx!', 'ejoty!']
     """
     split_text = [text[i:i+n] for i in range(0, len(text), n)]
-    return [''.join(l) for l in zip_longest(*split_text, fillvalue='')]
+    return [''.join(l) for l in zip_longest(*split_text, fillvalue=fillvalue)]
 
 def combine_every_nth(split_text):
     """Reforms a text split into every_nth strings
@@ -94,6 +96,36 @@ def combine_every_nth(split_text):
     """
     return ''.join([''.join(l) 
                     for l in zip_longest(*split_text, fillvalue='')])
+
+def transpose(items, transposition):
+    """Moves items around according to the given transposition
+    
+    >>> transpose(['a', 'b', 'c', 'd'], [0,1,2,3])
+    ['a', 'b', 'c', 'd']
+    >>> transpose(['a', 'b', 'c', 'd'], [3,1,2,0])
+    ['d', 'b', 'c', 'a']
+    >>> transpose([10,11,12,13,14,15], [3,2,4,1,5,0])	
+    [13, 12, 14, 11, 15, 10]
+    """
+    transposed = list(repeat('', len(transposition)))
+    for p, t in enumerate(transposition):
+       transposed[p] = items[t]
+    return transposed
+
+def untranspose(items, transposition):
+    """Undoes a transpose
+    
+    >>> untranspose(['a', 'b', 'c', 'd'], [0,1,2,3])
+    ['a', 'b', 'c', 'd']
+    >>> untranspose(['d', 'b', 'c', 'a'], [3,1,2,0])
+    ['a', 'b', 'c', 'd']
+    >>> untranspose([13, 12, 14, 11, 15, 10], [3,2,4,1,5,0])
+    [10, 11, 12, 13, 14, 15]
+    """
+    transposed  = list(repeat('', len(transposition)))
+    for p, t in enumerate(transposition):
+       transposed[t] = items[p]
+    return transposed
 
 
 def frequencies(text):
@@ -385,6 +417,20 @@ def scytale_decipher(message, rows):
     cols = round(len(message) / rows)
     columns = [message[i:i+rows] for i in range(0, cols * rows, rows)]
     return ''.join([''.join(c) for c in zip_longest(*columns, fillvalue='')])
+
+
+def transpositions_of(keyword):
+    transpositions = []
+    key = deduplicate(keyword)
+    for l in sorted(key):
+        transpositions += [key.index(l)]
+    return transpositions
+
+def column_transposition_encipher(message, keyword):
+    transpositions = transpositions_of(keyword)
+    rows = every_nth(message, len(transpositions), fillvalue=' ')
+    transposed_rows = [transpose(row, transpositions) for row in rows]
+    return combine_every_nth(transposed_rows)
 
 
 def caesar_break(message, 
