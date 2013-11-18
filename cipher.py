@@ -424,10 +424,8 @@ def transpositions_of(keyword):
     >>> transpositions_of('clever')
     [0, 2, 1, 4, 3]
     """
-    transpositions = []
     key = deduplicate(keyword)
-    for l in sorted(key):
-        transpositions += [key.index(l)]
+    transpositions = [key.index(l) for l in sorted(key)]
     return transpositions
 
 def column_transposition_encipher(message, keyword):
@@ -435,19 +433,30 @@ def column_transposition_encipher(message, keyword):
     >>> column_transposition_encipher('hellothere', 'clever')
     'hleolteher'
     """
-    transpositions = transpositions_of(keyword)
-    columns = every_nth(message, len(transpositions), fillvalue=' ')
-    transposed_columns = transpose(columns, transpositions)
-    return combine_every_nth(transposed_columns)
+    return column_transposition_worker(message, keyword, True)
 
 def column_transposition_decipher(message, keyword):
     """
     >>> column_transposition_decipher('hleolteher', 'clever')
     'hellothere'
     """
+    return column_transposition_worker(message, keyword, False)
+
+def column_transposition_worker(message, keyword, encipher=True):
+    """
+    >>> column_transposition_worker('hellothere', 'clever')
+    'hleolteher'
+    >>> column_transposition_worker('hellothere', 'clever', True)
+    'hleolteher'
+    >>> column_transposition_worker('hleolteher', 'clever', False)
+    'hellothere'
+    """
     transpositions = transpositions_of(keyword)
     columns = every_nth(message, len(transpositions), fillvalue=' ')
-    transposed_columns = untranspose(columns, transpositions)
+    if encipher:
+        transposed_columns = transpose(columns, transpositions)
+    else:
+        transposed_columns = untranspose(columns, transpositions)
     return combine_every_nth(transposed_columns)
 
 
