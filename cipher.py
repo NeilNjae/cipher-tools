@@ -420,6 +420,10 @@ def scytale_decipher(message, rows):
 
 
 def transpositions_of(keyword):
+    """
+    >>> transpositions_of('clever')
+    [0, 2, 1, 4, 3]
+    """
     transpositions = []
     key = deduplicate(keyword)
     for l in sorted(key):
@@ -427,10 +431,25 @@ def transpositions_of(keyword):
     return transpositions
 
 def column_transposition_encipher(message, keyword):
+    """
+    >>> column_transposition_encipher('hellothere', 'clever')
+    'hleolteher'
+    """
     transpositions = transpositions_of(keyword)
-    rows = every_nth(message, len(transpositions), fillvalue=' ')
-    transposed_rows = [transpose(row, transpositions) for row in rows]
-    return combine_every_nth(transposed_rows)
+    columns = every_nth(message, len(transpositions), fillvalue=' ')
+    transposed_columns = transpose(columns, transpositions)
+    return combine_every_nth(transposed_columns)
+
+def column_transposition_decipher(message, keyword):
+    """
+    >>> column_transposition_decipher('hleolteher', 'clever')
+    'hellothere'
+    """
+    transpositions = transpositions_of(keyword)
+    columns = every_nth(message, len(transpositions), fillvalue=' ')
+    transposed_columns = untranspose(columns, transpositions)
+    return combine_every_nth(transposed_columns)
+
 
 
 def caesar_break(message, 
