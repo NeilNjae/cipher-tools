@@ -433,22 +433,22 @@ def column_transposition_encipher(message, keyword):
     >>> column_transposition_encipher('hellothere', 'clever')
     'hleolteher'
     """
-    return column_transposition_worker(message, keyword, True)
+    return column_transposition_worker(message, keyword, encipher=True)
 
 def column_transposition_decipher(message, keyword):
     """
     >>> column_transposition_decipher('hleolteher', 'clever')
     'hellothere'
     """
-    return column_transposition_worker(message, keyword, False)
+    return column_transposition_worker(message, keyword, encipher=False)
 
 def column_transposition_worker(message, keyword, encipher=True):
     """
     >>> column_transposition_worker('hellothere', 'clever')
     'hleolteher'
-    >>> column_transposition_worker('hellothere', 'clever', True)
+    >>> column_transposition_worker('hellothere', 'clever', encipher=True)
     'hleolteher'
-    >>> column_transposition_worker('hleolteher', 'clever', False)
+    >>> column_transposition_worker('hleolteher', 'clever', encipher=False)
     'hellothere'
     """
     transpositions = transpositions_of(keyword)
