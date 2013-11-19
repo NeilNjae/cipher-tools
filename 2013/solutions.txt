@@ -3,6 +3,8 @@
 2a: affine_decipher(c2a, 3, 3, True)
 2b: caesar_decipher(c2b, 6)
 3a: affine_decipher(c3a, 7, 8, True)
+# with open('2013/mona-lisa-words.txt') as f: mona_lisa_words = [line.rstrip() for line in f]
+# keyword_break(c4a, wordlist=mona_lisa_words)
 3b: keyword_decipher(c3b, 'louvigny', 2)
 4a: keyword_decipher(c4a, 'montal', 2)
 4b: keyword_decipher(c4b, 'salvation', 2)
