@@ -663,7 +663,6 @@ def scytale_break(message,
 def column_transposition_break(message, 
                   wordlist=keywords, 
                   metric=norms.euclidean_distance, 
-                  #test_ngram_length=2,
                   target_counts=normalised_english_bigram_counts, 
                   message_frequency_scaling=norms.normalise):
     """Breaks a column transposition cipher using a dictionary and 
@@ -705,6 +704,52 @@ def column_transposition_break(message,
                         column_transposition_decipher(message, 
                             best_keyword))[:50]))
     return best_keyword, best_fit
+
+
+def column_transposition_break_mp(message, 
+                     wordlist=keywords, 
+                     metric=norms.euclidean_distance, 
+                     target_counts=normalised_english_bigram_counts, 
+                     message_frequency_scaling=norms.normalise, 
+                     chunksize=500):
+    """Breaks a column transposition cipher using a dictionary and 
+    n-gram frequency analysis
+
+    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, \
+        when homosexual acts were still illegal in the United Kingdom. "), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen']) # doctest: +ELLIPSIS
+    ('encipher', 0.898128626285...)
+    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, " \
+        "when homosexual acts were still illegal in the United Kingdom."), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen'], \
+        target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
+    ('encipher', 1.1958792913127...)
+    """
+    ngram_length = len(next(iter(target_counts.keys())))
+    with Pool() as pool:
+        helper_args = [(message, word, metric, target_counts, ngram_length,
+                        message_frequency_scaling) 
+                       for word in wordlist]
+        # Gotcha: the helper function here needs to be defined at the top level 
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(column_transposition_break_worker, helper_args, chunksize) 
+        return min(breaks, key=lambda k: k[1])
+
+def column_transposition_break_worker(message, keyword, metric, target_counts, 
+                      ngram_length, message_frequency_scaling):
+    plaintext = column_transposition_decipher(message, keyword)
+    counts = message_frequency_scaling(frequencies(
+                         ngrams(sanitise(plaintext), ngram_length)))
+    fit = metric(target_counts, counts)
+    logger.debug('Column transposition break attempt using key {0} '
+                         'gives fit of {1} and decrypt starting: {2}'.format(
+                             keyword, fit, 
+                             sanitise(plaintext)[:50]))
+    return keyword, fit
 
 
 
