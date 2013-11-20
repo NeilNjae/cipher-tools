@@ -34,6 +34,14 @@ with open('count_2l.txt', 'r') as f:
         english_bigram_counts[bigram] = int(count)
 normalised_english_bigram_counts = norms.normalise(english_bigram_counts)
 
+english_trigram_counts = collections.defaultdict(int)
+with open('count_3l.txt', 'r') as f:
+    for line in f:
+        (trigram, count) = line.split("\t")
+        english_trigram_counts[trigram] = int(count)
+normalised_english_trigram_counts = norms.normalise(english_trigram_counts)
+
+
 with open('words.txt', 'r') as f:
     keywords = [line.rstrip() for line in f]
 
@@ -432,7 +440,11 @@ def scytale_decipher(message, rows):
 
 
 def transpositions_of(keyword):
-    """
+    """Finds the transpostions given by a keyword. For instance, the keyword
+    'clever' rearranges to 'celrv', so the first column (0) stays first, the
+    second column (1) moves to third, the third column (2) moves to second, 
+    and so on.
+
     >>> transpositions_of('clever')
     [0, 2, 1, 4, 3]
     """
@@ -440,22 +452,35 @@ def transpositions_of(keyword):
     transpositions = [key.index(l) for l in sorted(key)]
     return transpositions
 
-def column_transposition_encipher(message, keyword):
-    """
+def column_transposition_encipher(message, keyword, fillvalue=' '):
+    """Enciphers using the column transposition cipher.
+    Message is padded to allow all rows to be the same length.
+
     >>> column_transposition_encipher('hellothere', 'clever')
     'hleolteher'
+    >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
+    'hleolthre!e!'
     """
-    return column_transposition_worker(message, keyword, encipher=True)
+    return column_transposition_worker(message, keyword, encipher=True, 
+                                       fillvalue=fillvalue)
 
-def column_transposition_decipher(message, keyword):
-    """
+def column_transposition_decipher(message, keyword, fillvalue=' '):
+    """Deciphers using the column transposition cipher.
+    Message is padded to allow all rows to be the same length.
+
     >>> column_transposition_decipher('hleolteher', 'clever')
     'hellothere'
+    >>> column_transposition_decipher('hleolthre!e!', 'cleverly', fillvalue='?')
+    'hellothere!!'
     """
-    return column_transposition_worker(message, keyword, encipher=False)
+    return column_transposition_worker(message, keyword, encipher=False, 
+                                       fillvalue=fillvalue)
 
-def column_transposition_worker(message, keyword, encipher=True):
-    """
+def column_transposition_worker(message, keyword, 
+                                encipher=True, fillvalue=' '):
+    """Does the actual work of the column transposition cipher.
+    Message is padded with spaces to allow all rows to be the same length.
+
     >>> column_transposition_worker('hellothere', 'clever')
     'hleolteher'
     >>> column_transposition_worker('hellothere', 'clever', encipher=True)
@@ -464,7 +489,7 @@ def column_transposition_worker(message, keyword, encipher=True):
     'hellothere'
     """
     transpositions = transpositions_of(keyword)
-    columns = every_nth(message, len(transpositions), fillvalue=' ')
+    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
     if encipher:
         transposed_columns = transpose(columns, transpositions)
     else:
@@ -646,6 +671,98 @@ def scytale_break(message,
                 'decrypt starting: {2}'.format(best_key, best_fit, 
                     sanitise(scytale_decipher(message, best_key))[:50]))
     return best_key, best_fit
+
+def column_transposition_break(message, 
+                  wordlist=keywords, 
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_bigram_counts, 
+                  message_frequency_scaling=norms.normalise):
+    """Breaks a column transposition cipher using a dictionary and 
+    n-gram frequency analysis
+
+    >>> column_transposition_break(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, \
+        when homosexual acts were still illegal in the United Kingdom. "), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen']) # doctest: +ELLIPSIS
+    ('encipher', 0.898128626285...)
+    >>> column_transposition_break(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, " \
+        "when homosexual acts were still illegal in the United Kingdom."), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen'], \
+        target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
+    ('encipher', 1.1958792913127...)
+    """
+    best_keyword = ''
+    best_fit = float("inf")
+    ngram_length = len(next(iter(target_counts.keys())))
+    for keyword in wordlist:
+        if len(message) % len(deduplicate(keyword)) == 0:
+            plaintext = column_transposition_decipher(message, keyword)
+            counts = message_frequency_scaling(frequencies(
+                         ngrams(sanitise(plaintext), ngram_length)))
+            fit = metric(target_counts, counts)
+            logger.debug('Column transposition break attempt using key {0} '
+                         'gives fit of {1} and decrypt starting: {2}'.format(
+                             keyword, fit, 
+                             sanitise(plaintext)[:50]))
+            if fit < best_fit:
+                best_fit = fit
+                best_keyword = keyword
+    logger.info('Column transposition break best fit with key {0} gives fit '
+                'of {1} and decrypt starting: {2}'.format(best_keyword, 
+                    best_fit, sanitise(
+                        column_transposition_decipher(message, 
+                            best_keyword))[:50]))
+    return best_keyword, best_fit
+
+
+def column_transposition_break_mp(message, 
+                     wordlist=keywords, 
+                     metric=norms.euclidean_distance, 
+                     target_counts=normalised_english_bigram_counts, 
+                     message_frequency_scaling=norms.normalise, 
+                     chunksize=500):
+    """Breaks a column transposition cipher using a dictionary and 
+    n-gram frequency analysis
+
+    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, \
+        when homosexual acts were still illegal in the United Kingdom. "), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen']) # doctest: +ELLIPSIS
+    ('encipher', 0.898128626285...)
+    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+        "Turing's homosexuality resulted in a criminal prosecution in 1952, " \
+        "when homosexual acts were still illegal in the United Kingdom."), \
+        'encipher'), \
+        wordlist=['encipher', 'keyword', 'fourteen'], \
+        target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
+    ('encipher', 1.1958792913127...)
+    """
+    ngram_length = len(next(iter(target_counts.keys())))
+    with Pool() as pool:
+        helper_args = [(message, word, metric, target_counts, ngram_length,
+                        message_frequency_scaling) 
+                       for word in wordlist]
+        # Gotcha: the helper function here needs to be defined at the top level 
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(column_transposition_break_worker, helper_args, chunksize) 
+        return min(breaks, key=lambda k: k[1])
+
+def column_transposition_break_worker(message, keyword, metric, target_counts, 
+                      ngram_length, message_frequency_scaling):
+    plaintext = column_transposition_decipher(message, keyword)
+    counts = message_frequency_scaling(frequencies(
+                         ngrams(sanitise(plaintext), ngram_length)))
+    fit = metric(target_counts, counts)
+    logger.debug('Column transposition break attempt using key {0} '
+                         'gives fit of {1} and decrypt starting: {2}'.format(
+                             keyword, fit, 
+                             sanitise(plaintext)[:50]))
+    return keyword, fit
+
 
 
 if __name__ == "__main__":
