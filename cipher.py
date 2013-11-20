@@ -655,11 +655,12 @@ def scytale_break(message,
     """
     best_key = 0
     best_fit = float("inf")
+    ngram_length = len(next(iter(target_counts.keys())))
     for key in range(1, 20):
         if len(message) % key == 0:
             plaintext = scytale_decipher(message, key)
             counts = message_frequency_scaling(frequencies(
-                         ngrams(sanitise(plaintext), 2)))
+                         ngrams(sanitise(plaintext), ngram_length)))
             fit = metric(target_counts, counts)
             logger.debug('Scytale break attempt using key {0} gives fit of '
                          '{1} and decrypt starting: {2}'.format(key, 
