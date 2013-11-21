@@ -496,6 +496,9 @@ def column_transposition_worker(message, keyword,
         transposed_columns = untranspose(columns, transpositions)
     return combine_every_nth(transposed_columns)
 
+def vigenere_encipher(message, keyword):
+    
+
 
 
 def caesar_break(message, 
