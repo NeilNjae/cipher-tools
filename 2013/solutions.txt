@@ -9,4 +9,5 @@
 4a: keyword_decipher(c4a, 'montal', 2)
 4b: keyword_decipher(c4b, 'salvation', 2)
 5a: keyword_decipher(c5a, 'alfredo', 2)
+5b: vigenere_decipher(c5bs, 'florence')
 
