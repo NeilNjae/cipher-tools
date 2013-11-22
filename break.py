@@ -364,10 +364,10 @@ def vigenere_keyword_break(message,
     """Breaks a vigenere cipher using a dictionary and 
     frequency analysis
     
-    >>> vigenere_keyword_break(keyword_encipher('this is a test message for the ' \
-             'keyword decipherment', 'elephant', 1), \
+    >>> vigenere_keyword_break(vigenere_encipher(sanitise('this is a test ' \
+             'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('elephant', 0.7166585201707...)
+    ('cat', 0.4950195952826...)
     """
     best_keyword = ''
     best_fit = float("inf")
@@ -397,10 +397,10 @@ def vigenere_keyword_break_mp(message,
     """Breaks a vigenere cipher using a dictionary and 
     frequency analysis
 
-    >>> vigenere_keyword_break_mp(keyword_encipher('this is a test message for the ' \
-             'keyword decipherment', 'elephant', 1), \
+    >>> vigenere_keyword_break_mp(vigenere_encipher(sanitise('this is a test ' \
+             'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('elephant', 0.7166585201707...)
+    ('cat', 0.4950195952826...)
     """
     with Pool() as pool:
         helper_args = [(message, word, metric, target_counts, 
