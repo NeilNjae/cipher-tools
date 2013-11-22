@@ -3,7 +3,7 @@ import collections
 import norms
 import logging
 import math
-from itertools import zip_longest, repeat
+from itertools import zip_longest, repeat, cycle
 from segment import segment
 from multiprocessing import Pool
 
@@ -497,7 +497,24 @@ def column_transposition_worker(message, keyword,
     return combine_every_nth(transposed_columns)
 
 def vigenere_encipher(message, keyword):
-    
+    """Vigenere encipher
+
+    >>> vigenere_encipher('hello', 'abc')
+    'hfnlp'
+    """
+    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    pairs = zip(message, cycle(shifts))
+    return ''.join([caesar_encipher_letter(l, k) for l, k in pairs])
+
+def vigenere_decipher(message, keyword):
+    """Vigenere decipher
+
+    >>> vigenere_decipher('hfnlp', 'abc')
+    'hello'
+    """
+    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    pairs = zip(message, cycle(shifts))
+    return ''.join([caesar_decipher_letter(l, k) for l, k in pairs])
 
 
 
@@ -632,10 +649,10 @@ def keyword_break_mp(message,
                        for word in wordlist for wrap in range(3)]
         # Gotcha: the helper function here needs to be defined at the top level 
         #   (limitation of Pool.starmap)
-        breaks = pool.starmap(keyword_break_one, helper_args, chunksize) 
+        breaks = pool.starmap(keyword_break_worker, helper_args, chunksize) 
         return min(breaks, key=lambda k: k[1])
 
-def keyword_break_one(message, keyword, wrap_alphabet, metric, target_counts, 
+def keyword_break_worker(message, keyword, wrap_alphabet, metric, target_counts, 
                       message_frequency_scaling):
     plaintext = keyword_decipher(message, keyword, wrap_alphabet)
     counts = message_frequency_scaling(letter_frequencies(plaintext))
@@ -765,6 +782,71 @@ def column_transposition_break_worker(message, keyword, metric, target_counts,
                          'gives fit of {1} and decrypt starting: {2}'.format(
                              keyword, fit, 
                              sanitise(plaintext)[:50]))
+    return keyword, fit
+
+def vigenere_keyword_break(message, 
+                  wordlist=keywords, 
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_counts, 
+                  message_frequency_scaling=norms.normalise):
+    """Breaks a vigenere cipher using a dictionary and 
+    frequency analysis
+    
+    >>> vigenere_keyword_break(keyword_encipher('this is a test message for the ' \
+             'keyword decipherment', 'elephant', 1), \
+             wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    ('elephant', 0.7166585201707...)
+    """
+    best_keyword = ''
+    best_fit = float("inf")
+    for keyword in wordlist:
+        plaintext = vigenere_decipher(message, keyword)
+        counts = message_frequency_scaling(letter_frequencies(plaintext))
+        fit = metric(target_counts, counts)
+        logger.debug('Vigenere break attempt using key {0} '
+                         'gives fit of {1} and decrypt starting: {2}'.format(
+                             keyword, fit, 
+                             sanitise(plaintext)[:50]))
+        if fit < best_fit:
+            best_fit = fit
+            best_keyword = keyword
+    logger.info('Vigenere break best fit with key {0} gives fit '
+                'of {1} and decrypt starting: {2}'.format(best_keyword, 
+                    best_fit, sanitise(
+                        vigenere_decipher(message, best_keyword))[:50]))
+    return best_keyword, best_fit
+
+def vigenere_keyword_break_mp(message, 
+                     wordlist=keywords, 
+                     metric=norms.euclidean_distance, 
+                     target_counts=normalised_english_counts, 
+                     message_frequency_scaling=norms.normalise, 
+                     chunksize=500):
+    """Breaks a vigenere cipher using a dictionary and 
+    frequency analysis
+
+    >>> vigenere_keyword_break_mp(keyword_encipher('this is a test message for the ' \
+             'keyword decipherment', 'elephant', 1), \
+             wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    ('elephant', 0.7166585201707...)
+    """
+    with Pool() as pool:
+        helper_args = [(message, word, metric, target_counts, 
+                        message_frequency_scaling) 
+                       for word in wordlist]
+        # Gotcha: the helper function here needs to be defined at the top level 
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(vigenere_keyword_break_worker, helper_args, chunksize) 
+        return min(breaks, key=lambda k: k[1])
+
+def vigenere_keyword_break_worker(message, keyword, metric, target_counts, 
+                      message_frequency_scaling):
+    plaintext = vigenere_decipher(message, keyword)
+    counts = message_frequency_scaling(letter_frequencies(plaintext))
+    fit = metric(target_counts, counts)
+    logger.debug('Vigenere keyword break attempt using key {0} gives fit of '
+                 '{1} and decrypt starting: {2}'.format(keyword, 
+                     fit, sanitise(plaintext)[:50]))
     return keyword, fit
 
 
