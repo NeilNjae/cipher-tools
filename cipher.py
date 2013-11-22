@@ -1,11 +1,7 @@
 import string
 import collections
-# import norms
 import logging
-# import math
-from itertools import zip_longest, repeat, cycle
-# from segment import segment
-# from multiprocessing import Pool
+from itertools import zip_longest, cycle
 
 
 logger = logging.getLogger(__name__)
@@ -94,7 +90,7 @@ def transpose(items, transposition):
     >>> transpose([10,11,12,13,14,15], (3,2,4,1,5,0))
     [13, 12, 14, 11, 15, 10]
     """
-    transposed = list(repeat('', len(transposition)))
+    transposed = [''] * len(transposition)
     for p, t in enumerate(transposition):
        transposed[p] = items[t]
     return transposed
@@ -109,7 +105,7 @@ def untranspose(items, transposition):
     >>> untranspose([13, 12, 14, 11, 15, 10], [3,2,4,1,5,0])
     [10, 11, 12, 13, 14, 15]
     """
-    transposed  = list(repeat('', len(transposition)))
+    transposed = [''] * len(transposition)
     for p, t in enumerate(transposition):
        transposed[t] = items[p]
     return transposed
