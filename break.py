@@ -89,13 +89,13 @@ def caesar_break(message,
     
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrh' \
           'ecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
-    (4, 0.31863952890183...)
+    (4, 0.080345432737...)
     >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgtee' \
           'raxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert') # doctest: +ELLIPSIS
-    (19, 0.42152901235832...)
+    (19, 0.11189290326...)
     >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurer' \
           'svaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur') # doctest: +ELLIPSIS
-    (13, 0.316029208075451...)
+    (13, 0.08293968842...)
     """
     sanitised_message = sanitise(message)
     best_shift = 0
@@ -126,7 +126,7 @@ def affine_break(message,
           'ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls ' \
           'bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd ' \
           'clm ckuxj.') # doctest: +ELLIPSIS
-    ((15, 22, True), 0.23570361818655...)
+    ((15, 22, True), 0.0598745365924...)
     """
     sanitised_message = sanitise(message)
     best_multiplier = 0
@@ -167,7 +167,7 @@ def keyword_break(message,
     >>> keyword_break(keyword_encipher('this is a test message for the ' \
           'keyword decipherment', 'elephant', 1), \
           wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    (('elephant', 1), 0.41643991598441...)
+    (('elephant', 1), 0.1066453448861...)
     """
     best_keyword = ''
     best_wrap_alphabet = True
@@ -204,7 +204,7 @@ def keyword_break_mp(message,
     >>> keyword_break_mp(keyword_encipher('this is a test message for the ' \
           'keyword decipherment', 'elephant', 1), \
           wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    (('elephant', 1), 0.41643991598441...)
+    (('elephant', 1), 0.106645344886...)
     """
     with Pool() as pool:
         helper_args = [(message, word, wrap, metric, target_counts, 
@@ -234,7 +234,7 @@ def scytale_break(message,
     >>> scytale_break('tfeulchtrtteehwahsdehneoifeayfsondmwpltmaoalhikotoere' \
            'dcweatehiplwxsnhooacgorrcrcraotohsgullasenylrendaianeplscdriioto' \
            'aek') # doctest: +ELLIPSIS
-    (6, 0.83453041115025...)
+    (6, 0.092599933059...)
     """
     best_key = 0
     best_fit = float("inf")
@@ -265,22 +265,30 @@ def column_transposition_break(message,
     n-gram frequency analysis
 
     >>> column_transposition_break(column_transposition_encipher(sanitise( \
-        "Turing's homosexuality resulted in a criminal prosecution in 1952, \
-        when homosexual acts were still illegal in the United Kingdom. "), \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in the \
+             minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
         'encipher'), \
         translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.898128626285...)
+    ((2, 0, 5, 3, 1, 4, 6), 0.0628106372...)
     >>> column_transposition_break(column_transposition_encipher(sanitise( \
-        "Turing's homosexuality resulted in a criminal prosecution in 1952, " \
-        "when homosexual acts were still illegal in the United Kingdom."), \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in the \
+             minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
         'encipher'), \
         translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
         target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 1.1958792913127...)
+    ((2, 0, 5, 3, 1, 4, 6), 0.0592259560...)
     """
     best_transposition = ''
     best_fit = float("inf")
@@ -317,22 +325,30 @@ def column_transposition_break_mp(message,
     n-gram frequency analysis
 
     >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
-        "Turing's homosexuality resulted in a criminal prosecution in 1952, \
-        when homosexual acts were still illegal in the United Kingdom. "), \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in the \
+             minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
         'encipher'), \
         translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.898128626285...)
+    ((2, 0, 5, 3, 1, 4, 6), 0.0628106372...)
     >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
-        "Turing's homosexuality resulted in a criminal prosecution in 1952, " \
-        "when homosexual acts were still illegal in the United Kingdom."), \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in the \
+             minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
         'encipher'), \
         translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
         target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 1.1958792913127...)
+    ((2, 0, 5, 3, 1, 4, 6), 0.0592259560...)
     """
     ngram_length = len(next(iter(target_counts.keys())))
     with Pool() as pool:
@@ -367,7 +383,7 @@ def vigenere_keyword_break(message,
     >>> vigenere_keyword_break(vigenere_encipher(sanitise('this is a test ' \
              'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('cat', 0.4950195952826...)
+    ('cat', 0.15965224935...)
     """
     best_keyword = ''
     best_fit = float("inf")
@@ -400,7 +416,7 @@ def vigenere_keyword_break_mp(message,
     >>> vigenere_keyword_break_mp(vigenere_encipher(sanitise('this is a test ' \
              'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('cat', 0.4950195952826...)
+    ('cat', 0.159652249358...)
     """
     with Pool() as pool:
         helper_args = [(message, word, metric, target_counts, 
@@ -420,6 +436,30 @@ def vigenere_keyword_break_worker(message, keyword, metric, target_counts,
                  '{1} and decrypt starting: {2}'.format(keyword, 
                      fit, sanitise(plaintext)[:50]))
     return keyword, fit
+
+
+def vigenere_ic_break(message, target_counts=normalised_english_counts):
+    key_length = vigenere_key_length(message),
+    key = vigenere_find_key(message, key_length)
+    return key
+
+def vigenere_key_length(message):
+    best_length = 0
+    best_ic = 0.0
+    for trial_length in range(1, 20):
+        splits = every_nth(message, trial_length)
+        freqs = [norms.scale(frequencies(s)) for s in splits]
+        ic = sum([sum([f ** 2 for f in fs.values()]) for fs in freqs]) / trial_length
+        logger.debug('Vigenere key length of {0} gives IC of {1}'.
+                     format(trial_length, ic))
+        if ic > best_ic:
+            best_length = trial_length
+            best_ic = ic
+    return best_length, best_ic
+
+def vigenere_find_key(message, key_length):
+    splits = every_nth(message, key_length)
+    return ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
 
 
 if __name__ == "__main__":

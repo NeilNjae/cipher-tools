@@ -1,20 +1,37 @@
 import collections
 
 def normalise(frequencies):
-    """Scale a set of frequenies so they have a unit euclidean length
+    """Scale a set of frequencies so they sum to one
     
     >>> sorted(normalise({1: 1, 2: 0}).items())
     [(1, 1.0), (2, 0.0)]
     >>> sorted(normalise({1: 1, 2: 1}).items())
-    [(1, 0.7071067811865475), (2, 0.7071067811865475)]
-    >>> sorted(normalise({1: 1, 2: 1, 3: 1}).items())
-    [(1, 0.5773502691896258), (2, 0.5773502691896258), (3, 0.5773502691896258)]
+    [(1, 0.5), (2, 0.5)]
+    >>> sorted(normalise({1: 1, 2: 1, 3: 1}).items()) # doctest: +ELLIPSIS
+    [(1, 0.333...), (2, 0.333...), (3, 0.333...)]
     >>> sorted(normalise({1: 1, 2: 2, 3: 1}).items())
-    [(1, 0.4082482904638631), (2, 0.8164965809277261), (3, 0.4082482904638631)]
-   """
+    [(1, 0.25), (2, 0.5), (3, 0.25)]
+    """
+    length = sum([f for f in frequencies.values()])
+    return collections.defaultdict(int, ((k, v / length) 
+        for (k, v) in frequencies.items()))
+
+def euclidean_scale(frequencies):
+    """Scale a set of frequencies so they have a unit euclidean length
+    
+    >>> sorted(euclidean_scale({1: 1, 2: 0}).items())
+    [(1, 1.0), (2, 0.0)]
+    >>> sorted(euclidean_scale({1: 1, 2: 1}).items()) # doctest: +ELLIPSIS
+    [(1, 0.7071067...), (2, 0.7071067...)]
+    >>> sorted(euclidean_scale({1: 1, 2: 1, 3: 1}).items()) # doctest: +ELLIPSIS
+    [(1, 0.577350...), (2, 0.577350...), (3, 0.577350...)]
+    >>> sorted(euclidean_scale({1: 1, 2: 2, 3: 1}).items()) # doctest: +ELLIPSIS
+    [(1, 0.408248...), (2, 0.81649658...), (3, 0.408248...)]
+    """
     length = sum([f ** 2 for f in frequencies.values()]) ** 0.5
     return collections.defaultdict(int, ((k, v / length) 
         for (k, v) in frequencies.items()))
+
 
 def scale(frequencies):
     """Scale a set of frequencies so the largest is 1
@@ -39,14 +56,15 @@ def l2(frequencies1, frequencies2):
     
     >>> l2({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1})
     0.0
-    >>> l2({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
-    1.7320508075688772
+    >>> l2({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    1.73205080...
     >>> l2(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':1}))
     0.0
-    >>> l2({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1})
-    1.7320508075688772
-    >>> l2(normalise({'a':0, 'b':2, 'c':0}), normalise({'a':1, 'b':1, 'c':1}))
-    0.9194016867619662
+    >>> l2({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    1.732050807...
+    >>> l2(normalise({'a':0, 'b':2, 'c':0}), \
+           normalise({'a':1, 'b':1, 'c':1})) # doctest: +ELLIPSIS
+    0.81649658...
     >>> l2({'a':0, 'b':1}, {'a':1, 'b':1})
     1.0
     """
@@ -57,8 +75,8 @@ def l2(frequencies1, frequencies2):
 euclidean_distance = l2
 
 def l1(frequencies1, frequencies2):
-    """Finds the distances between two frequency profiles, expressed as dictionaries.
-    Assumes every key in frequencies1 is also in frequencies2
+    """Finds the distances between two frequency profiles, expressed as 
+    dictionaries. Assumes every key in frequencies1 is also in frequencies2
 
     >>> l1({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1})
     0
@@ -77,21 +95,22 @@ def l1(frequencies1, frequencies2):
     return total
 
 def l3(frequencies1, frequencies2):
-    """Finds the distances between two frequency profiles, expressed as dictionaries.
-    Assumes every key in frequencies1 is also in frequencies2
+    """Finds the distances between two frequency profiles, expressed as 
+    dictionaries. Assumes every key in frequencies1 is also in frequencies2
 
     >>> l3({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1})
     0.0
-    >>> l3({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
-    1.4422495703074083
-    >>> l3({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1})
-    1.4422495703074083
-    >>> l3(normalise({'a':0, 'b':2, 'c':0}), normalise({'a':1, 'b':1, 'c':1}))
-    0.7721675487598008
+    >>> l3({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    1.44224957...
+    >>> l3({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    1.4422495703...
+    >>> l3(normalise({'a':0, 'b':2, 'c':0}), \
+           normalise({'a':1, 'b':1, 'c':1})) # doctest: +ELLIPSIS
+    0.718144896...
     >>> l3({'a':0, 'b':1}, {'a':1, 'b':1})
     1.0
-    >>> l3(normalise({'a':0, 'b':1}), normalise({'a':1, 'b':1}))
-    0.7234757712960591
+    >>> l3(normalise({'a':0, 'b':1}), normalise({'a':1, 'b':1})) # doctest: +ELLIPSIS
+    0.6299605249...
     """
     total = 0
     for k in frequencies1.keys():
@@ -109,12 +128,15 @@ def geometric_mean(frequencies1, frequencies2):
     1
     >>> geometric_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':5, 'c':1})
     3
-    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':5, 'c':1}))
-    0.057022248808851934
-    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':1}))
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                       normalise({'a':1, 'b':5, 'c':1})) # doctest: +ELLIPSIS
+    0.01382140...
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                       normalise({'a':1, 'b':1, 'c':1})) # doctest: +ELLIPSIS
     0.0
-    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':0}))
-    0.009720703533656434
+    >>> geometric_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                       normalise({'a':1, 'b':1, 'c':0})) # doctest: +ELLIPSIS
+    0.009259259...
     """
     total = 1
     for k in frequencies1.keys():
@@ -130,14 +152,17 @@ def harmonic_mean(frequencies1, frequencies2):
     1.0
     >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
     1.0
-    >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':5, 'c':1})
-    1.2857142857142858
-    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':5, 'c':1}))
-    0.3849001794597505
-    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':1}))
+    >>> harmonic_mean({'a':2, 'b':2, 'c':2}, {'a':1, 'b':5, 'c':1}) # doctest: +ELLIPSIS
+    1.285714285...
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                      normalise({'a':1, 'b':5, 'c':1})) # doctest: +ELLIPSIS
+    0.228571428571...
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                      normalise({'a':1, 'b':1, 'c':1})) # doctest: +ELLIPSIS
     0
-    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), normalise({'a':1, 'b':1, 'c':0}))
-    0.17497266360581604
+    >>> harmonic_mean(normalise({'a':2, 'b':2, 'c':2}), \
+                      normalise({'a':1, 'b':1, 'c':0})) # doctest: +ELLIPSIS
+    0.2
     """
     total = 0
     for k in frequencies1.keys():
@@ -151,14 +176,14 @@ def cosine_distance(frequencies1, frequencies2):
     """Finds the distances between two frequency profiles, expressed as dictionaries.
     Assumes every key in frequencies1 is also in frequencies2
 
-    >>> cosine_distance({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1})
-    -2.220446049250313e-16
-    >>> cosine_distance({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1})
-    -2.220446049250313e-16
-    >>> cosine_distance({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1})
-    0.42264973081037416
-    >>> cosine_distance({'a':0, 'b':1}, {'a':1, 'b':1})
-    0.29289321881345254
+    >>> cosine_distance({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    -2.22044604...e-16
+    >>> cosine_distance({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    -2.22044604...e-16
+    >>> cosine_distance({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    0.4226497308...
+    >>> cosine_distance({'a':0, 'b':1}, {'a':1, 'b':1}) # doctest: +ELLIPSIS
+    0.29289321881...
     """
     numerator = 0
     length1 = 0
@@ -169,6 +194,12 @@ def cosine_distance(frequencies1, frequencies2):
     for k in frequencies2.keys():
         length2 += frequencies2[k]
     return 1 - (numerator / (length1 ** 0.5 * length2 ** 0.5))
+
+
+def index_of_coincidence(frequencies):
+    """Finds the (expected) index of coincidence given a set of frequencies
+    """
+    return sum([f ** 2 for f in frequencies.values()]) * len(frequencies.keys())
 
 
 if __name__ == "__main__":
