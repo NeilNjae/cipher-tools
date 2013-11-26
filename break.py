@@ -3,7 +3,7 @@ import collections
 import norms
 import logging
 from itertools import zip_longest, cycle
-from segment import segment
+from segment import segment, Pwords
 from multiprocessing import Pool
 
 from cipher import *
@@ -438,28 +438,39 @@ def vigenere_keyword_break_worker(message, keyword, metric, target_counts,
     return keyword, fit
 
 
-def vigenere_ic_break(message, target_counts=normalised_english_counts):
-    key_length = vigenere_key_length(message),
-    key = vigenere_find_key(message, key_length)
-    return key
 
-def vigenere_key_length(message):
-    best_length = 0
-    best_ic = 0.0
+def vigenere_frequency_break(message,
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_counts, 
+                  message_frequency_scaling=norms.normalise):
+    """Breaks a Vigenere cipher with frequency analysis
+
+    >>> vigenere_frequency_break(vigenere_encipher(sanitise("It is time to " \
+            "run. She is ready and so am I. I stole Daniel's pocketbook this " \
+            "afternoon when he left his jacket hanging on the easel in the " \
+            "attic."), 'florence')) # doctest: +ELLIPSIS
+    ('florence', 0.077657073...)
+    """
+    best_fit = float("inf")
+    best_key = ''
+    sanitised_message = sanitise(message)
     for trial_length in range(1, 20):
-        splits = every_nth(message, trial_length)
-        freqs = [norms.scale(frequencies(s)) for s in splits]
-        ic = sum([sum([f ** 2 for f in fs.values()]) for fs in freqs]) / trial_length
-        logger.debug('Vigenere key length of {0} gives IC of {1}'.
-                     format(trial_length, ic))
-        if ic > best_ic:
-            best_length = trial_length
-            best_ic = ic
-    return best_length, best_ic
+        splits = every_nth(sanitised_message, trial_length)
+        key = ''.join([chr(caesar_break(s, target_counts=target_counts)[0] + ord('a')) for s in splits])
+        plaintext = vigenere_decipher(sanitised_message, key)
+        counts = message_frequency_scaling(frequencies(plaintext))
+        fit = metric(target_counts, counts)
+        logger.debug('Vigenere key length of {0} ({1}) gives fit of {2}'.
+                     format(trial_length, key, fit))
+        if fit < best_fit:
+            best_fit = fit
+            best_key = key
+    logger.info('Vigenere break best fit with key {0} gives fit '
+                'of {1} and decrypt starting: {2}'.format(best_key, 
+                    best_fit, sanitise(
+                        vigenere_decipher(message, best_key))[:50]))
+    return best_key, best_fit
 
-def vigenere_find_key(message, key_length):
-    splits = every_nth(message, key_length)
-    return ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
 
 
 if __name__ == "__main__":
