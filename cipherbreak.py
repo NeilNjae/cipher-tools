@@ -2,9 +2,12 @@ import string
 import collections
 import norms
 import logging
-from itertools import zip_longest, cycle
+from itertools import zip_longest, cycle, permutations
 from segment import segment, Pwords
 from multiprocessing import Pool
+from math import log10
+
+import matplotlib.pyplot as plt
 
 from cipher import *
 
@@ -79,6 +82,9 @@ def frequencies(text):
     return collections.Counter(c for c in text)
 letter_frequencies = frequencies
 
+
+def bigram_likelihood(bigram, bf, lf):
+    return bf[bigram] / (lf[bigram[0]] * lf[bigram[1]])
 
 
 def caesar_break(message, 
@@ -256,64 +262,6 @@ def scytale_break(message,
                     sanitise(scytale_decipher(message, best_key))[:50]))
     return best_key, best_fit
 
-def column_transposition_break(message, 
-                  translist=transpositions, 
-                  metric=norms.euclidean_distance, 
-                  target_counts=normalised_english_bigram_counts, 
-                  message_frequency_scaling=norms.normalise):
-    """Breaks a column transposition cipher using a dictionary and 
-    n-gram frequency analysis
-
-    >>> column_transposition_break(column_transposition_encipher(sanitise( \
-            "It is a truth universally acknowledged, that a single man in \
-             possession of a good fortune, must be in want of a wife. However \
-             little known the feelings or views of such a man may be on his \
-             first entering a neighbourhood, this truth is so well fixed in the \
-             minds of the surrounding families, that he is considered the \
-             rightful property of some one or other of their daughters."), \
-        'encipher'), \
-        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
-                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
-                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.0628106372...)
-    >>> column_transposition_break(column_transposition_encipher(sanitise( \
-            "It is a truth universally acknowledged, that a single man in \
-             possession of a good fortune, must be in want of a wife. However \
-             little known the feelings or views of such a man may be on his \
-             first entering a neighbourhood, this truth is so well fixed in the \
-             minds of the surrounding families, that he is considered the \
-             rightful property of some one or other of their daughters."), \
-        'encipher'), \
-        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
-                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
-                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
-        target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.0592259560...)
-    """
-    best_transposition = ''
-    best_fit = float("inf")
-    ngram_length = len(next(iter(target_counts.keys())))
-    for transposition in translist.keys():
-        if len(message) % len(transposition) == 0:
-            plaintext = column_transposition_decipher(message, transposition)
-            counts = message_frequency_scaling(frequencies(
-                         ngrams(sanitise(plaintext), ngram_length)))
-            fit = metric(target_counts, counts)
-            logger.debug('Column transposition break attempt using key {0} '
-                         'gives fit of {1} and decrypt starting: {2}'.format(
-                             translist[transposition][0], fit, 
-                             sanitise(plaintext)[:50]))
-            if fit < best_fit:
-                best_fit = fit
-                best_transposition = transposition
-    logger.info('Column transposition break best fit with key {0} gives fit '
-                'of {1} and decrypt starting: {2}'.format(
-                    translist[best_transposition][0], 
-                    best_fit, sanitise(
-                        column_transposition_decipher(message, 
-                            best_transposition))[:50]))
-    return best_transposition, best_fit
-
 
 def column_transposition_break_mp(message, 
                      translist=transpositions, 
@@ -335,7 +283,7 @@ def column_transposition_break_mp(message,
         translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.0628106372...)
+    (((2, 0, 5, 3, 1, 4, 6), False), 0.0628106372...)
     >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
             "It is a truth universally acknowledged, that a single man in \
              possession of a good fortune, must be in want of a wife. However \
@@ -348,21 +296,22 @@ def column_transposition_break_mp(message,
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
         target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
-    ((2, 0, 5, 3, 1, 4, 6), 0.0592259560...)
+    (((2, 0, 5, 3, 1, 4, 6), False), 0.0592259560...)
     """
     ngram_length = len(next(iter(target_counts.keys())))
     with Pool() as pool:
-        helper_args = [(message, trans, metric, target_counts, ngram_length,
+        helper_args = [(message, trans, columnwise, metric, target_counts, ngram_length,
                         message_frequency_scaling) 
-                       for trans in translist.keys()]
+                       for trans in translist.keys() for columnwise in [True, False]]
         # Gotcha: the helper function here needs to be defined at the top level 
         #   (limitation of Pool.starmap)
         breaks = pool.starmap(column_transposition_break_worker, helper_args, chunksize) 
         return min(breaks, key=lambda k: k[1])
+column_transposition_break = column_transposition_break_mp
 
-def column_transposition_break_worker(message, transposition, metric, target_counts, 
+def column_transposition_break_worker(message, transposition, columnwise, metric, target_counts, 
                       ngram_length, message_frequency_scaling):
-    plaintext = column_transposition_decipher(message, transposition)
+    plaintext = column_transposition_decipher(message, transposition, columnwise=columnwise)
     counts = message_frequency_scaling(frequencies(
                          ngrams(sanitise(plaintext), ngram_length)))
     fit = metric(target_counts, counts)
@@ -370,7 +319,33 @@ def column_transposition_break_worker(message, transposition, metric, target_cou
                          'gives fit of {1} and decrypt starting: {2}'.format(
                              transposition, fit, 
                              sanitise(plaintext)[:50]))
-    return transposition, fit
+    return (transposition, columnwise), fit
+
+
+def transposition_break_exhaustive(message):
+    best_transposition = ''
+    best_pw = -float('inf')
+    for keylength in range(1, 21):
+        if len(message) % keylength == 0:
+            for transposition in permutations(range(keylength)):
+                for columnwise in [True, False]:
+                    plaintext = column_transposition_decipher(message, 
+                        transposition, columnwise=columnwise)
+                    # pw = Pwords(segment(plaintext))
+                    pw = sum([log10(bigram_likelihood(b, 
+                                              normalised_english_bigram_counts, 
+                                              normalised_english_counts))
+                                           for b in ngrams(plaintext, 2)])
+                    logger.debug('Column transposition break attempt using key {0} {1} '
+                         'gives fit of {2} and decrypt starting: {3}'.format(
+                             transposition, columnwise, pw, 
+                             sanitise(plaintext)[:50]))
+                    if pw > best_pw:
+                        best_transposition = transposition
+                        best_columnwise = columnwise
+                        best_pw = pw
+    return (best_transposition, best_columnwise), best_pw
+
 
 def vigenere_keyword_break(message, 
                   wordlist=keywords, 
@@ -471,6 +446,49 @@ def vigenere_frequency_break(message,
                         vigenere_decipher(message, best_key))[:50]))
     return best_key, best_fit
 
+def beaufort_frequency_break(message,
+                  metric=norms.euclidean_distance, 
+                  target_counts=normalised_english_counts, 
+                  message_frequency_scaling=norms.normalise):
+    """Breaks a Beaufort cipher with frequency analysis
+
+    >>> vigenere_frequency_break(vigenere_encipher(sanitise("It is time to " \
+            "run. She is ready and so am I. I stole Daniel's pocketbook this " \
+            "afternoon when he left his jacket hanging on the easel in the " \
+            "attic."), 'florence')) # doctest: +ELLIPSIS
+    ('florence', 0.077657073...)
+    """
+    best_fit = float("inf")
+    best_key = ''
+    sanitised_message = sanitise(message)
+    for trial_length in range(1, 20):
+        splits = every_nth(sanitised_message, trial_length)
+        key = ''.join([chr(caesar_break(s, target_counts=target_counts)[0] + ord('a')) for s in splits])
+        plaintext = beaufort_decipher(sanitised_message, key)
+        counts = message_frequency_scaling(frequencies(plaintext))
+        fit = metric(target_counts, counts)
+        logger.debug('Beaufort key length of {0} ({1}) gives fit of {2}'.
+                     format(trial_length, key, fit))
+        if fit < best_fit:
+            best_fit = fit
+            best_key = key
+    logger.info('Beaufort break best fit with key {0} gives fit '
+                'of {1} and decrypt starting: {2}'.format(best_key, 
+                    best_fit, sanitise(
+                        beaufort_decipher(message, best_key))[:50]))
+    return best_key, best_fit
+
+
+
+def plot_frequency_histogram(freqs, sort_key=None):
+    x = range(len(freqs.keys()))
+    y = [freqs[l] for l in sorted(freqs.keys(), key=sort_key)]
+    f = plt.figure()
+    ax = f.add_axes([0.1, 0.1, 0.9, 0.9])
+    ax.bar(x, y, align='center')
+    ax.set_xticks(x)
+    ax.set_xticklabels(sorted(freqs.keys(), key=sort_key))
+    f.show()
 
 
 if __name__ == "__main__":

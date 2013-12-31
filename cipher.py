@@ -80,6 +80,22 @@ def combine_every_nth(split_text):
     return ''.join([''.join(l) 
                     for l in zip_longest(*split_text, fillvalue='')])
 
+def chunks(text, n, fillvalue=None):
+    """Split a text into chunks of n characters
+
+    >>> chunks('abcdefghi', 3)
+    ['abc', 'def', 'ghi']
+    >>> chunks('abcdefghi', 4)
+    ['abcd', 'efgh', 'i']
+    >>> chunks('abcdefghi', 4, fillvalue='!')
+    ['abcd', 'efgh', 'i!!!']
+    """
+    if fillvalue:
+        padding = fillvalue[0] * (n - len(text) % n)
+    else:
+        padding = ''
+    return [(text+padding)[i:i+n] for i in range(0, len(text), n)]
+
 def transpose(items, transposition):
     """Moves items around according to the given transposition
     
@@ -110,11 +126,8 @@ def untranspose(items, transposition):
        transposed[t] = items[p]
     return transposed
 
-
-
 def deduplicate(text):
     return list(collections.OrderedDict.fromkeys(text))
-
 
 
 def caesar_encipher_letter(letter, shift):
@@ -394,7 +407,8 @@ def transpositions_of(keyword):
         transpositions = tuple(key.index(l) for l in sorted(key))
         return transpositions
 
-def column_transposition_encipher(message, keyword, fillvalue=' '):
+def column_transposition_encipher(message, keyword, fillvalue=' ', 
+      columnwise=False):
     """Enciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
 
@@ -402,11 +416,19 @@ def column_transposition_encipher(message, keyword, fillvalue=' '):
     'hleolteher'
     >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
     'hleolthre!e!'
+    >>> column_transposition_encipher('hellothere', 'clever', columnwise=True)
+    'htleehoelr'
     """
-    return column_transposition_worker(message, keyword, encipher=True, 
-                                       fillvalue=fillvalue)
+    transpositions = transpositions_of(keyword)
+    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
+    transposed_columns = transpose(columns, transpositions)
+    if columnwise:
+        return ''.join(transposed_columns)
+    else:
+        return combine_every_nth(transposed_columns)
 
-def column_transposition_decipher(message, keyword, fillvalue=' '):
+def column_transposition_decipher(message, keyword, fillvalue=' ', 
+      columnwise=False):
     """Deciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
 
@@ -414,29 +436,17 @@ def column_transposition_decipher(message, keyword, fillvalue=' '):
     'hellothere'
     >>> column_transposition_decipher('hleolthre!e!', 'cleverly', fillvalue='?')
     'hellothere!!'
-    """
-    return column_transposition_worker(message, keyword, encipher=False, 
-                                       fillvalue=fillvalue)
-
-def column_transposition_worker(message, keyword, 
-                                encipher=True, fillvalue=' '):
-    """Does the actual work of the column transposition cipher.
-    Message is padded with spaces to allow all rows to be the same length.
-
-    >>> column_transposition_worker('hellothere', 'clever')
-    'hleolteher'
-    >>> column_transposition_worker('hellothere', 'clever', encipher=True)
-    'hleolteher'
-    >>> column_transposition_worker('hleolteher', 'clever', encipher=False)
+    >>> column_transposition_decipher('htleehoelr', 'clever', columnwise=True)
     'hellothere'
     """
     transpositions = transpositions_of(keyword)
-    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
-    if encipher:
-        transposed_columns = transpose(columns, transpositions)
+    if columnwise:
+        columns = chunks(message, int(len(message) / len(transpositions)))
     else:
-        transposed_columns = untranspose(columns, transpositions)
-    return combine_every_nth(transposed_columns)
+        columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
+    untransposed_columns = untranspose(columns, transpositions)
+    return combine_every_nth(untransposed_columns)
+
 
 def vigenere_encipher(message, keyword):
     """Vigenere encipher
@@ -458,6 +468,8 @@ def vigenere_decipher(message, keyword):
     pairs = zip(message, cycle(shifts))
     return ''.join([caesar_decipher_letter(l, k) for l, k in pairs])
 
+beaufort_encipher=vigenere_decipher
+beaufort_decipher=vigenere_encipher
 
 
 if __name__ == "__main__":
