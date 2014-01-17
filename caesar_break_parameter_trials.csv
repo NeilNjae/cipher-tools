@@ -1,168 +1,148 @@
-l1, normalised_english_counts, normalise, 300, 0.9992
-l1, normalised_english_counts, normalise, 100, 0.9996
-l1, normalised_english_counts, normalise, 50, 0.9992
-l1, normalised_english_counts, normalise, 30, 0.9914
-l1, normalised_english_counts, normalise, 20, 0.9532
-l1, normalised_english_counts, normalise, 10, 0.7442
-l1, normalised_english_counts, normalise, 5, 0.4358
-l1, normalised_english_counts, scale, 300, 1.0
-l1, normalised_english_counts, scale, 100, 0.999
-l1, normalised_english_counts, scale, 50, 0.9988
-l1, normalised_english_counts, scale, 30, 0.9848
-l1, normalised_english_counts, scale, 20, 0.9316
-l1, normalised_english_counts, scale, 10, 0.715
-l1, normalised_english_counts, scale, 5, 0.436
-l1, scaled_english_counts, normalise, 300, 0.9994
-l1, scaled_english_counts, normalise, 100, 0.9998
-l1, scaled_english_counts, normalise, 50, 0.999
-l1, scaled_english_counts, normalise, 30, 0.9868
-l1, scaled_english_counts, normalise, 20, 0.9482
-l1, scaled_english_counts, normalise, 10, 0.7434
-l1, scaled_english_counts, normalise, 5, 0.4532
-l1, scaled_english_counts, scale, 300, 0.9996
-l1, scaled_english_counts, scale, 100, 1.0
-l1, scaled_english_counts, scale, 50, 0.9988
-l1, scaled_english_counts, scale, 30, 0.9874
-l1, scaled_english_counts, scale, 20, 0.9488
-l1, scaled_english_counts, scale, 10, 0.745
-l1, scaled_english_counts, scale, 5, 0.4548
-l2, normalised_english_counts, normalise, 300, 0.9994
-l2, normalised_english_counts, normalise, 100, 0.9992
-l2, normalised_english_counts, normalise, 50, 0.9978
-l2, normalised_english_counts, normalise, 30, 0.9836
-l2, normalised_english_counts, normalise, 20, 0.9318
-l2, normalised_english_counts, normalise, 10, 0.7072
-l2, normalised_english_counts, normalise, 5, 0.4294
-l2, normalised_english_counts, scale, 300, 0.9988
-l2, normalised_english_counts, scale, 100, 0.9998
-l2, normalised_english_counts, scale, 50, 0.9978
-l2, normalised_english_counts, scale, 30, 0.9868
-l2, normalised_english_counts, scale, 20, 0.9364
-l2, normalised_english_counts, scale, 10, 0.7136
-l2, normalised_english_counts, scale, 5, 0.446
-l2, scaled_english_counts, normalise, 300, 0.9992
-l2, scaled_english_counts, normalise, 100, 0.9996
-l2, scaled_english_counts, normalise, 50, 0.9984
-l2, scaled_english_counts, normalise, 30, 0.9854
-l2, scaled_english_counts, normalise, 20, 0.9328
-l2, scaled_english_counts, normalise, 10, 0.7122
-l2, scaled_english_counts, normalise, 5, 0.4328
-l2, scaled_english_counts, scale, 300, 1.0
-l2, scaled_english_counts, scale, 100, 0.9998
-l2, scaled_english_counts, scale, 50, 0.9972
-l2, scaled_english_counts, scale, 30, 0.9842
-l2, scaled_english_counts, scale, 20, 0.9356
-l2, scaled_english_counts, scale, 10, 0.7126
-l2, scaled_english_counts, scale, 5, 0.4318
-l3, normalised_english_counts, normalise, 300, 0.9996
-l3, normalised_english_counts, normalise, 100, 0.999
-l3, normalised_english_counts, normalise, 50, 0.994
-l3, normalised_english_counts, normalise, 30, 0.9658
-l3, normalised_english_counts, normalise, 20, 0.8926
-l3, normalised_english_counts, normalise, 10, 0.6252
-l3, normalised_english_counts, normalise, 5, 0.3974
-l3, normalised_english_counts, scale, 300, 0.9996
-l3, normalised_english_counts, scale, 100, 0.998
-l3, normalised_english_counts, scale, 50, 0.9828
-l3, normalised_english_counts, scale, 30, 0.9334
-l3, normalised_english_counts, scale, 20, 0.8304
-l3, normalised_english_counts, scale, 10, 0.5968
-l3, normalised_english_counts, scale, 5, 0.4114
-l3, scaled_english_counts, normalise, 300, 0.9994
-l3, scaled_english_counts, normalise, 100, 0.9984
-l3, scaled_english_counts, normalise, 50, 0.9876
-l3, scaled_english_counts, normalise, 30, 0.9284
-l3, scaled_english_counts, normalise, 20, 0.8322
-l3, scaled_english_counts, normalise, 10, 0.579
-l3, scaled_english_counts, normalise, 5, 0.3466
-l3, scaled_english_counts, scale, 300, 1.0
-l3, scaled_english_counts, scale, 100, 0.999
-l3, scaled_english_counts, scale, 50, 0.994
-l3, scaled_english_counts, scale, 30, 0.9688
-l3, scaled_english_counts, scale, 20, 0.8952
-l3, scaled_english_counts, scale, 10, 0.6416
-l3, scaled_english_counts, scale, 5, 0.4042
-cosine_distance, normalised_english_counts, normalise, 300, 0.9994
-cosine_distance, normalised_english_counts, normalise, 100, 1.0
-cosine_distance, normalised_english_counts, normalise, 50, 0.9978
-cosine_distance, normalised_english_counts, normalise, 30, 0.9856
-cosine_distance, normalised_english_counts, normalise, 20, 0.9374
-cosine_distance, normalised_english_counts, normalise, 10, 0.7212
-cosine_distance, normalised_english_counts, normalise, 5, 0.4282
-cosine_distance, normalised_english_counts, scale, 300, 0.9998
-cosine_distance, normalised_english_counts, scale, 100, 0.9994
-cosine_distance, normalised_english_counts, scale, 50, 0.9972
-cosine_distance, normalised_english_counts, scale, 30, 0.9846
-cosine_distance, normalised_english_counts, scale, 20, 0.9324
-cosine_distance, normalised_english_counts, scale, 10, 0.7144
-cosine_distance, normalised_english_counts, scale, 5, 0.4284
-cosine_distance, scaled_english_counts, normalise, 300, 0.9994
-cosine_distance, scaled_english_counts, normalise, 100, 0.9996
-cosine_distance, scaled_english_counts, normalise, 50, 0.9978
-cosine_distance, scaled_english_counts, normalise, 30, 0.9856
-cosine_distance, scaled_english_counts, normalise, 20, 0.935
-cosine_distance, scaled_english_counts, normalise, 10, 0.7232
-cosine_distance, scaled_english_counts, normalise, 5, 0.415
-cosine_distance, scaled_english_counts, scale, 300, 0.9982
-cosine_distance, scaled_english_counts, scale, 100, 0.9988
-cosine_distance, scaled_english_counts, scale, 50, 0.9976
-cosine_distance, scaled_english_counts, scale, 30, 0.9844
-cosine_distance, scaled_english_counts, scale, 20, 0.9314
-cosine_distance, scaled_english_counts, scale, 10, 0.7102
-cosine_distance, scaled_english_counts, scale, 5, 0.4376
-harmonic_mean, normalised_english_counts, normalise, 300, 0.4684
-harmonic_mean, normalised_english_counts, normalise, 100, 0.5068
-harmonic_mean, normalised_english_counts, normalise, 50, 0.6978
-harmonic_mean, normalised_english_counts, normalise, 30, 0.593
-harmonic_mean, normalised_english_counts, normalise, 20, 0.536
-harmonic_mean, normalised_english_counts, normalise, 10, 0.4284
-harmonic_mean, normalised_english_counts, normalise, 5, 0.3542
-harmonic_mean, normalised_english_counts, scale, 300, 0.3602
-harmonic_mean, normalised_english_counts, scale, 100, 0.57
-harmonic_mean, normalised_english_counts, scale, 50, 0.795
-harmonic_mean, normalised_english_counts, scale, 30, 0.7694
-harmonic_mean, normalised_english_counts, scale, 20, 0.6924
-harmonic_mean, normalised_english_counts, scale, 10, 0.559
-harmonic_mean, normalised_english_counts, scale, 5, 0.39
-harmonic_mean, scaled_english_counts, normalise, 300, 0.1214
-harmonic_mean, scaled_english_counts, normalise, 100, 0.132
-harmonic_mean, scaled_english_counts, normalise, 50, 0.1956
-harmonic_mean, scaled_english_counts, normalise, 30, 0.2686
-harmonic_mean, scaled_english_counts, normalise, 20, 0.258
-harmonic_mean, scaled_english_counts, normalise, 10, 0.2042
-harmonic_mean, scaled_english_counts, normalise, 5, 0.227
-harmonic_mean, scaled_english_counts, scale, 300, 0.7956
-harmonic_mean, scaled_english_counts, scale, 100, 0.5672
-harmonic_mean, scaled_english_counts, scale, 50, 0.4404
-harmonic_mean, scaled_english_counts, scale, 30, 0.3584
-harmonic_mean, scaled_english_counts, scale, 20, 0.3012
-harmonic_mean, scaled_english_counts, scale, 10, 0.2136
-harmonic_mean, scaled_english_counts, scale, 5, 0.1426
-geometric_mean, normalised_english_counts, normalise, 300, 0.9996
-geometric_mean, normalised_english_counts, normalise, 100, 0.9992
-geometric_mean, normalised_english_counts, normalise, 50, 0.9928
-geometric_mean, normalised_english_counts, normalise, 30, 0.9552
-geometric_mean, normalised_english_counts, normalise, 20, 0.8936
-geometric_mean, normalised_english_counts, normalise, 10, 0.6582
-geometric_mean, normalised_english_counts, normalise, 5, 0.4316
-geometric_mean, normalised_english_counts, scale, 300, 0.97
-geometric_mean, normalised_english_counts, scale, 100, 0.9762
-geometric_mean, normalised_english_counts, scale, 50, 0.9724
-geometric_mean, normalised_english_counts, scale, 30, 0.9224
-geometric_mean, normalised_english_counts, scale, 20, 0.8496
-geometric_mean, normalised_english_counts, scale, 10, 0.6846
-geometric_mean, normalised_english_counts, scale, 5, 0.4268
-geometric_mean, scaled_english_counts, normalise, 300, 0.9556
-geometric_mean, scaled_english_counts, normalise, 100, 0.8724
-geometric_mean, scaled_english_counts, normalise, 50, 0.7176
-geometric_mean, scaled_english_counts, normalise, 30, 0.6536
-geometric_mean, scaled_english_counts, normalise, 20, 0.5586
-geometric_mean, scaled_english_counts, normalise, 10, 0.3926
-geometric_mean, scaled_english_counts, normalise, 5, 0.319
-geometric_mean, scaled_english_counts, scale, 300, 0.7822
-geometric_mean, scaled_english_counts, scale, 100, 0.5784
-geometric_mean, scaled_english_counts, scale, 50, 0.4318
-geometric_mean, scaled_english_counts, scale, 30, 0.349
-geometric_mean, scaled_english_counts, scale, 20, 0.2932
-geometric_mean, scaled_english_counts, scale, 10, 0.2098
-geometric_mean, scaled_english_counts, scale, 5, 0.1406
+metric,scaling,message_length,score
+l1, normalised, 300, 0.9996
+l1, normalised, 100, 1.0
+l1, normalised, 50, 0.9988
+l1, normalised, 30, 0.99
+l1, normalised, 20, 0.952
+l1, normalised, 10, 0.7144
+l1, normalised, 5, 0.4368
+l1, euclidean_scaled, 300, 0.999
+l1, euclidean_scaled, 100, 0.9994
+l1, euclidean_scaled, 50, 0.9984
+l1, euclidean_scaled, 30, 0.9912
+l1, euclidean_scaled, 20, 0.9526
+l1, euclidean_scaled, 10, 0.7478
+l1, euclidean_scaled, 5, 0.439
+l1, normalised_with_identity, 300, 0.9652
+l1, normalised_with_identity, 100, 0.9898
+l1, normalised_with_identity, 50, 0.9862
+l1, normalised_with_identity, 30, 0.9622
+l1, normalised_with_identity, 20, 0.9084
+l1, normalised_with_identity, 10, 0.7134
+l1, normalised_with_identity, 5, 0.4376
+l2, normalised, 300, 0.9994
+l2, normalised, 100, 0.9994
+l2, normalised, 50, 0.999
+l2, normalised, 30, 0.9808
+l2, normalised, 20, 0.9364
+l2, normalised, 10, 0.7062
+l2, normalised, 5, 0.4304
+l2, euclidean_scaled, 300, 0.9994
+l2, euclidean_scaled, 100, 0.9996
+l2, euclidean_scaled, 50, 0.9978
+l2, euclidean_scaled, 30, 0.9842
+l2, euclidean_scaled, 20, 0.9372
+l2, euclidean_scaled, 10, 0.7214
+l2, euclidean_scaled, 5, 0.4402
+l2, normalised_with_identity, 300, 0.9992
+l2, normalised_with_identity, 100, 0.9992
+l2, normalised_with_identity, 50, 0.9966
+l2, normalised_with_identity, 30, 0.9848
+l2, normalised_with_identity, 20, 0.9346
+l2, normalised_with_identity, 10, 0.719
+l2, normalised_with_identity, 5, 0.428
+l2, normalised, 300, 0.9994
+l2, normalised, 100, 0.9994
+l2, normalised, 50, 0.9928
+l2, normalised, 30, 0.9554
+l2, normalised, 20, 0.8642
+l2, normalised, 10, 0.5982
+l2, normalised, 5, 0.3996
+l2, euclidean_scaled, 300, 0.9998
+l2, euclidean_scaled, 100, 0.9998
+l2, euclidean_scaled, 50, 0.994
+l2, euclidean_scaled, 30, 0.9692
+l2, euclidean_scaled, 20, 0.8902
+l2, euclidean_scaled, 10, 0.6312
+l2, euclidean_scaled, 5, 0.3964
+l2, normalised_with_identity, 300, 0.9996
+l2, normalised_with_identity, 100, 0.9976
+l2, normalised_with_identity, 50, 0.9702
+l2, normalised_with_identity, 30, 0.8988
+l2, normalised_with_identity, 20, 0.7732
+l2, normalised_with_identity, 10, 0.5536
+l2, normalised_with_identity, 5, 0.3958
+cosine_distance, normalised, 300, 1.0
+cosine_distance, normalised, 100, 0.9992
+cosine_distance, normalised, 50, 0.9978
+cosine_distance, normalised, 30, 0.9862
+cosine_distance, normalised, 20, 0.938
+cosine_distance, normalised, 10, 0.7216
+cosine_distance, normalised, 5, 0.4358
+cosine_distance, euclidean_scaled, 300, 1.0
+cosine_distance, euclidean_scaled, 100, 0.9996
+cosine_distance, euclidean_scaled, 50, 0.9986
+cosine_distance, euclidean_scaled, 30, 0.9856
+cosine_distance, euclidean_scaled, 20, 0.9348
+cosine_distance, euclidean_scaled, 10, 0.7036
+cosine_distance, euclidean_scaled, 5, 0.4402
+cosine_distance, normalised_with_identity, 300, 0.999
+cosine_distance, normalised_with_identity, 100, 0.9994
+cosine_distance, normalised_with_identity, 50, 0.9984
+cosine_distance, normalised_with_identity, 30, 0.9844
+cosine_distance, normalised_with_identity, 20, 0.9376
+cosine_distance, normalised_with_identity, 10, 0.7184
+cosine_distance, normalised_with_identity, 5, 0.442
+harminic_mean, normalised, 300, 0.8082
+harminic_mean, normalised, 100, 0.8386
+harminic_mean, normalised, 50, 0.7576
+harminic_mean, normalised, 30, 0.2696
+harminic_mean, normalised, 20, 0.8576
+harminic_mean, normalised, 10, 0.6748
+harminic_mean, normalised, 5, 0.4498
+harminic_mean, euclidean_scaled, 300, 0.4754
+harminic_mean, euclidean_scaled, 100, 0.5136
+harminic_mean, euclidean_scaled, 50, 0.6756
+harminic_mean, euclidean_scaled, 30, 0.596
+harminic_mean, euclidean_scaled, 20, 0.538
+harminic_mean, euclidean_scaled, 10, 0.4296
+harminic_mean, euclidean_scaled, 5, 0.357
+harminic_mean, normalised_with_identity, 300, 0.9544
+harminic_mean, normalised_with_identity, 100, 0.9738
+harminic_mean, normalised_with_identity, 50, 0.952
+harminic_mean, normalised_with_identity, 30, 0.9252
+harminic_mean, normalised_with_identity, 20, 0.8956
+harminic_mean, normalised_with_identity, 10, 0.747
+harminic_mean, normalised_with_identity, 5, 0.4582
+geometric_mean, normalised, 300, 0.9996
+geometric_mean, normalised, 100, 0.9996
+geometric_mean, normalised, 50, 0.989
+geometric_mean, normalised, 30, 0.9218
+geometric_mean, normalised, 20, 0.9434
+geometric_mean, normalised, 10, 0.7138
+geometric_mean, normalised, 5, 0.4626
+geometric_mean, euclidean_scaled, 300, 0.9998
+geometric_mean, euclidean_scaled, 100, 0.9986
+geometric_mean, euclidean_scaled, 50, 0.993
+geometric_mean, euclidean_scaled, 30, 0.9538
+geometric_mean, euclidean_scaled, 20, 0.8868
+geometric_mean, euclidean_scaled, 10, 0.6452
+geometric_mean, euclidean_scaled, 5, 0.4466
+geometric_mean, normalised_with_identity, 300, 0.9416
+geometric_mean, normalised_with_identity, 100, 0.9894
+geometric_mean, normalised_with_identity, 50, 0.9854
+geometric_mean, normalised_with_identity, 30, 0.9758
+geometric_mean, normalised_with_identity, 20, 0.9336
+geometric_mean, normalised_with_identity, 10, 0.7704
+geometric_mean, normalised_with_identity, 5, 0.4742
+inverse_log_pl, normalised, 300, 0.9994
+inverse_log_pl, normalised, 100, 0.9992
+inverse_log_pl, normalised, 50, 0.9998
+inverse_log_pl, normalised, 30, 0.9974
+inverse_log_pl, normalised, 20, 0.9804
+inverse_log_pl, normalised, 10, 0.8164
+inverse_log_pl, normalised, 5, 0.4832
+inverse_log_pl, euclidean_scaled, 300, 0.9996
+inverse_log_pl, euclidean_scaled, 100, 0.9994
+inverse_log_pl, euclidean_scaled, 50, 0.9998
+inverse_log_pl, euclidean_scaled, 30, 0.9968
+inverse_log_pl, euclidean_scaled, 20, 0.98
+inverse_log_pl, euclidean_scaled, 10, 0.8116
+inverse_log_pl, euclidean_scaled, 5, 0.4824
+inverse_log_pl, normalised_with_identity, 300, 0.9994
+inverse_log_pl, normalised_with_identity, 100, 0.9996
+inverse_log_pl, normalised_with_identity, 50, 0.9994
+inverse_log_pl, normalised_with_identity, 30, 0.996
+inverse_log_pl, normalised_with_identity, 20, 0.9796
+inverse_log_pl, normalised_with_identity, 10, 0.8148
+inverse_log_pl, normalised_with_identity, 5, 0.477

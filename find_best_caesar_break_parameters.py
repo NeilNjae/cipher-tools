@@ -1,31 +1,49 @@
 import random
+import collections
 from cipher import *
+from cipherbreak import *
 
+print('Loading...')
 
-corpus = sanitise(''.join([open('shakespeare.txt', 'r').read(), open('sherlock-holmes.txt', 'r').read(), open('war-and-peace.txt', 'r').read()]))
+corpus = sanitise(''.join([open('shakespeare.txt', 'r').read(), 
+    open('sherlock-holmes.txt', 'r').read(), 
+    open('war-and-peace.txt', 'r').read()]))
 corpus_length = len(corpus)
 
-scaled_english_counts = norms.scale(english_counts)
+euclidean_scaled_english_counts = norms.euclidean_scale(english_counts)
 
-
-metrics = [norms.l1, norms.l2, norms.l3, norms.cosine_distance, norms.harmonic_mean, norms.geometric_mean]
-corpus_frequencies = [normalised_english_counts, scaled_english_counts]
-scalings = [norms.normalise, norms.scale]
+metrics = [{'func': norms.l1, 'name': 'l1'}, 
+    {'func': norms.l2, 'name': 'l2'},
+    {'func': norms.l3, 'name': 'l2'},
+    {'func': norms.cosine_distance, 'name': 'cosine_distance'},
+    {'func': norms.harmonic_mean, 'name': 'harminic_mean'},
+    {'func': norms.geometric_mean, 'name': 'geometric_mean'},
+    {'func': norms.inverse_log_pl, 'name': 'inverse_log_pl'}]
+scalings = [{'corpus_frequency': normalised_english_counts, 
+         'scaling': norms.normalise,
+         'name': 'normalised'},
+        {'corpus_frequency': euclidean_scaled_english_counts, 
+         'scaling': norms.euclidean_scale,
+         'name': 'euclidean_scaled'},
+         {'corpus_frequency': normalised_english_counts,
+         'scaling': norms.identity_scale,
+         'name': 'normalised_with_identity'}]
 message_lengths = [300, 100, 50, 30, 20, 10, 5]
-
-metric_names = ['l1', 'l2', 'l3', 'cosine_distance', 'harmonic_mean', 'geometric_mean']
-corpus_frequency_names = ['normalised_english_counts', 'scaled_english_counts']
-scaling_names = ['normalise', 'scale']
 
 trials = 5000
 
-scores = collections.defaultdict(int)
-for metric in range(len(metrics)):
-    scores[metric_names[metric]] = collections.defaultdict(int)
-    for corpus_freqency in range(len(corpus_frequencies)):
-        scores[metric_names[metric]][corpus_frequency_names[corpus_freqency]] = collections.defaultdict(int)
-        for scaling in range(len(scalings)):
-            scores[metric_names[metric]][corpus_frequency_names[corpus_freqency]][scaling_names[scaling]] = collections.defaultdict(int)
+# rebuild with itertools.product and itertools.starmap
+# e.g. results = starmap(one_trial, product(metrics, scalings, message_lengths))
+# ... which would then be easy parallelise.
+
+print('Starting:', end='', flush=True)
+with open('caesar_break_parameter_trials.csv', 'w') as f:
+    print('metric,scaling,message_length,score', file = f)
+    scores = collections.defaultdict(int)
+    for metric in metrics:
+        scores[metric['name']] = collections.defaultdict(int)
+        for scaling in scalings:
+            scores[metric['name']][scaling['name']] = collections.defaultdict(int)
             for message_length in message_lengths:
                 for i in range(trials):
                     sample_start = random.randint(0, corpus_length - message_length)
@@ -33,28 +51,15 @@ for metric in range(len(metrics)):
                     key = random.randint(1, 25)
                     sample_ciphertext = caesar_encipher(sample, key)
                     (found_key, score) = caesar_break(sample_ciphertext, 
-                                                      metric=metrics[metric], 
-                                                      target_frequencies=corpus_frequencies[corpus_freqency], 
-                                                      message_frequency_scaling=scalings[scaling])
+                                                      metric=metric['func'], 
+                                                      target_counts=scaling['corpus_frequency'], 
+                                                      message_frequency_scaling=scaling['scaling'])
                     if found_key == key:
-                        scores[metric_names[metric]][corpus_frequency_names[corpus_freqency]][scaling_names[scaling]][message_length] += 1 
-                print(', '.join([metric_names[metric], 
-                                 corpus_frequency_names[corpus_freqency], 
-                                 scaling_names[scaling], 
+                        scores[metric['name']][scaling['name']][message_length] += 1 
+                print('.', end='', flush=True)
+                print(', '.join([metric['name'], 
+                                 scaling['name'], 
                                  str(message_length), 
-                                 str(scores[metric_names[metric]][corpus_frequency_names[corpus_freqency]][scaling_names[scaling]][message_length] / trials) ]))
-
-
-with open('caesar_break_parameter_trials.csv', 'w') as f:
-    for metric in range(len(metrics)):
-        for corpus_freqency in range(len(corpus_frequencies)):
-            for scaling in range(len(scalings)):
-                for message_length in message_lengths:
-                    print(', '.join([metric_names[metric], 
-                                     corpus_frequency_names[corpus_freqency], 
-                                     scaling_names[scaling], 
-                                     str(message_length), 
-                                     str(scores[metric_names[metric]][corpus_frequency_names[corpus_freqency]][scaling_names[scaling]][message_length] / trials) ]), 
-                          file=f)
-                      
-                            
+                                 str(scores[metric['name']][scaling['name']][message_length] / trials) ]),
+                    file = f)
+print()

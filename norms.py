@@ -1,4 +1,5 @@
 import collections
+from math import log10
 
 def normalise(frequencies):
     """Scale a set of frequencies so they sum to one
@@ -32,23 +33,9 @@ def euclidean_scale(frequencies):
     return collections.defaultdict(int, ((k, v / length) 
         for (k, v) in frequencies.items()))
 
-
-def scale(frequencies):
-    """Scale a set of frequencies so the largest is 1
-    
-    >>> sorted(scale({1: 1, 2: 0}).items())
-    [(1, 1.0), (2, 0.0)]
-    >>> sorted(scale({1: 1, 2: 1}).items())
-    [(1, 1.0), (2, 1.0)]
-    >>> sorted(scale({1: 1, 2: 1, 3: 1}).items())
-    [(1, 1.0), (2, 1.0), (3, 1.0)]
-    >>> sorted(scale({1: 1, 2: 2, 3: 1}).items())
-    [(1, 0.5), (2, 1.0), (3, 0.5)]
-    """
-    largest = max(frequencies.values())
-    return collections.defaultdict(int, ((k, v / largest) 
-        for (k, v) in frequencies.items()))
-    
+def identity_scale(frequencies):
+    return frequencies
+        
 
 def l2(frequencies1, frequencies2):
     """Finds the distances between two frequency profiles, expressed as dictionaries.
@@ -194,6 +181,14 @@ def cosine_distance(frequencies1, frequencies2):
     for k in frequencies2.keys():
         length2 += frequencies2[k]
     return 1 - (numerator / (length1 ** 0.5 * length2 ** 0.5))
+
+
+def log_pl(frequencies1, frequencies2):
+    return sum([frequencies2[l] * log10(frequencies1[l])  for l in frequencies1.keys()])
+
+def inverse_log_pl(frequencies1, frequencies2):
+    return -log_pl(frequencies1, frequencies2)
+
 
 
 def index_of_coincidence(frequencies):
