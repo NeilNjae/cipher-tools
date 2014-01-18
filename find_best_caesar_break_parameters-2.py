@@ -4,8 +4,6 @@ from cipher import *
 from cipherbreak import *
 import itertools
 
-print('Loading...')
-
 corpus = sanitise(''.join([open('shakespeare.txt', 'r').read(), 
     open('sherlock-holmes.txt', 'r').read(), 
     open('war-and-peace.txt', 'r').read()]))
@@ -17,7 +15,7 @@ metrics = [{'func': norms.l1, 'name': 'l1'},
     {'func': norms.l2, 'name': 'l2'},
     {'func': norms.l3, 'name': 'l2'},
     {'func': norms.cosine_distance, 'name': 'cosine_distance'},
-    {'func': norms.harmonic_mean, 'name': 'harminic_mean'},
+    {'func': norms.harmonic_mean, 'name': 'harmonic_mean'},
     {'func': norms.geometric_mean, 'name': 'geometric_mean'},
     {'func': norms.inverse_log_pl, 'name': 'inverse_log_pl'}]
 scalings = [{'corpus_frequency': normalised_english_counts, 
@@ -55,8 +53,9 @@ def eval_one_parameter_set(metric, scaling, message_length):
 
 def show_results():
     with open('caesar_break_parameter_trials.csv', 'w') as f:
+        print('metric,scaling,message_length,score', file = f)
         for (k, v) in scores.items():
-            print(str(k)[1:-1], v, sep=",", file=f)
+            print(str(k)[1:-1], v / trials, sep=",", file=f)
 
 eval_all()
 show_results()

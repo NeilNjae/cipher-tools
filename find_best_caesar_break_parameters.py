@@ -3,8 +3,6 @@ import collections
 from cipher import *
 from cipherbreak import *
 
-print('Loading...')
-
 corpus = sanitise(''.join([open('shakespeare.txt', 'r').read(), 
     open('sherlock-holmes.txt', 'r').read(), 
     open('war-and-peace.txt', 'r').read()]))
@@ -16,7 +14,7 @@ metrics = [{'func': norms.l1, 'name': 'l1'},
     {'func': norms.l2, 'name': 'l2'},
     {'func': norms.l3, 'name': 'l2'},
     {'func': norms.cosine_distance, 'name': 'cosine_distance'},
-    {'func': norms.harmonic_mean, 'name': 'harminic_mean'},
+    {'func': norms.harmonic_mean, 'name': 'harmonic_mean'},
     {'func': norms.geometric_mean, 'name': 'geometric_mean'},
     {'func': norms.inverse_log_pl, 'name': 'inverse_log_pl'}]
 scalings = [{'corpus_frequency': normalised_english_counts, 
@@ -32,18 +30,12 @@ message_lengths = [300, 100, 50, 30, 20, 10, 5]
 
 trials = 5000
 
-# rebuild with itertools.product and itertools.starmap
-# e.g. results = starmap(one_trial, product(metrics, scalings, message_lengths))
-# ... which would then be easy parallelise.
+scores = collections.defaultdict(int)
 
-print('Starting:', end='', flush=True)
 with open('caesar_break_parameter_trials.csv', 'w') as f:
     print('metric,scaling,message_length,score', file = f)
-    scores = collections.defaultdict(int)
     for metric in metrics:
-        scores[metric['name']] = collections.defaultdict(int)
         for scaling in scalings:
-            scores[metric['name']][scaling['name']] = collections.defaultdict(int)
             for message_length in message_lengths:
                 for i in range(trials):
                     sample_start = random.randint(0, corpus_length - message_length)
@@ -55,11 +47,10 @@ with open('caesar_break_parameter_trials.csv', 'w') as f:
                                                       target_counts=scaling['corpus_frequency'], 
                                                       message_frequency_scaling=scaling['scaling'])
                     if found_key == key:
-                        scores[metric['name']][scaling['name']][message_length] += 1 
-                print('.', end='', flush=True)
+                        scores[(metric['name'], scaling['name'], message_length)] += 1 
                 print(', '.join([metric['name'], 
                                  scaling['name'], 
                                  str(message_length), 
-                                 str(scores[metric['name']][scaling['name']][message_length] / trials) ]),
+                                 str(scores[(metric['name'], scaling['name'], message_length)] / trials) ]),
                     file = f)
 print()
