@@ -2,6 +2,7 @@ import random
 import collections
 from cipher import *
 from cipherbreak import *
+import itertools
 
 corpus = sanitise(''.join([open('shakespeare.txt', 'r').read(), 
     open('sherlock-holmes.txt', 'r').read(), 
@@ -32,25 +33,33 @@ trials = 5000
 
 scores = collections.defaultdict(int)
 
-with open('caesar_break_parameter_trials.csv', 'w') as f:
-    print('metric,scaling,message_length,score', file = f)
-    for metric in metrics:
-        for scaling in scalings:
-            for message_length in message_lengths:
-                for i in range(trials):
-                    sample_start = random.randint(0, corpus_length - message_length)
-                    sample = corpus[sample_start:(sample_start + message_length)]
-                    key = random.randint(1, 25)
-                    sample_ciphertext = caesar_encipher(sample, key)
-                    (found_key, score) = caesar_break(sample_ciphertext, 
-                                                      metric=metric['func'], 
-                                                      target_counts=scaling['corpus_frequency'], 
-                                                      message_frequency_scaling=scaling['scaling'])
-                    if found_key == key:
-                        scores[(metric['name'], scaling['name'], message_length)] += 1 
-                print(', '.join([metric['name'], 
-                                 scaling['name'], 
-                                 str(message_length), 
-                                 str(scores[(metric['name'], scaling['name'], message_length)] / trials) ]),
-                    file = f)
-print()
+def eval_all():
+    list(itertools.starmap(eval_one_parameter_set,
+        itertools.product(metrics, scalings, message_lengths)))
+
+def eval_one_parameter_set(metric, scaling, message_length):
+    for i in range(trials):
+        sample_start = random.randint(0, corpus_length - message_length)
+        sample = corpus[sample_start:(sample_start + message_length)]
+        key = random.randint(1, 25)
+        sample_ciphertext = caesar_encipher(sample, key)
+        (found_key, score) = caesar_break(sample_ciphertext, 
+                                          metric=metric['func'], 
+                                          target_counts=scaling['corpus_frequency'], 
+                                          message_frequency_scaling=scaling['scaling'])
+        if found_key == key:
+            scores[(metric['name'], scaling['name'], message_length)] += 1 
+    return scores[(metric['name'], scaling['name'], message_length)]
+
+def show_results():
+    with open('caesar_break_parameter_trials.csv', 'w') as f:
+        print(',message_length', file = f)
+        print('metric+scaling,', ','.join([str(l) for l in message_lengths]), file = f)
+        for (metric, scaling) in itertools.product(metrics, scalings):
+            print('{}:{}'.format(metric['name'], scaling['name']), end='', file=f)
+            for l in message_lengths:
+                print(',', scores[(metric['name'], scaling['name'], l)] / trials, end='', file=f)
+            print('', file = f)
+
+eval_all()
+show_results()
