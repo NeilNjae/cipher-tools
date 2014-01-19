@@ -1,127 +1,23 @@
-metric,scaling,message_length,score
-'l2', 'normalised_with_identity', 50,1.969
-'l2', 'euclidean_scaled', 10,1.3528
-'l2', 'euclidean_scaled', 100,1.998
-'inverse_log_pl', 'normalised_with_identity', 100,0.9994
-'l1', 'normalised', 100,1.0
-'inverse_log_pl', 'normalised', 20,0.9814
-'l2', 'normalised_with_identity', 20,1.7306
-'l2', 'euclidean_scaled', 300,1.9984
-'cosine_distance', 'normalised', 5,0.4382
-'l2', 'normalised', 5,0.8352
-'l1', 'normalised', 300,0.9998
-'cosine_distance', 'normalised', 50,0.9968
-'inverse_log_pl', 'normalised', 5,0.4866
-'harmonic_mean', 'normalised', 5,0.4616
-'l2', 'normalised_with_identity', 10,1.2578
-'geometric_mean', 'normalised', 10,0.726
-'harmonic_mean', 'normalised_with_identity', 10,0.7482
-'harmonic_mean', 'euclidean_scaled', 50,0.6858
-'inverse_log_pl', 'normalised', 10,0.813
-'l1', 'normalised_with_identity', 5,0.4436
-'inverse_log_pl', 'euclidean_scaled', 50,0.9996
-'inverse_log_pl', 'normalised', 50,0.9992
-'l1', 'euclidean_scaled', 20,0.9532
-'geometric_mean', 'normalised_with_identity', 10,0.7706
-'l2', 'normalised', 300,1.9992
-'l1', 'normalised', 5,0.4384
-'cosine_distance', 'normalised_with_identity', 5,0.4398
-'l1', 'normalised_with_identity', 300,0.9578
-'inverse_log_pl', 'normalised_with_identity', 20,0.9826
-'inverse_log_pl', 'euclidean_scaled', 20,0.9786
-'harmonic_mean', 'normalised', 100,0.8316
-'l2', 'normalised', 10,1.2958
-'geometric_mean', 'normalised_with_identity', 5,0.464
-'l1', 'normalised_with_identity', 30,0.9562
-'cosine_distance', 'normalised', 20,0.9338
-'l1', 'normalised_with_identity', 10,0.7094
-'harmonic_mean', 'normalised_with_identity', 5,0.4542
-'geometric_mean', 'euclidean_scaled', 100,0.9992
-'inverse_log_pl', 'normalised', 30,0.995
-'l1', 'normalised', 30,0.9916
-'l2', 'normalised_with_identity', 300,1.9984
-'l2', 'euclidean_scaled', 30,1.9528
-'geometric_mean', 'euclidean_scaled', 50,0.9938
-'cosine_distance', 'euclidean_scaled', 10,0.7118
-'harmonic_mean', 'normalised', 50,0.7522
-'l1', 'normalised_with_identity', 50,0.9884
-'inverse_log_pl', 'normalised_with_identity', 30,0.9964
-'harmonic_mean', 'normalised', 30,0.2622
-'geometric_mean', 'normalised', 300,0.9986
-'inverse_log_pl', 'normalised_with_identity', 50,0.9994
-'inverse_log_pl', 'euclidean_scaled', 100,0.9998
-'cosine_distance', 'normalised', 10,0.7008
-'harmonic_mean', 'euclidean_scaled', 20,0.5326
-'l1', 'euclidean_scaled', 30,0.9896
-'inverse_log_pl', 'euclidean_scaled', 300,0.9994
-'inverse_log_pl', 'normalised_with_identity', 10,0.8118
-'geometric_mean', 'normalised', 50,0.9902
-'l1', 'euclidean_scaled', 50,0.9984
-'l2', 'normalised_with_identity', 5,0.8336
-'geometric_mean', 'normalised', 5,0.4578
-'l2', 'normalised', 50,1.9936
-'harmonic_mean', 'normalised_with_identity', 50,0.9532
-'cosine_distance', 'euclidean_scaled', 5,0.4254
-'geometric_mean', 'normalised', 20,0.9404
-'cosine_distance', 'normalised_with_identity', 10,0.7152
-'geometric_mean', 'normalised_with_identity', 30,0.9718
-'cosine_distance', 'euclidean_scaled', 30,0.9826
-'harmonic_mean', 'normalised_with_identity', 20,0.8938
-'l2', 'euclidean_scaled', 50,1.9918
-'l2', 'euclidean_scaled', 5,0.8332
-'harmonic_mean', 'normalised', 20,0.86
-'l1', 'normalised_with_identity', 20,0.9032
-'cosine_distance', 'normalised_with_identity', 300,0.9994
-'inverse_log_pl', 'normalised', 300,0.9996
-'l1', 'euclidean_scaled', 5,0.4422
-'harmonic_mean', 'euclidean_scaled', 30,0.5952
-'cosine_distance', 'normalised_with_identity', 100,0.999
-'l1', 'normalised', 20,0.9504
-'inverse_log_pl', 'euclidean_scaled', 10,0.8132
-'l2', 'normalised_with_identity', 30,1.8724
-'inverse_log_pl', 'normalised_with_identity', 5,0.4792
-'l2', 'normalised', 20,1.811
-'geometric_mean', 'normalised', 30,0.9208
-'cosine_distance', 'normalised_with_identity', 20,0.9368
-'cosine_distance', 'normalised', 100,0.9994
-'geometric_mean', 'normalised_with_identity', 20,0.9394
-'harmonic_mean', 'normalised_with_identity', 30,0.9188
-'geometric_mean', 'euclidean_scaled', 30,0.9554
-'geometric_mean', 'normalised_with_identity', 50,0.989
-'l2', 'normalised', 100,1.9992
-'cosine_distance', 'euclidean_scaled', 50,0.998
-'inverse_log_pl', 'normalised_with_identity', 300,0.9998
-'harmonic_mean', 'normalised_with_identity', 300,0.9526
-'inverse_log_pl', 'normalised', 100,0.9998
-'l1', 'normalised_with_identity', 100,0.9934
-'cosine_distance', 'normalised', 30,0.9816
-'harmonic_mean', 'normalised', 300,0.815
-'l1', 'normalised', 50,0.9986
-'cosine_distance', 'normalised', 300,0.9994
-'cosine_distance', 'euclidean_scaled', 20,0.9322
-'inverse_log_pl', 'euclidean_scaled', 5,0.4754
-'cosine_distance', 'normalised_with_identity', 30,0.9832
-'l2', 'euclidean_scaled', 20,1.8416
-'cosine_distance', 'normalised_with_identity', 50,0.9982
-'harmonic_mean', 'normalised', 10,0.6732
-'cosine_distance', 'euclidean_scaled', 100,0.9996
-'geometric_mean', 'normalised_with_identity', 100,0.9894
-'l2', 'normalised_with_identity', 100,1.9958
-'cosine_distance', 'euclidean_scaled', 300,0.9992
-'geometric_mean', 'normalised_with_identity', 300,0.9442
-'harmonic_mean', 'euclidean_scaled', 5,0.3516
-'geometric_mean', 'euclidean_scaled', 5,0.4426
-'harmonic_mean', 'euclidean_scaled', 10,0.4234
-'l2', 'normalised', 30,1.9426
-'geometric_mean', 'normalised', 100,0.999
-'geometric_mean', 'euclidean_scaled', 10,0.6498
-'geometric_mean', 'euclidean_scaled', 20,0.889
-'l1', 'euclidean_scaled', 300,0.9996
-'inverse_log_pl', 'euclidean_scaled', 30,0.9972
-'harmonic_mean', 'normalised_with_identity', 100,0.9694
-'harmonic_mean', 'euclidean_scaled', 300,0.4752
-'l1', 'euclidean_scaled', 100,1.0
-'l1', 'euclidean_scaled', 10,0.7564
-'harmonic_mean', 'euclidean_scaled', 100,0.5166
-'l1', 'normalised', 10,0.7374
-'geometric_mean', 'euclidean_scaled', 300,0.9996
+,message_length
+metric+scaling, 300,100,50,30,20,10,5
+l1:normalised, 0.9988, 0.9996, 0.9984, 0.9896, 0.953, 0.736, 0.44
+l1:euclidean_scaled, 0.9996, 1.0, 0.9988, 0.9896, 0.9518, 0.7536, 0.4418
+l1:normalised_with_identity, 0.9606, 0.9922, 0.988, 0.9644, 0.909, 0.7028, 0.4288
+l2:normalised, 0.9996, 0.9994, 0.9984, 0.981, 0.9302, 0.723, 0.4354
+l2:euclidean_scaled, 0.9992, 0.9992, 0.9984, 0.9836, 0.9298, 0.7116, 0.423
+l2:normalised_with_identity, 1.0, 0.9998, 0.9982, 0.986, 0.9322, 0.722, 0.4262
+l3:normalised, 0.9998, 0.999, 0.9952, 0.9536, 0.8742, 0.5964, 0.4078
+l3:euclidean_scaled, 0.9992, 0.9992, 0.9958, 0.9672, 0.8894, 0.6276, 0.4014
+l3:normalised_with_identity, 0.9998, 0.998, 0.97, 0.9002, 0.7686, 0.5484, 0.391
+cosine_distance:normalised, 0.999, 0.9994, 0.9984, 0.9854, 0.934, 0.7092, 0.4338
+cosine_distance:euclidean_scaled, 0.9996, 0.9992, 0.999, 0.9822, 0.9342, 0.7114, 0.4326
+cosine_distance:normalised_with_identity, 0.9994, 0.9994, 0.9984, 0.986, 0.9354, 0.7166, 0.4294
+harmonic_mean:normalised, 0.8154, 0.8382, 0.7618, 0.2696, 0.8678, 0.6736, 0.4566
+harmonic_mean:euclidean_scaled, 0.4756, 0.5108, 0.686, 0.6098, 0.5342, 0.4322, 0.3568
+harmonic_mean:normalised_with_identity, 0.9574, 0.969, 0.952, 0.9254, 0.897, 0.7368, 0.4434
+geometric_mean:normalised, 0.9996, 0.9996, 0.9914, 0.9178, 0.9368, 0.7114, 0.4562
+geometric_mean:euclidean_scaled, 0.9998, 0.999, 0.9962, 0.9534, 0.8824, 0.6548, 0.443
+geometric_mean:normalised_with_identity, 0.9426, 0.9872, 0.9848, 0.9694, 0.9358, 0.7654, 0.4582
+inverse_log_pl:normalised, 0.9994, 0.9996, 0.9992, 0.996, 0.98, 0.8088, 0.488
+inverse_log_pl:euclidean_scaled, 0.9998, 0.9998, 0.9996, 0.996, 0.9826, 0.817, 0.481
+inverse_log_pl:normalised_with_identity, 0.999, 0.9996, 0.9992, 0.9978, 0.9802, 0.8106, 0.483

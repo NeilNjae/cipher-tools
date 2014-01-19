@@ -13,7 +13,7 @@ euclidean_scaled_english_counts = norms.euclidean_scale(english_counts)
 
 metrics = [{'func': norms.l1, 'name': 'l1'}, 
     {'func': norms.l2, 'name': 'l2'},
-    {'func': norms.l3, 'name': 'l2'},
+    {'func': norms.l3, 'name': 'l3'},
     {'func': norms.cosine_distance, 'name': 'cosine_distance'},
     {'func': norms.harmonic_mean, 'name': 'harmonic_mean'},
     {'func': norms.geometric_mean, 'name': 'geometric_mean'},
@@ -53,9 +53,13 @@ def eval_one_parameter_set(metric, scaling, message_length):
 
 def show_results():
     with open('caesar_break_parameter_trials.csv', 'w') as f:
-        print('metric,scaling,message_length,score', file = f)
-        for (k, v) in scores.items():
-            print(str(k)[1:-1], v / trials, sep=",", file=f)
+        print(',message_length', file = f)
+        print('metric+scaling,', ','.join([str(l) for l in message_lengths]), file = f)
+        for (metric, scaling) in itertools.product(metrics, scalings):
+            print('{}:{}'.format(metric['name'], scaling['name']), end='', file=f)
+            for l in message_lengths:
+                print(',', scores[(metric['name'], scaling['name'], l)] / trials, end='', file=f)
+            print('', file = f)
 
 eval_all()
 show_results()

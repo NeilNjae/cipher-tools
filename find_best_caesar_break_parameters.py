@@ -12,7 +12,7 @@ euclidean_scaled_english_counts = norms.euclidean_scale(english_counts)
 
 metrics = [{'func': norms.l1, 'name': 'l1'}, 
     {'func': norms.l2, 'name': 'l2'},
-    {'func': norms.l3, 'name': 'l2'},
+    {'func': norms.l3, 'name': 'l3'},
     {'func': norms.cosine_distance, 'name': 'cosine_distance'},
     {'func': norms.harmonic_mean, 'name': 'harmonic_mean'},
     {'func': norms.geometric_mean, 'name': 'geometric_mean'},
