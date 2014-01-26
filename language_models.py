@@ -25,8 +25,21 @@ with open('count_3l.txt', 'r') as f:
         english_trigram_counts[trigram] = int(count)
 normalised_english_trigram_counts = norms.normalise(english_trigram_counts)
 
+with open('words.txt', 'r') as f:
+    keywords = [line.rstrip() for line in f]
 
-# choices, weights = zip(*weighted_choices)
-# cumdist = list(itertools.accumulate(weights))
-# x = random.random() * cumdist[-1]
-# choices[bisect.bisect(cumdist, x)]
+def weighted_choice(d):
+	"""Generate a set of random items from a dictionary of item counts
+	"""
+	target = random.uniform(0, sum(d.values()))
+	cuml = 0.0
+	for (l, p) in d.items():
+		cuml += p
+		if cuml > target:
+			return l
+	return None
+
+def random_english_letter():
+	"""Generate a random letter based on English letter counts
+	"""
+	return weighted_choice(normalised_english_counts)

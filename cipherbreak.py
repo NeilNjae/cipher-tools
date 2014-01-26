@@ -9,8 +9,8 @@ from math import log10
 
 import matplotlib.pyplot as plt
 
-from counts import *
 from cipher import *
+from language_models import *
 
 # To time a run:
 #
@@ -18,9 +18,6 @@ from cipher import *
 # c5a = open('2012/5a.ciphertext', 'r').read()
 # timeit.timeit('keyword_break(c5a)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break', number=1)
 # timeit.repeat('keyword_break_mp(c5a, chunksize=500)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break_mp', repeat=5, number=1)
-
-with open('words.txt', 'r') as f:
-    keywords = [line.rstrip() for line in f]
 
 transpositions = collections.defaultdict(list)
 for word in keywords:
@@ -249,33 +246,33 @@ def column_transposition_break_mp(message,
                      chunksize=500):
     """Breaks a column transposition cipher using a dictionary and 
     n-gram frequency analysis
-
-    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
-            "It is a truth universally acknowledged, that a single man in \
-             possession of a good fortune, must be in want of a wife. However \
-             little known the feelings or views of such a man may be on his \
-             first entering a neighbourhood, this truth is so well fixed in the \
-             minds of the surrounding families, that he is considered the \
-             rightful property of some one or other of their daughters."), \
-        'encipher'), \
-        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
-                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
-                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
-    (((2, 0, 5, 3, 1, 4, 6), False), 0.0628106372...)
-    >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
-            "It is a truth universally acknowledged, that a single man in \
-             possession of a good fortune, must be in want of a wife. However \
-             little known the feelings or views of such a man may be on his \
-             first entering a neighbourhood, this truth is so well fixed in the \
-             minds of the surrounding families, that he is considered the \
-             rightful property of some one or other of their daughters."), \
-        'encipher'), \
-        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
-                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
-                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
-        target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
-    (((2, 0, 5, 3, 1, 4, 6), False), 0.0592259560...)
     """
+    # >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+    #         "It is a truth universally acknowledged, that a single man in \
+    #          possession of a good fortune, must be in want of a wife. However \
+    #          little known the feelings or views of such a man may be on his \
+    #          first entering a neighbourhood, this truth is so well fixed in the \
+    #          minds of the surrounding families, that he is considered the \
+    #          rightful property of some one or other of their daughters."), \
+    #     'encipher'), \
+    #     translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
+    #                (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
+    #                (6, 1, 0, 4, 5, 3, 2): ['keyword']}) # doctest: +ELLIPSIS
+    # (((2, 0, 5, 3, 1, 4, 6), False), 0.0628106372...)
+    # >>> column_transposition_break_mp(column_transposition_encipher(sanitise( \
+    #         "It is a truth universally acknowledged, that a single man in \
+    #          possession of a good fortune, must be in want of a wife. However \
+    #          little known the feelings or views of such a man may be on his \
+    #          first entering a neighbourhood, this truth is so well fixed in the \
+    #          minds of the surrounding families, that he is considered the \
+    #          rightful property of some one or other of their daughters."), \
+    #     'encipher'), \
+    #     translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
+    #                (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
+    #                (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
+    #     target_counts=normalised_english_trigram_counts) # doctest: +ELLIPSIS
+    # (((2, 0, 5, 3, 1, 4, 6), False), 0.0592259560...)
+    # """
     ngram_length = len(next(iter(target_counts.keys())))
     with Pool() as pool:
         helper_args = [(message, trans, columnwise, metric, target_counts, ngram_length,

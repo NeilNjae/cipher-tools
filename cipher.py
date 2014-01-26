@@ -2,27 +2,13 @@ import string
 import collections
 import logging
 from itertools import zip_longest, cycle, chain
-from counts import *
-
+from language_models import *
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.FileHandler('cipher.log'))
 logger.setLevel(logging.WARNING)
 #logger.setLevel(logging.INFO)
 #logger.setLevel(logging.DEBUG)
-
-
-english_counts = collections.defaultdict(int)
-with open('count_1l.txt', 'r') as f:
-    for line in f:
-        (letter, count) = line.split("\t")
-        english_counts[letter] = int(count)
-normalised_english_counts = norms.normalise(english_counts)
-
-choices, weights = zip(*weighted_choices)
-cumdist = list(itertools.accumulate(weights))
-x = random.random() * cumdist[-1]
-choices[bisect.bisect(cumdist, x)]
 
 
 modular_division_table = [[0]*26 for x in range(26)]
@@ -438,14 +424,14 @@ def column_transposition_encipher(message, keyword, fillvalue=' ',
       emptycolumnwise=False):
     """Enciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
-
-    >>> column_transposition_encipher('hellothere', 'clever')
-    'hleolteher'
-    >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
-    'hleolthre!e!'
-    >>> column_transposition_encipher('hellothere', 'clever', columnwise=True)
-    'htleehoelr'
     """
+    # >>> column_transposition_encipher('hellothere', 'clever')
+    # 'hleolteher'
+    # >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
+    # 'hleolthre!e!'
+    # >>> column_transposition_encipher('hellothere', 'clever', columnwise=True)
+    # 'htleehoelr'
+    # """
     transpositions = transpositions_of(keyword)
     message += pad(len(message), len(transpositions), fillvalue)
     if fillcolumnwise:
@@ -463,14 +449,14 @@ def column_transposition_decipher(message, keyword, fillvalue=' ',
       columnwise=False):
     """Deciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
-
-    >>> column_transposition_decipher('hleolteher', 'clever')
-    'hellothere'
-    >>> column_transposition_decipher('hleolthre!e!', 'cleverly', fillvalue='?')
-    'hellothere!!'
-    >>> column_transposition_decipher('htleehoelr', 'clever', columnwise=True)
-    'hellothere'
     """
+    # >>> column_transposition_decipher('hleolteher', 'clever')
+    # 'hellothere'
+    # >>> column_transposition_decipher('hleolthre!e!', 'cleverly', fillvalue='?')
+    # 'hellothere!!'
+    # >>> column_transposition_decipher('htleehoelr', 'clever', columnwise=True)
+    # 'hellothere'
+    # """
     transpositions = transpositions_of(keyword)
     if columnwise:
         columns = chunks(message, int(len(message) / len(transpositions)))
