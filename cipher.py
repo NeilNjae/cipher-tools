@@ -1,7 +1,8 @@
 import string
 import collections
 import logging
-from itertools import zip_longest, cycle
+from itertools import zip_longest, cycle, chain
+from counts import *
 
 
 logger = logging.getLogger(__name__)
@@ -9,6 +10,19 @@ logger.addHandler(logging.FileHandler('cipher.log'))
 logger.setLevel(logging.WARNING)
 #logger.setLevel(logging.INFO)
 #logger.setLevel(logging.DEBUG)
+
+
+english_counts = collections.defaultdict(int)
+with open('count_1l.txt', 'r') as f:
+    for line in f:
+        (letter, count) = line.split("\t")
+        english_counts[letter] = int(count)
+normalised_english_counts = norms.normalise(english_counts)
+
+choices, weights = zip(*weighted_choices)
+cumdist = list(itertools.accumulate(weights))
+x = random.random() * cumdist[-1]
+choices[bisect.bisect(cumdist, x)]
 
 
 modular_division_table = [[0]*26 for x in range(26)]
@@ -237,8 +251,9 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
             alphabet_start = ord('a')
         cipher_number = ord(letter) - alphabet_start
         if one_based: cipher_number += 1
-        plaintext_number = ( modular_division_table[multiplier]
-                                                   [(cipher_number - adder) % 26] )
+        plaintext_number = ( 
+            modular_division_table[multiplier]
+                                  [(cipher_number - adder) % 26] )
         if one_based: plaintext_number -= 1
         return chr(plaintext_number % 26 + alphabet_start) 
     else:
@@ -407,8 +422,20 @@ def transpositions_of(keyword):
         transpositions = tuple(key.index(l) for l in sorted(key))
         return transpositions
 
+def pad(message_len, group_len, fillvalue):
+    padding_length = group_len - message_len % group_len
+    if padding_length == group_len: padding_length = 0
+    padding = ''
+    for i in range(padding_length):
+        if callable(fillvalue):
+            padding += fillvalue()
+        else:
+            padding += fillvalue
+    return padding
+
 def column_transposition_encipher(message, keyword, fillvalue=' ', 
-      columnwise=False):
+      fillcolumnwise=False,
+      emptycolumnwise=False):
     """Enciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
 
@@ -420,12 +447,17 @@ def column_transposition_encipher(message, keyword, fillvalue=' ',
     'htleehoelr'
     """
     transpositions = transpositions_of(keyword)
-    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
-    transposed_columns = transpose(columns, transpositions)
-    if columnwise:
-        return ''.join(transposed_columns)
+    message += pad(len(message), len(transpositions), fillvalue)
+    if fillcolumnwise:
+        rows = every_nth(message, len(transpositions))
     else:
-        return combine_every_nth(transposed_columns)
+        rows = chunks(mesage, len(transpositions))
+    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
+    transposed = [transpose(r, transpositions) for r in rows]
+    if emptycolumnwise:
+        return combine_every_nth(transposed)
+    else:
+        return ''.join(chain(*transposed))
 
 def column_transposition_decipher(message, keyword, fillvalue=' ', 
       columnwise=False):

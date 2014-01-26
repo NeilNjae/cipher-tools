@@ -9,6 +9,7 @@ from math import log10
 
 import matplotlib.pyplot as plt
 
+from counts import *
 from cipher import *
 
 # To time a run:
@@ -17,29 +18,6 @@ from cipher import *
 # c5a = open('2012/5a.ciphertext', 'r').read()
 # timeit.timeit('keyword_break(c5a)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break', number=1)
 # timeit.repeat('keyword_break_mp(c5a, chunksize=500)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break_mp', repeat=5, number=1)
-
-
-english_counts = collections.defaultdict(int)
-with open('count_1l.txt', 'r') as f:
-    for line in f:
-        (letter, count) = line.split("\t")
-        english_counts[letter] = int(count)
-normalised_english_counts = norms.normalise(english_counts)
-
-english_bigram_counts = collections.defaultdict(int)
-with open('count_2l.txt', 'r') as f:
-    for line in f:
-        (bigram, count) = line.split("\t")
-        english_bigram_counts[bigram] = int(count)
-normalised_english_bigram_counts = norms.normalise(english_bigram_counts)
-
-english_trigram_counts = collections.defaultdict(int)
-with open('count_3l.txt', 'r') as f:
-    for line in f:
-        (trigram, count) = line.split("\t")
-        english_trigram_counts[trigram] = int(count)
-normalised_english_trigram_counts = norms.normalise(english_trigram_counts)
-
 
 with open('words.txt', 'r') as f:
     keywords = [line.rstrip() for line in f]
@@ -130,8 +108,8 @@ def affine_break(message,
           'omytd jlaxe mh jm bfmibj umis hfsul axubafkjamx. ls kffkxwsd jls ' \
           'ofgbjmwfkiu olfmxmtmwaokttg jlsx ls kffkxwsd jlsi zg tsxwjl. jlsx ' \
           'ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls ' \
-          'bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai kxd ' \
-          'clm ckuxj.') # doctest: +ELLIPSIS
+          'bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai ' \
+          'kxd clm ckuxj.') # doctest: +ELLIPSIS
     ((15, 22, True), 0.0598745365924...)
     """
     sanitised_message = sanitise(message)
@@ -379,11 +357,11 @@ def vigenere_keyword_break(message,
                         vigenere_decipher(message, best_keyword))[:50]))
     return best_keyword, best_fit
 
-def vigenere_keyword_break_mp(message, 
-                     wordlist=keywords, 
-                     metric=norms.euclidean_distance, 
-                     target_counts=normalised_english_counts, 
-                     message_frequency_scaling=norms.normalise, 
+def vigenere_keyword_break_mp(message,
+                     wordlist=keywords,
+                     metric=norms.euclidean_distance,
+                     target_counts=normalised_english_counts,
+                     message_frequency_scaling=norms.normalise,
                      chunksize=500):
     """Breaks a vigenere cipher using a dictionary and 
     frequency analysis
