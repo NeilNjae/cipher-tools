@@ -1,4 +1,3 @@
-# import re, string, random, glob, operator, heapq
 import string
 import collections
 from math import log10

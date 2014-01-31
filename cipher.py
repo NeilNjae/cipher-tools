@@ -11,32 +11,12 @@ logger.setLevel(logging.WARNING)
 #logger.setLevel(logging.DEBUG)
 
 
-modular_division_table = [[0]*26 for x in range(26)]
+modular_division_table = [[0]*26 for _ in range(26)]
 for a in range(26):
     for b in range(26):
         c = (a * b) % 26
         modular_division_table[b][c] = a
 
-def letters(text):
-    """Remove all non-alphabetic characters from a text
-    >>> letters('The Quick')
-    'TheQuick'
-    >>> letters('The Quick BROWN fox jumped! over... the (9lazy) DOG')
-    'TheQuickBROWNfoxjumpedoverthelazyDOG'
-    """
-    return ''.join([c for c in text if c in string.ascii_letters])
-
-def sanitise(text):
-    """Remove all non-alphabetic characters and convert the text to lowercase
-    
-    >>> sanitise('The Quick')
-    'thequick'
-    >>> sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')
-    'thequickbrownfoxjumpedoverthelazydog'
-    """
-    # sanitised = [c.lower() for c in text if c in string.ascii_letters]
-    # return ''.join(sanitised)
-    return letters(text).lower()
 
 def ngrams(text, n):
     """Returns all n-grams of a text

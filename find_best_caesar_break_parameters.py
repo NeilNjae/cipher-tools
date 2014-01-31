@@ -38,12 +38,12 @@ def eval_all():
         itertools.product(metrics, scalings, message_lengths)))
 
 def eval_one_parameter_set(metric, scaling, message_length):
-    for i in range(trials):
+    for _ in range(trials):
         sample_start = random.randint(0, corpus_length - message_length)
         sample = corpus[sample_start:(sample_start + message_length)]
         key = random.randint(1, 25)
         sample_ciphertext = caesar_encipher(sample, key)
-        (found_key, score) = caesar_break(sample_ciphertext, 
+        found_key, _ = caesar_break(sample_ciphertext, 
                                           metric=metric['func'], 
                                           target_counts=scaling['corpus_frequency'], 
                                           message_frequency_scaling=scaling['scaling'])

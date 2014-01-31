@@ -70,7 +70,9 @@ def unaccent(text):
 	>>> unaccent('HÉLLÖ')
 	'HELLO'
 	"""
-	return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
+	return unicodedata.normalize('NFKD', text).\
+		encode('ascii', 'ignore').\
+		decode('utf-8')
 
 def sanitise(text):
     """Remove all non-alphabetic characters and convert the text to lowercase
