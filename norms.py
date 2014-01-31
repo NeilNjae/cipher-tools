@@ -56,7 +56,7 @@ def l2(frequencies1, frequencies2):
     1.0
     """
     total = 0
-    for k in frequencies1.keys():
+    for k in frequencies1:
         total += (frequencies1[k] - frequencies2[k]) ** 2
     return total ** 0.5
 euclidean_distance = l2
@@ -77,7 +77,7 @@ def l1(frequencies1, frequencies2):
     1
     """
     total = 0
-    for k in frequencies1.keys():
+    for k in frequencies1:
         total += abs(frequencies1[k] - frequencies2[k])
     return total
 
@@ -100,7 +100,7 @@ def l3(frequencies1, frequencies2):
     0.6299605249...
     """
     total = 0
-    for k in frequencies1.keys():
+    for k in frequencies1:
         total += abs(frequencies1[k] - frequencies2[k]) ** 3
     return total ** (1/3)
 
@@ -126,7 +126,7 @@ def geometric_mean(frequencies1, frequencies2):
     0.009259259...
     """
     total = 1
-    for k in frequencies1.keys():
+    for k in frequencies1:
         total *= abs(frequencies1[k] - frequencies2[k])
     return total
 
@@ -152,7 +152,7 @@ def harmonic_mean(frequencies1, frequencies2):
     0.2
     """
     total = 0
-    for k in frequencies1.keys():
+    for k in frequencies1:
         if abs(frequencies1[k] - frequencies2[k]) == 0:
             return 0
         total += 1 / abs(frequencies1[k] - frequencies2[k])
@@ -175,7 +175,7 @@ def cosine_distance(frequencies1, frequencies2):
     numerator = 0
     length1 = 0
     length2 = 0
-    for k in frequencies1.keys():
+    for k in frequencies1:
         numerator += frequencies1[k] * frequencies2[k]
         length1 += frequencies1[k]**2
     for k in frequencies2.keys():
@@ -184,12 +184,10 @@ def cosine_distance(frequencies1, frequencies2):
 
 
 def log_pl(frequencies1, frequencies2):
-    return sum([frequencies2[l] * log10(frequencies1[l])  for l in frequencies1.keys()])
+    return sum([frequencies2[l] * log10(frequencies1[l]) for l in frequencies1])
 
 def inverse_log_pl(frequencies1, frequencies2):
     return -log_pl(frequencies1, frequencies2)
-
-
 
 def index_of_coincidence(frequencies):
     """Finds the (expected) index of coincidence given a set of frequencies
