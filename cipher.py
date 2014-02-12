@@ -1,6 +1,7 @@
 import string
 import collections
 import logging
+import math
 from itertools import zip_longest, cycle, chain
 from language_models import *
 
@@ -324,46 +325,29 @@ def keyword_decipher(message, keyword, wrap_alphabet=0):
     cipher_translation = ''.maketrans(cipher_alphabet, string.ascii_lowercase)
     return message.lower().translate(cipher_translation)
 
-def scytale_encipher(message, rows):
-    """Enciphers using the scytale transposition cipher.
-    Message is padded with spaces to allow all rows to be the same length.
 
-    >>> scytale_encipher('thequickbrownfox', 3)
-    'tcnhkfeboqrxuo iw '
-    >>> scytale_encipher('thequickbrownfox', 4)
-    'tubnhirfecooqkwx'
-    >>> scytale_encipher('thequickbrownfox', 5)
-    'tubn hirf ecoo qkwx '
-    >>> scytale_encipher('thequickbrownfox', 6)
-    'tqcrnxhukof eibwo '
-    >>> scytale_encipher('thequickbrownfox', 7)
-    'tqcrnx hukof  eibwo  '
-    """
-    if len(message) % rows != 0:
-        message += ' '*(rows - len(message) % rows)
-    row_length = round(len(message) / rows)
-    slices = [message[i:i+row_length] 
-              for i in range(0, len(message), row_length)]
-    return ''.join([''.join(r) for r in zip_longest(*slices, fillvalue='')])
+def vigenere_encipher(message, keyword):
+    """Vigenere encipher
 
-def scytale_decipher(message, rows):
-    """Deciphers using the scytale transposition cipher.
-    Assumes the message is padded so that all rows are the same length.
-    
-    >>> scytale_decipher('tcnhkfeboqrxuo iw ', 3)
-    'thequickbrownfox  '
-    >>> scytale_decipher('tubnhirfecooqkwx', 4)
-    'thequickbrownfox'
-    >>> scytale_decipher('tubn hirf ecoo qkwx ', 5)
-    'thequickbrownfox    '
-    >>> scytale_decipher('tqcrnxhukof eibwo ', 6)
-    'thequickbrownfox  '
-    >>> scytale_decipher('tqcrnx hukof  eibwo  ', 7)
-    'thequickbrownfox     '
+    >>> vigenere_encipher('hello', 'abc')
+    'hfnlp'
     """
-    cols = round(len(message) / rows)
-    columns = [message[i:i+rows] for i in range(0, cols * rows, rows)]
-    return ''.join([''.join(c) for c in zip_longest(*columns, fillvalue='')])
+    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    pairs = zip(message, cycle(shifts))
+    return ''.join([caesar_encipher_letter(l, k) for l, k in pairs])
+
+def vigenere_decipher(message, keyword):
+    """Vigenere decipher
+
+    >>> vigenere_decipher('hfnlp', 'abc')
+    'hello'
+    """
+    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    pairs = zip(message, cycle(shifts))
+    return ''.join([caesar_decipher_letter(l, k) for l, k in pairs])
+
+beaufort_encipher=vigenere_decipher
+beaufort_decipher=vigenere_encipher
 
 
 def transpositions_of(keyword):
@@ -471,13 +455,6 @@ def column_transposition_decipher(message, keyword, fillvalue=' ',
     >>> column_transposition_decipher('hleolteher', 'clever', fillcolumnwise=False, emptycolumnwise=False)
     'hellothere'
     """
-    # >>> column_transposition_decipher('hleolteher', 'clever')
-    # 'hellothere'
-    # >>> column_transposition_decipher('hleolthre!e!', 'cleverly', fillvalue='?')
-    # 'hellothere!!'
-    # >>> column_transposition_decipher('htleehoelr', 'clever', columnwise=True)
-    # 'hellothere'
-    # """
     transpositions = transpositions_of(keyword)
     message += pad(len(message), len(transpositions), '*')
     if emptycolumnwise:
@@ -490,29 +467,43 @@ def column_transposition_decipher(message, keyword, fillvalue=' ',
     else:
         return ''.join(chain(*untransposed))
 
+def scytale_encipher(message, rows, fillvalue=' '):
+    """Enciphers using the scytale transposition cipher.
+    Message is padded with spaces to allow all rows to be the same length.
 
-def vigenere_encipher(message, keyword):
-    """Vigenere encipher
-
-    >>> vigenere_encipher('hello', 'abc')
-    'hfnlp'
+    >>> scytale_encipher('thequickbrownfox', 3)
+    'tcnhkfeboqrxuo iw '
+    >>> scytale_encipher('thequickbrownfox', 4)
+    'tubnhirfecooqkwx'
+    >>> scytale_encipher('thequickbrownfox', 5)
+    'tubnhirfecooqkwx'
+    >>> scytale_encipher('thequickbrownfox', 6)
+    'tqcrnxhukof eibwo '
+    >>> scytale_encipher('thequickbrownfox', 7)
+    'tqcrnxhukof eibwo '
     """
-    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
-    pairs = zip(message, cycle(shifts))
-    return ''.join([caesar_encipher_letter(l, k) for l, k in pairs])
+    transpositions = [i for i in range(math.ceil(len(message) / rows))]
+    return column_transposition_encipher(message, transpositions, 
+        fillcolumnwise=False, emptycolumnwise=True)
 
-def vigenere_decipher(message, keyword):
-    """Vigenere decipher
-
-    >>> vigenere_decipher('hfnlp', 'abc')
-    'hello'
+def scytale_decipher(message, rows):
+    """Deciphers using the scytale transposition cipher.
+    Assumes the message is padded so that all rows are the same length.
+    
+    >>> scytale_decipher('tcnhkfeboqrxuo iw ', 3)
+    'thequickbrownfox  '
+    >>> scytale_decipher('tubnhirfecooqkwx', 4)
+    'thequickbrownfox'
+    >>> scytale_decipher('tubnhirfecooqkwx', 5)
+    'thequickbrownfox'
+    >>> scytale_decipher('tqcrnxhukof eibwo ', 6)
+    'thequickbrownfox  '
+    >>> scytale_decipher('tqcrnxhukof eibwo ', 7)
+    'thequickbrownfox  '
     """
-    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
-    pairs = zip(message, cycle(shifts))
-    return ''.join([caesar_decipher_letter(l, k) for l, k in pairs])
-
-beaufort_encipher=vigenere_decipher
-beaufort_decipher=vigenere_encipher
+    transpositions = [i for i in range(math.ceil(len(message) / rows))]
+    return column_transposition_decipher(message, transpositions, 
+        fillcolumnwise=False, emptycolumnwise=True)
 
 
 if __name__ == "__main__":
