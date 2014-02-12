@@ -404,21 +404,44 @@ def column_transposition_encipher(message, keyword, fillvalue=' ',
       emptycolumnwise=False):
     """Enciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
+
+    >>> column_transposition_encipher('hellothere', 'abcdef', fillcolumnwise=True)
+    'hlohr eltee '
+    >>> column_transposition_encipher('hellothere', 'abcdef', fillcolumnwise=True, emptycolumnwise=True)
+    'hellothere  '
+    >>> column_transposition_encipher('hellothere', 'abcdef')
+    'hellothere  '
+    >>> column_transposition_encipher('hellothere', 'abcde')
+    'hellothere'
+    >>> column_transposition_encipher('hellothere', 'abcde', fillcolumnwise=True, emptycolumnwise=True)
+    'hellothere'
+    >>> column_transposition_encipher('hellothere', 'abcde', fillcolumnwise=True, emptycolumnwise=False)
+    'hlohreltee'
+    >>> column_transposition_encipher('hellothere', 'abcde', fillcolumnwise=False, emptycolumnwise=True)
+    'htehlelroe'
+    >>> column_transposition_encipher('hellothere', 'abcde', fillcolumnwise=False, emptycolumnwise=False)
+    'hellothere'
+    >>> column_transposition_encipher('hellothere', 'clever', fillcolumnwise=True, emptycolumnwise=True)
+    'heotllrehe'
+    >>> column_transposition_encipher('hellothere', 'clever', fillcolumnwise=True, emptycolumnwise=False)
+    'holrhetlee'
+    >>> column_transposition_encipher('hellothere', 'clever', fillcolumnwise=False, emptycolumnwise=True)
+    'htleehoelr'
+    >>> column_transposition_encipher('hellothere', 'clever', fillcolumnwise=False, emptycolumnwise=False)
+    'hleolteher'
+    >>> column_transposition_encipher('hellothere', 'cleverly')
+    'hleolthre e '
+    >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
+    'hleolthre!e!'
+    >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue=lambda: '*')
+    'hleolthre*e*'
     """
-    # >>> column_transposition_encipher('hellothere', 'clever')
-    # 'hleolteher'
-    # >>> column_transposition_encipher('hellothere', 'cleverly', fillvalue='!')
-    # 'hleolthre!e!'
-    # >>> column_transposition_encipher('hellothere', 'clever', columnwise=True)
-    # 'htleehoelr'
-    # """
     transpositions = transpositions_of(keyword)
     message += pad(len(message), len(transpositions), fillvalue)
     if fillcolumnwise:
-        rows = every_nth(message, len(transpositions))
+        rows = every_nth(message, len(message) // len(transpositions))
     else:
-        rows = chunks(mesage, len(transpositions))
-    columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
+        rows = chunks(message, len(transpositions))
     transposed = [transpose(r, transpositions) for r in rows]
     if emptycolumnwise:
         return combine_every_nth(transposed)
@@ -426,9 +449,27 @@ def column_transposition_encipher(message, keyword, fillvalue=' ',
         return ''.join(chain(*transposed))
 
 def column_transposition_decipher(message, keyword, fillvalue=' ', 
-      columnwise=False):
+      fillcolumnwise=False,
+      emptycolumnwise=False):
     """Deciphers using the column transposition cipher.
     Message is padded to allow all rows to be the same length.
+
+    >>> column_transposition_decipher('hellothere', 'abcde', fillcolumnwise=True, emptycolumnwise=True)
+    'hellothere'
+    >>> column_transposition_decipher('hlohreltee', 'abcde', fillcolumnwise=True, emptycolumnwise=False)
+    'hellothere'
+    >>> column_transposition_decipher('htehlelroe', 'abcde', fillcolumnwise=False, emptycolumnwise=True)
+    'hellothere'
+    >>> column_transposition_decipher('hellothere', 'abcde', fillcolumnwise=False, emptycolumnwise=False)
+    'hellothere'
+    >>> column_transposition_decipher('heotllrehe', 'clever', fillcolumnwise=True, emptycolumnwise=True)
+    'hellothere'
+    >>> column_transposition_decipher('holrhetlee', 'clever', fillcolumnwise=True, emptycolumnwise=False)
+    'hellothere'
+    >>> column_transposition_decipher('htleehoelr', 'clever', fillcolumnwise=False, emptycolumnwise=True)
+    'hellothere'
+    >>> column_transposition_decipher('hleolteher', 'clever', fillcolumnwise=False, emptycolumnwise=False)
+    'hellothere'
     """
     # >>> column_transposition_decipher('hleolteher', 'clever')
     # 'hellothere'
@@ -438,12 +479,16 @@ def column_transposition_decipher(message, keyword, fillvalue=' ',
     # 'hellothere'
     # """
     transpositions = transpositions_of(keyword)
-    if columnwise:
-        columns = chunks(message, int(len(message) / len(transpositions)))
+    message += pad(len(message), len(transpositions), '*')
+    if emptycolumnwise:
+        rows = every_nth(message, len(message) // len(transpositions))
     else:
-        columns = every_nth(message, len(transpositions), fillvalue=fillvalue)
-    untransposed_columns = untranspose(columns, transpositions)
-    return combine_every_nth(untransposed_columns)
+        rows = chunks(message, len(transpositions))
+    untransposed = [untranspose(r, transpositions) for r in rows]
+    if fillcolumnwise:
+        return combine_every_nth(untransposed)
+    else:
+        return ''.join(chain(*untransposed))
 
 
 def vigenere_encipher(message, keyword):
