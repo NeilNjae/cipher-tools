@@ -6,11 +6,13 @@ cracklib = set(open('/usr/share/dict/cracklib-small', 'r').readlines())
 
 words = american | british | cracklib
 
-sanitised_words = set()
+# sanitised_words = set()
 
-for w in words:
-    sanitised_words.add(language_models.sanitise(w))
+# for w in words:
+    # sanitised_words.add(language_models.sanitise(w))
     
+sanitised_words = set(language_models.sanitise(w) for w in words)
+
 sanitised_words.discard('')
 
 with open('words.txt', 'w') as f:
