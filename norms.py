@@ -164,13 +164,13 @@ def cosine_distance(frequencies1, frequencies2):
     Assumes every key in frequencies1 is also in frequencies2
 
     >>> cosine_distance({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
-    -2.22044604...e-16
+    1.0000000000...
     >>> cosine_distance({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
-    -2.22044604...e-16
+    1.0000000000...
     >>> cosine_distance({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
-    0.4226497308...
+    0.5773502691...
     >>> cosine_distance({'a':0, 'b':1}, {'a':1, 'b':1}) # doctest: +ELLIPSIS
-    0.29289321881...
+    0.7071067811...
     """
     numerator = 0
     length1 = 0
@@ -180,19 +180,8 @@ def cosine_distance(frequencies1, frequencies2):
         length1 += frequencies1[k]**2
     for k in frequencies2.keys():
         length2 += frequencies2[k]
-    return 1 - (numerator / (length1 ** 0.5 * length2 ** 0.5))
+    return numerator / (length1 ** 0.5 * length2 ** 0.5)
 
-
-def log_pl(frequencies1, frequencies2):
-    return sum([frequencies2[l] * log10(frequencies1[l]) for l in frequencies1])
-
-def inverse_log_pl(frequencies1, frequencies2):
-    return -log_pl(frequencies1, frequencies2)
-
-def index_of_coincidence(frequencies):
-    """Finds the (expected) index of coincidence given a set of frequencies
-    """
-    return sum([f ** 2 for f in frequencies.values()]) * len(frequencies.keys())
 
 
 if __name__ == "__main__":

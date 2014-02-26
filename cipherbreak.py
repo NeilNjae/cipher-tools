@@ -3,7 +3,7 @@ import collections
 import norms
 import logging
 from itertools import zip_longest, cycle, permutations
-from segment import segment, Pwords
+from segment import segment
 from multiprocessing import Pool
 from math import log10
 
@@ -55,39 +55,39 @@ def frequencies(text):
     #    counts[c] += 1
     #return counts
     return collections.Counter(c for c in text)
-letter_frequencies = frequencies
 
 
-def bigram_likelihood(bigram, bf, lf):
-    return bf[bigram] / (lf[bigram[0]] * lf[bigram[1]])
+def frequency_compare(text, target_frequency, frequency_scaling, metric):
+    counts = frequency_scaling(frequencies(text))
+    return -1 * metric(target_frequency, counts)
+
+def euclidean_compare(text):
+    return frequency_compare(text, norms.euclidean_scale(english_counts),
+            norms.euclidean_scale, norms.euclidean_distance)
 
 
-def caesar_break(message, 
-                 metric=norms.euclidean_distance, 
-                 target_counts=normalised_english_counts, 
-                 message_frequency_scaling=norms.normalise):
+def caesar_break(message, fitness=Pletters):
     """Breaks a Caesar cipher using frequency analysis
     
     >>> caesar_break('ibxcsyorsaqcheyklxivoexlevmrimwxsfiqevvmihrsasrxliwyrh' \
           'ecjsppsamrkwleppfmergefifvmhixscsymjcsyqeoixlm') # doctest: +ELLIPSIS
-    (4, 0.080345432737...)
+    (4, -130.849890899...)
     >>> caesar_break('wxwmaxdgheetgwuxztgptedbgznitgwwhpguxyhkxbmhvvtlbhgtee' \
           'raxlmhiixweblmxgxwmhmaxybkbgztgwztsxwbgmxgmert') # doctest: +ELLIPSIS
-    (19, 0.11189290326...)
+    (19, -128.82516920...)
     >>> caesar_break('yltbbqnqnzvguvaxurorgenafsbezqvagbnornfgsbevpnaabjurer' \
           'svaquvzyvxrnznazlybequrvfohgriraabjtbaruraprur') # doctest: +ELLIPSIS
-    (13, 0.08293968842...)
+    (13, -126.25233502...)
     """
     sanitised_message = sanitise(message)
     best_shift = 0
-    best_fit = float("inf")
+    best_fit = float('-inf')
     for shift in range(26):
         plaintext = caesar_decipher(sanitised_message, shift)
-        counts = message_frequency_scaling(letter_frequencies(plaintext))
-        fit = metric(target_counts, counts)
+        fit = fitness(plaintext)
         logger.debug('Caesar break attempt using key {0} gives fit of {1} '
                       'and decrypt starting: {2}'.format(shift, fit, plaintext[:50]))
-        if fit < best_fit:
+        if fit > best_fit:
             best_fit = fit
             best_shift = shift
     logger.info('Caesar break best fit: key {0} gives fit of {1} and '
@@ -119,7 +119,7 @@ def affine_break(message,
             for adder in range(26):
                 plaintext = affine_decipher(sanitised_message, 
                                             multiplier, adder, one_based)
-                counts = message_frequency_scaling(letter_frequencies(plaintext))
+                counts = message_frequency_scaling(frequencies(plaintext))
                 fit = metric(target_counts, counts)
                 logger.debug('Affine break attempt using key {0}x+{1} ({2}) '
                              'gives fit of {3} and decrypt starting: {4}'.
@@ -156,7 +156,7 @@ def keyword_break(message,
     for wrap_alphabet in range(3):
         for keyword in wordlist:
             plaintext = keyword_decipher(message, keyword, wrap_alphabet)
-            counts = message_frequency_scaling(letter_frequencies(plaintext))
+            counts = message_frequency_scaling(frequencies(plaintext))
             fit = metric(target_counts, counts)
             logger.debug('Keyword break attempt using key {0} (wrap={1}) '
                          'gives fit of {2} and decrypt starting: {3}'.format(
@@ -199,7 +199,7 @@ def keyword_break_mp(message,
 def keyword_break_worker(message, keyword, wrap_alphabet, metric, target_counts, 
                       message_frequency_scaling):
     plaintext = keyword_decipher(message, keyword, wrap_alphabet)
-    counts = message_frequency_scaling(letter_frequencies(plaintext))
+    counts = message_frequency_scaling(frequencies(plaintext))
     fit = metric(target_counts, counts)
     logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of '
                  '{2} and decrypt starting: {3}'.format(keyword, 
@@ -339,7 +339,7 @@ def vigenere_keyword_break(message,
     best_fit = float("inf")
     for keyword in wordlist:
         plaintext = vigenere_decipher(message, keyword)
-        counts = message_frequency_scaling(letter_frequencies(plaintext))
+        counts = message_frequency_scaling(frequencies(plaintext))
         fit = metric(target_counts, counts)
         logger.debug('Vigenere break attempt using key {0} '
                          'gives fit of {1} and decrypt starting: {2}'.format(
@@ -380,7 +380,7 @@ def vigenere_keyword_break_mp(message,
 def vigenere_keyword_break_worker(message, keyword, metric, target_counts, 
                       message_frequency_scaling):
     plaintext = vigenere_decipher(message, keyword)
-    counts = message_frequency_scaling(letter_frequencies(plaintext))
+    counts = message_frequency_scaling(frequencies(plaintext))
     fit = metric(target_counts, counts)
     logger.debug('Vigenere keyword break attempt using key {0} gives fit of '
                  '{1} and decrypt starting: {2}'.format(keyword, 
@@ -406,7 +406,7 @@ def vigenere_frequency_break(message,
     sanitised_message = sanitise(message)
     for trial_length in range(1, 20):
         splits = every_nth(sanitised_message, trial_length)
-        key = ''.join([chr(caesar_break(s, target_counts=target_counts)[0] + ord('a')) for s in splits])
+        key = ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
         plaintext = vigenere_decipher(sanitised_message, key)
         counts = message_frequency_scaling(frequencies(plaintext))
         fit = metric(target_counts, counts)
@@ -427,7 +427,7 @@ def beaufort_frequency_break(message,
                   message_frequency_scaling=norms.normalise):
     """Breaks a Beaufort cipher with frequency analysis
 
-    >>> vigenere_frequency_break(vigenere_encipher(sanitise("It is time to " \
+    >>> beaufort_frequency_break(beaufort_encipher(sanitise("It is time to " \
             "run. She is ready and so am I. I stole Daniel's pocketbook this " \
             "afternoon when he left his jacket hanging on the easel in the " \
             "attic."), 'florence')) # doctest: +ELLIPSIS
@@ -438,7 +438,7 @@ def beaufort_frequency_break(message,
     sanitised_message = sanitise(message)
     for trial_length in range(1, 20):
         splits = every_nth(sanitised_message, trial_length)
-        key = ''.join([chr(caesar_break(s, target_counts=target_counts)[0] + ord('a')) for s in splits])
+        key = ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
         plaintext = beaufort_decipher(sanitised_message, key)
         counts = message_frequency_scaling(frequencies(plaintext))
         fit = metric(target_counts, counts)
