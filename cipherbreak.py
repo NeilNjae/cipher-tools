@@ -57,15 +57,6 @@ def frequencies(text):
     return collections.Counter(c for c in text)
 
 
-def frequency_compare(text, target_frequency, frequency_scaling, metric):
-    counts = frequency_scaling(frequencies(text))
-    return -1 * metric(target_frequency, counts)
-
-def euclidean_compare(text):
-    return frequency_compare(text, norms.euclidean_scale(english_counts),
-            norms.euclidean_scale, norms.euclidean_distance)
-
-
 def caesar_break(message, fitness=Pletters):
     """Breaks a Caesar cipher using frequency analysis
     

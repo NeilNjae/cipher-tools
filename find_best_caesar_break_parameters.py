@@ -11,55 +11,80 @@ corpus_length = len(corpus)
 
 euclidean_scaled_english_counts = norms.euclidean_scale(english_counts)
 
-metrics = [{'func': norms.l1, 'name': 'l1'}, 
-    {'func': norms.l2, 'name': 'l2'},
-    {'func': norms.l3, 'name': 'l3'},
-    {'func': norms.cosine_distance, 'name': 'cosine_distance'},
-    {'func': norms.harmonic_mean, 'name': 'harmonic_mean'},
-    {'func': norms.geometric_mean, 'name': 'geometric_mean'},
-    {'func': norms.inverse_log_pl, 'name': 'inverse_log_pl'}]
+# def frequency_compare(text, target_frequency, frequency_scaling, metric):
+#     counts = frequency_scaling(frequencies(text))
+#     return -1 * metric(target_frequency, counts)
+
+# def euclidean_compare(text):
+#     return frequency_compare(text, norms.euclidean_scale(english_counts),
+#             norms.euclidean_scale, norms.euclidean_distance)
+
+metrics = [{'func': norms.l1, 'invert': True, 'name': 'l1'}, 
+    {'func': norms.l2, 'invert': True, 'name': 'l2'},
+    {'func': norms.l3, 'invert': True, 'name': 'l3'},
+    {'func': norms.cosine_distance, 'invert': False, 'name': 'cosine_distance'},
+    {'func': norms.harmonic_mean, 'invert': True, 'name': 'harmonic_mean'},
+    {'func': norms.geometric_mean, 'invert': True, 'name': 'geometric_mean'}]
 scalings = [{'corpus_frequency': normalised_english_counts, 
          'scaling': norms.normalise,
          'name': 'normalised'},
         {'corpus_frequency': euclidean_scaled_english_counts, 
          'scaling': norms.euclidean_scale,
-         'name': 'euclidean_scaled'},
-         {'corpus_frequency': normalised_english_counts,
-         'scaling': norms.identity_scale,
-         'name': 'normalised_with_identity'}]
+         'name': 'euclidean_scaled'}]
 message_lengths = [300, 100, 50, 30, 20, 10, 5]
 
 trials = 5000
 
-scores = collections.defaultdict(int)
+scores = {}
 
-def eval_all():
-    list(itertools.starmap(eval_one_parameter_set,
-        itertools.product(metrics, scalings, message_lengths)))
 
-def eval_one_parameter_set(metric, scaling, message_length):
+def make_frequency_compare_function(target_frequency, frequency_scaling, metric, invert):
+    def frequency_compare(text):
+        counts = frequency_scaling(frequencies(text))
+        if invert:
+            score = -1 * metric(target_frequency, counts)
+        else:
+            score = metric(target_frequency, counts)
+        return score
+    return frequency_compare
+
+
+def scoring_functions():
+    return [{'func': make_frequency_compare_function(s['corpus_frequency'], 
+                s['scaling'], m['func'], m['invert']),
+            'name': '{} + {}'.format(m['name'], s['name'])}
+        for m in metrics
+        for s in scalings] + [{'func': Pletters, 'name': 'Pletters'}]
+
+def eval_scores():
+    [eval_one_score(f, l) 
+        for f in scoring_functions()
+        for l in message_lengths]
+
+def eval_one_score(scoring_function, message_length):
+    print(scoring_function['name'], message_length)
+    if scoring_function['name'] not in scores:
+        scores[scoring_function['name']] = collections.defaultdict(int)
     for _ in range(trials):
         sample_start = random.randint(0, corpus_length - message_length)
         sample = corpus[sample_start:(sample_start + message_length)]
         key = random.randint(1, 25)
-        sample_ciphertext = caesar_encipher(sample, key)
-        found_key, _ = caesar_break(sample_ciphertext, 
-                                          metric=metric['func'], 
-                                          target_counts=scaling['corpus_frequency'], 
-                                          message_frequency_scaling=scaling['scaling'])
+        ciphertext = caesar_encipher(sample, key)
+        found_key, _ = caesar_break(ciphertext, scoring_function['func'])
         if found_key == key:
-            scores[(metric['name'], scaling['name'], message_length)] += 1 
-    return scores[(metric['name'], scaling['name'], message_length)]
+            scores[scoring_function['name']][message_length] += 1 
+    return scores[scoring_function['name']][message_length]
 
 def show_results():
     with open('caesar_break_parameter_trials.csv', 'w') as f:
         print(',message_length', file = f)
-        print('metric+scaling,', ','.join([str(l) for l in message_lengths]), file = f)
-        for (metric, scaling) in itertools.product(metrics, scalings):
-            print('{}:{}'.format(metric['name'], scaling['name']), end='', file=f)
-            for l in message_lengths:
-                print(',', scores[(metric['name'], scaling['name'], l)] / trials, end='', file=f)
-            print('', file = f)
+        print('scoring,', ', '.join([str(l) for l in message_lengths]), file = f)
+        for scoring in sorted(scores.keys()):
+            for length in message_lengths:
+                print(scoring, end='', sep='', file=f)
+                for l in message_lengths:
+                    print(',', scores[scoring][l] / trials, end='', file=f)
+                print('', file = f)
 
-eval_all()
+eval_scores()
 show_results()
