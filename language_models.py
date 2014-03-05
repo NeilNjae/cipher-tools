@@ -88,6 +88,19 @@ def random_english_letter():
 	return weighted_choice(normalised_english_counts)
 
 
+def ngrams(text, n):
+    """Returns all n-grams of a text
+    
+    >>> ngrams(sanitise('the quick brown fox'), 2) # doctest: +NORMALIZE_WHITESPACE
+    ['th', 'he', 'eq', 'qu', 'ui', 'ic', 'ck', 'kb', 'br', 'ro', 'ow', 'wn', 
+     'nf', 'fo', 'ox']
+    >>> ngrams(sanitise('the quick brown fox'), 4) # doctest: +NORMALIZE_WHITESPACE
+    ['theq', 'hequ', 'equi', 'quic', 'uick', 'ickb', 'ckbr', 'kbro', 'brow', 
+     'rown', 'ownf', 'wnfo', 'nfox']
+    """
+    return [text[i:i+n] for i in range(len(text)-n+1)]
+
+
 class Pdist(dict):
     """A probability distribution estimated from counts in datafile.
     Values are stored and returned as log probabilities.
@@ -108,6 +121,7 @@ def log_probability_of_unknown_word(key, N):
 
 Pw = Pdist(datafile('count_1w.txt'), log_probability_of_unknown_word)
 Pl = Pdist(datafile('count_1l.txt'), lambda _k, _N: 0)
+Pl2 = Pdist(datafile('count_2l.txt'), lambda _k, _N: 0)
 
 def Pwords(words): 
     """The Naive Bayes log probability of a sequence of words.
@@ -119,6 +133,11 @@ def Pletters(letters):
     """
     return sum(Pl[l.lower()] for l in letters)
 
+def Pbigrams(letters):
+    """The Naive Bayes log probability of the bigrams formed from a sequence 
+    of letters.
+    """
+    return sum(P2l[p] for p in ngrams(letters, 2))
 
 
 def cosine_distance_score(text):
