@@ -19,18 +19,6 @@ for a in range(26):
         modular_division_table[b][c] = a
 
 
-def ngrams(text, n):
-    """Returns all n-grams of a text
-    
-    >>> ngrams(sanitise('the quick brown fox'), 2) # doctest: +NORMALIZE_WHITESPACE
-    ['th', 'he', 'eq', 'qu', 'ui', 'ic', 'ck', 'kb', 'br', 'ro', 'ow', 'wn', 
-     'nf', 'fo', 'ox']
-    >>> ngrams(sanitise('the quick brown fox'), 4) # doctest: +NORMALIZE_WHITESPACE
-    ['theq', 'hequ', 'equi', 'quic', 'uick', 'ickb', 'ckbr', 'kbro', 'brow', 
-     'rown', 'ownf', 'wnfo', 'nfox']
-    """
-    return [text[i:i+n] for i in range(len(text)-n+1)]
-
 def every_nth(text, n, fillvalue=''):
     """Returns n strings, each of which consists of every nth character, 
     starting with the 0th, 1st, 2nd, ... (n-1)th character
