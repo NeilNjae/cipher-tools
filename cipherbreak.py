@@ -95,7 +95,7 @@ def affine_break(message, fitness=Pletters):
           'ls umfjsd jlsi zg hfsqysxog. ls dmmdtsd mx jls bats mh bkbsf. ls ' \
           'bfmctsd kfmyxd jls lyj, mztanamyu xmc jm clm cku tmmeaxw kj lai ' \
           'kxd clm ckuxj.') # doctest: +ELLIPSIS
-    ((15, 22, True), 0.0598745365924...)
+    ((15, 22, True), -340.611412245...)
     """
     sanitised_message = sanitise(message)
     best_multiplier = 0
@@ -103,7 +103,7 @@ def affine_break(message, fitness=Pletters):
     best_one_based = True
     best_fit = float("-inf")
     for one_based in [True, False]:
-        for multiplier in range(1, 26, 2):
+        for multiplier in [x for x in range(1, 26, 2) if x != 13]:
             for adder in range(26):
                 plaintext = affine_decipher(sanitised_message, 
                                             multiplier, adder, one_based)
@@ -131,7 +131,7 @@ def keyword_break(message, wordlist=keywords, fitness=Pletters):
     >>> keyword_break(keyword_encipher('this is a test message for the ' \
           'keyword decipherment', 'elephant', 1), \
           wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    (('elephant', 1), 0.1066453448861...)
+    (('elephant', 1), -52.8345642265...)
     """
     best_keyword = ''
     best_wrap_alphabet = True
@@ -162,7 +162,7 @@ def keyword_break_mp(message, wordlist=keywords, fitness=Pletters, chunksize=500
     >>> keyword_break_mp(keyword_encipher('this is a test message for the ' \
           'keyword decipherment', 'elephant', 1), \
           wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    (('elephant', 1), 0.106645344886...)
+    (('elephant', 1), -52.834564226507...)
     """
     with Pool() as pool:
         helper_args = [(message, word, wrap, fitness) 
@@ -186,7 +186,7 @@ def scytale_break(message, fitness=Pbigrams):
     >>> scytale_break('tfeulchtrtteehwahsdehneoifeayfsondmwpltmaoalhikotoere' \
            'dcweatehiplwxsnhooacgorrcrcraotohsgullasenylrendaianeplscdriioto' \
            'aek') # doctest: +ELLIPSIS
-    (6, 0.092599933059...)
+    (6, -281.276219108...)
     """
     best_key = 0
     best_fit = float("-inf")
@@ -287,7 +287,7 @@ def vigenere_keyword_break(message, wordlist=keywords, fitness=Pletters):
     >>> vigenere_keyword_break(vigenere_encipher(sanitise('this is a test ' \
              'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('cat', 0.15965224935...)
+    ('cat', -52.9479167030...)
     """
     best_keyword = ''
     best_fit = float("-inf")
@@ -315,7 +315,7 @@ def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
     >>> vigenere_keyword_break_mp(vigenere_encipher(sanitise('this is a test ' \
              'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('cat', 0.159652249358...)
+    ('cat', -52.9479167030...)
     """
     with Pool() as pool:
         helper_args = [(message, word, fitness) 
@@ -323,7 +323,7 @@ def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
         # Gotcha: the helper function here needs to be defined at the top level 
         #   (limitation of Pool.starmap)
         breaks = pool.starmap(vigenere_keyword_break_worker, helper_args, chunksize) 
-        return min(breaks, key=lambda k: k[1])
+        return max(breaks, key=lambda k: k[1])
 
 def vigenere_keyword_break_worker(message, keyword, fitness):
     plaintext = vigenere_decipher(message, keyword)
@@ -343,9 +343,9 @@ def vigenere_frequency_break(message, fitness=Pletters):
             "afternoon when he left his jacket hanging on the easel in the " \
             "attic. I jump every time I hear a footstep on the stairs, " \
             "certain that the theft has been discovered and that I will " \
-            "and that I will be caught. The SS officer visits less often now " \
-            "that he is sure"), 'florence')) # doctest: +ELLIPSIS
-    ('florence', 0.077657073...)
+            "be caught. The SS officer visits less often now that he is " \
+            "sure"), 'florence')) # doctest: +ELLIPSIS
+    ('florence', -307.5549865898...)
     """
     best_fit = float("-inf")
     best_key = ''
@@ -374,16 +374,16 @@ def beaufort_frequency_break(message, fitness=Pletters):
             "afternoon when he left his jacket hanging on the easel in the " \
             "attic. I jump every time I hear a footstep on the stairs, " \
             "certain that the theft has been discovered and that I will " \
-            "and that I will be caught. The SS officer visits less often now " \
+            "be caught. The SS officer visits less often now " \
             "that he is sure"), 'florence')) # doctest: +ELLIPSIS
-    ('florence', 0.077657073...)
+    ('florence', -307.5549865898...)
     """
     best_fit = float("-inf")
     best_key = ''
     sanitised_message = sanitise(message)
     for trial_length in range(1, 20):
         splits = every_nth(sanitised_message, trial_length)
-        key = ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
+        key = ''.join([chr(-caesar_break(s)[0] % 26 + ord('a')) for s in splits])
         plaintext = beaufort_decipher(sanitised_message, key)
         fit = fitness(plaintext)
         logger.debug('Beaufort key length of {0} ({1}) gives fit of {2}'.
