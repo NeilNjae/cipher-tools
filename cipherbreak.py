@@ -445,24 +445,11 @@ def railfence_break(message, max_key_length=20,
         plaintext = railfence_decipher(message, height)
         fit = fitness(plaintext)
         return height, fit
+        
     sanitised_message = sanitise(message)
     results = starmap(worker, [(sanitised_message, i, fitness)
                                for i in range(2, max_key_length+1)])
     return max(results, key=lambda k: k[1])
-
-
-    with Pool() as pool:
-        helper_args = [(message, trans, False, True, fitness)
-            for trans in
-                [[col for col in range(math.ceil(len(message)/rows))]
-                    for rows in range(1,max_key_length+1)]]
-        # Gotcha: the helper function here needs to be defined at the top level
-        #   (limitation of Pool.starmap)
-        breaks = pool.starmap(column_transposition_break_worker,
-                              helper_args, chunksize)
-        best = max(breaks, key=lambda k: k[1])
-        return math.trunc(len(message) / len(best[0][0])), best[1]
-scytale_break = scytale_break_mp
 
 
 def pocket_enigma_break_by_crib(message, wheel_spec, crib, crib_position):
