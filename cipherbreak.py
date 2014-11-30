@@ -417,6 +417,19 @@ scytale_break = scytale_break_mp
 
 
 def railfence_break(message, max_key_length=20,
+                     fitness=Pletters, chunksize=500):
+    """Breaks a hill cipher using a matrix of given rank and letter frequencies
+
+    
+    """
+    
+    sanitised_message = sanitise(message)
+    results = starmap(worker, [(sanitised_message, i, fitness)
+                               for i in range(2, max_key_length+1)])
+    return max(results, key=lambda k: k[1])
+
+
+def railfence_break(message, max_key_length=20,
                      fitness=Pbigrams, chunksize=500):
     """Breaks a railfence cipher using a range of lengths and
     n-gram frequency analysis
@@ -445,11 +458,43 @@ def railfence_break(message, max_key_length=20,
         plaintext = railfence_decipher(message, height)
         fit = fitness(plaintext)
         return height, fit
-        
+
     sanitised_message = sanitise(message)
     results = starmap(worker, [(sanitised_message, i, fitness)
                                for i in range(2, max_key_length+1)])
     return max(results, key=lambda k: k[1])
+
+
+def hill_break(message, matrix_size=2, fitness=Pletters, 
+    number_of_solutions=1, chunksize=500):
+
+    all_matrices = [np.matrix(list(m)) 
+        for m in itertools.product([list(r) 
+            for r in itertools.product(range(26), repeat=matrix_size)], 
+        repeat=matrix_size)]
+    valid_matrices = [m for m, d in 
+        zip(all_matrices, (int(round(linalg.det(m))) for m in all_matrices))
+                  if d != 0
+                  if d % 2 != 0
+                  if d % 13 != 0 ]
+    with Pool() as pool:
+        helper_args = [(message, matrix, fitness)
+                       for matrix in valid_matrices]
+        # Gotcha: the helper function here needs to be defined at the top level
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(hill_break_worker, helper_args, chunksize)
+        if number_of_solutions == 1:
+            return max(breaks, key=lambda k: k[1])
+        else:
+            return sorted(breaks, key=lambda k: k[1], reverse=True)[:number_of_solutions]
+
+def hill_break_worker(message, matrix, fitness):
+    plaintext = hill_decipher(matrix, message)
+    fit = fitness(plaintext)
+    logger.debug('Hill cipher break attempt using key {0} gives fit of '
+                 '{1} and decrypt starting: {2}'.format(matrix, 
+                     fit, sanitise(plaintext)[:50]))
+    return matrix, fit
 
 
 def pocket_enigma_break_by_crib(message, wheel_spec, crib, crib_position):

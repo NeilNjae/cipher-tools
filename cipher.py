@@ -656,7 +656,6 @@ def hill_encipher(matrix, message_letters, fillvalue='a'):
     return ''.join([chr(int(round(l)) % 26 + ord('a')) 
             for l in sum(enciphered_chunks, [])])
 
-
 def hill_decipher(matrix, message, fillvalue='a'):
     """Hill cipher
 
@@ -670,6 +669,7 @@ def hill_decipher(matrix, message, fillvalue='a'):
     inverse_determinant = modular_division_table[int(round(linalg.det(matrix))) % 26][1]
     inverse_matrix = (inverse_determinant * adjoint) % 26
     return hill_encipher(inverse_matrix, message, fillvalue)          
+
 
 class PocketEnigma(object):
     """A pocket enigma machine
