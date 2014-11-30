@@ -3,6 +3,9 @@ import collections
 import math
 from enum import Enum
 from itertools import zip_longest, cycle, chain
+import numpy as np
+from numpy import matrix
+from numpy import linalg
 from language_models import *
 
 
@@ -629,6 +632,44 @@ def railfence_decipher(message, height, fillvalue=''):
     up_rows.reverse()
     return ''.join(c for r in zip_longest(*(down_rows + up_rows), fillvalue='') for c in r)
 
+
+def hill_encipher(matrix, message_letters, fillvalue='a'):
+    """Hill cipher
+
+    >>> hill_encipher(np.matrix([[7,8], [11,11]]), 'hellothere')
+    'drjiqzdrvx'
+    >>> hill_encipher(np.matrix([[6, 24, 1], [13, 16, 10], [20, 17, 15]]), \
+        'hello there')
+    'tfjflpznvyac'
+    """
+    n = len(matrix)
+    sanitised_message = sanitise(message_letters)
+    if len(sanitised_message) % n != 0:
+        padding = fillvalue[0] * (n - len(sanitised_message) % n)
+    else:
+        padding = ''
+    message = [ord(c) - ord('a') for c in sanitised_message + padding]
+    message_chunks = [message[i:i+n] for i in range(0, len(message), n)]
+    # message_chunks = chunks(message, len(matrix), fillvalue=None)
+    enciphered_chunks = [((matrix * np.matrix(c).T).T).tolist()[0] 
+            for c in message_chunks]
+    return ''.join([chr(int(round(l)) % 26 + ord('a')) 
+            for l in sum(enciphered_chunks, [])])
+
+
+def hill_decipher(matrix, message, fillvalue='a'):
+    """Hill cipher
+
+    >>> hill_decipher(np.matrix([[7,8], [11,11]]), 'drjiqzdrvx')
+    'hellothere'
+    >>> hill_decipher(np.matrix([[6, 24, 1], [13, 16, 10], [20, 17, 15]]), \
+        'tfjflpznvyac')
+    'hellothereaa'
+    """
+    adjoint = linalg.det(matrix)*linalg.inv(matrix)
+    inverse_determinant = modular_division_table[int(round(linalg.det(matrix))) % 26][1]
+    inverse_matrix = (inverse_determinant * adjoint) % 26
+    return hill_encipher(inverse_matrix, message, fillvalue)          
 
 class PocketEnigma(object):
     """A pocket enigma machine
