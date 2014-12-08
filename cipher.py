@@ -2,7 +2,7 @@ import string
 import collections
 import math
 from enum import Enum
-from itertools import zip_longest, cycle, chain
+from itertools import zip_longest, cycle, chain, count
 import numpy as np
 from numpy import matrix
 from numpy import linalg
@@ -669,6 +669,111 @@ def hill_decipher(matrix, message, fillvalue='a'):
     inverse_determinant = modular_division_table[int(round(linalg.det(matrix))) % 26][1]
     inverse_matrix = (inverse_determinant * adjoint) % 26
     return hill_encipher(inverse_matrix, message, fillvalue)          
+
+
+# Where each piece of text ends up in the AMSCO transpositon cipher.
+# 'index' shows where the slice appears in the plaintext, with the slice
+# from 'start' to 'end'
+AmscoSlice = collections.namedtuple('AmscoSlice', ['index', 'start', 'end'])
+
+def amsco_transposition_positions(message, keyword, 
+      fillpattern=(1, 2),
+      fillcolumnwise=False,
+      emptycolumnwise=True):
+    """Creates the grid for the AMSCO transposition cipher. Each element in the
+    grid shows the index of that slice and the start and end positions of the
+    plaintext that go to make it up.
+
+    >>> amsco_transposition_positions(string.ascii_lowercase, 'freddy', \
+        fillpattern=(1, 2)) # doctest:  +NORMALIZE_WHITESPACE
+    [[AmscoSlice(index=3, start=4, end=6),
+     AmscoSlice(index=2, start=3, end=4),
+     AmscoSlice(index=0, start=0, end=1),
+     AmscoSlice(index=1, start=1, end=3),
+     AmscoSlice(index=4, start=6, end=7)],
+    [AmscoSlice(index=8, start=12, end=13),
+     AmscoSlice(index=7, start=10, end=12),
+     AmscoSlice(index=5, start=7, end=9),
+     AmscoSlice(index=6, start=9, end=10),
+     AmscoSlice(index=9, start=13, end=15)],
+    [AmscoSlice(index=13, start=19, end=21),
+     AmscoSlice(index=12, start=18, end=19),
+     AmscoSlice(index=10, start=15, end=16),
+     AmscoSlice(index=11, start=16, end=18),
+     AmscoSlice(index=14, start=21, end=22)],
+    [AmscoSlice(index=18, start=27, end=28),
+     AmscoSlice(index=17, start=25, end=27),
+     AmscoSlice(index=15, start=22, end=24),
+     AmscoSlice(index=16, start=24, end=25),
+     AmscoSlice(index=19, start=28, end=30)]]
+    """
+    transpositions = transpositions_of(keyword)
+    fill_iterator = cycle(fillpattern)
+    indices = count()
+    message_length = len(message)
+
+    current_position = 0
+    grid = []
+    while current_position < message_length:
+        row = []
+        for _ in range(len(transpositions)):
+            index = next(indices)
+            gap = next(fill_iterator)
+            row += [AmscoSlice(index, current_position, current_position + gap)]
+            current_position += gap
+        grid += [row]
+    return [transpose(r, transpositions) for r in grid]
+
+def amsco_transposition_encipher(message, keyword, fillpattern=(1,2)):
+    """AMSCO transposition encipher.
+
+    >>> amsco_transposition_encipher('hellothere', 'abc', fillpattern=(1, 2))
+    'hoteelhler'
+    >>> amsco_transposition_encipher('hellothere', 'abc', fillpattern=(2, 1))
+    'hetelhelor'
+    >>> amsco_transposition_encipher('hellothere', 'acb', fillpattern=(1, 2))
+    'hotelerelh'
+    >>> amsco_transposition_encipher('hellothere', 'acb', fillpattern=(2, 1))
+    'hetelorlhe'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 2))
+    'hecsoisttererteipexhomen'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(2, 1))
+    'heetcisooestrrepeixthemn'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 3, 2))
+    'hxomeiphscerettoisenteer'
+    """
+    grid = amsco_transposition_positions(message, keyword, fillpattern=fillpattern)
+    ct_as_grid = [[message[s.start:s.end] for s in r] for r in grid]
+    return combine_every_nth(ct_as_grid)
+
+
+def amsco_transposition_decipher(message, keyword, fillpattern=(1,2)):
+    """AMSCO transposition decipher
+
+    >>> amsco_transposition_decipher('hoteelhler', 'abc', fillpattern=(1, 2))
+    'hellothere'
+    >>> amsco_transposition_decipher('hetelhelor', 'abc', fillpattern=(2, 1))
+    'hellothere'
+    >>> amsco_transposition_decipher('hotelerelh', 'acb', fillpattern=(1, 2))
+    'hellothere'
+    >>> amsco_transposition_decipher('hetelorlhe', 'acb', fillpattern=(2, 1))
+    'hellothere'
+    >>> amsco_transposition_decipher('hecsoisttererteipexhomen', 'cipher', fillpattern=(1, 2))
+    'hereissometexttoencipher'
+    >>> amsco_transposition_decipher('heetcisooestrrepeixthemn', 'cipher', fillpattern=(2, 1))
+    'hereissometexttoencipher'
+    >>> amsco_transposition_decipher('hxomeiphscerettoisenteer', 'cipher', fillpattern=(1, 3, 2))
+    'hereissometexttoencipher'
+    """
+
+    grid = amsco_transposition_positions(message, keyword, fillpattern=fillpattern)
+    transposed_sections = [s for c in [l for l in zip(*grid)] for s in c]
+    plaintext_list = [''] * len(transposed_sections)
+    current_pos = 0
+    for slice in transposed_sections:
+        plaintext_list[slice.index] = message[current_pos:current_pos-slice.start+slice.end][:len(message[slice.start:slice.end])]
+        current_pos += len(message[slice.start:slice.end])
+    return ''.join(plaintext_list)
 
 
 class PocketEnigma(object):

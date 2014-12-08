@@ -464,6 +464,59 @@ def railfence_break(message, max_key_length=20,
                                for i in range(2, max_key_length+1)])
     return max(results, key=lambda k: k[1])
 
+def amsco_break(message, translist=transpositions, patterns = [(1, 2), (2, 1)],
+                                  fitness=Pbigrams, 
+                                  chunksize=500):
+    """Breaks an AMSCO transposition cipher using a dictionary and
+    n-gram frequency analysis
+
+    >>> amsco_break(amsco_transposition_encipher(sanitise( \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in \
+             the minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
+        'encipher'), \
+        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
+                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
+                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
+        patterns=[(1, 2)]) # doctest: +ELLIPSIS
+    (((2, 0, 5, 3, 1, 4, 6), (1, 2)), -709.4646722...)
+    >>> amsco_break(amsco_transposition_encipher(sanitise( \
+            "It is a truth universally acknowledged, that a single man in \
+             possession of a good fortune, must be in want of a wife. However \
+             little known the feelings or views of such a man may be on his \
+             first entering a neighbourhood, this truth is so well fixed in \
+             the minds of the surrounding families, that he is considered the \
+             rightful property of some one or other of their daughters."), \
+        'encipher', fillpattern=(2, 1)), \
+        translist={(2, 0, 5, 3, 1, 4, 6): ['encipher'], \
+                   (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
+                   (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
+        patterns=[(1, 2), (2, 1)], fitness=Ptrigrams) # doctest: +ELLIPSIS
+    (((2, 0, 5, 3, 1, 4, 6), (2, 1)), -997.0129085...)
+    """
+    with Pool() as pool:
+        helper_args = [(message, trans, pattern, fitness)
+                       for trans in translist.keys()
+                       for pattern in patterns]
+        # Gotcha: the helper function here needs to be defined at the top level
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(amsco_break_worker, helper_args, chunksize) 
+        return max(breaks, key=lambda k: k[1])
+
+def amsco_break_worker(message, transposition,
+        pattern, fitness):
+    plaintext = amsco_transposition_decipher(message, transposition,
+        fillpattern=pattern)
+    fit = fitness(sanitise(plaintext))
+    logger.debug('AMSCO transposition break attempt using key {0} and pattern'
+                         '{1} gives fit of {2} and decrypt starting: {3}'.format(
+                             transposition, pattern, fit, 
+                             sanitise(plaintext)[:50]))
+    return (transposition, pattern), fit
+
 
 def hill_break(message, matrix_size=2, fitness=Pletters, 
     number_of_solutions=1, chunksize=500):
