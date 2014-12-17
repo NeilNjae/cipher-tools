@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABAgAGBQJUhgWPAAoJEJPB2e07Pgbqgf0QAIimK/n/3PM95dnm8d6TE/gI
-LmGKJaV8So78RLYgMaK4tHwz2/w4YflKOSFg0DILjn9Sh1mGfYK9dx3RB/4oMFAB
-4Gi+Z3SM4rlYRqZYoMH0VHeypqoMjZ8mzXN6kIdw6ysckpsYJ2fJlHqJ5ZlYQZf3
-pHJYkW0fAoGxWX+eLlzTHMe45/1ix7YsOBYR5L3qO1/LW0EgQD1mfWzGIJKY3kI4
-5CyQBeIGrlATOGD+Bm/euVRJfCESBoy+ffhcHbNeG+UvQVDgshAytgv0R6a8fyJL
-O+DC1yBkfOSQfLMsQcsg8+LAk/rxfpZ6Hti7ALKgmooLeYAE2OU4Ktg3aVMlE+ZI
-Fk8c9WlL5ZY9CSkED8OOed8SjhXQkTfAen+opQWepjY7dvEV4H8ojOFUHAT0KtpM
-16uH8duQQwYslMj6aD8m4rMCoSlMNbZoV1o3ph3NzQZtUlS7RhBe3lMcPNPLiveo
-fvplCRnHWSjXVmLvgDqBnb+noGZfTXVrE9sO7KoQf+dto9aZjqLcOk+7zSBDtMyG
-k4Z3mcjIchwnq5iXDfhNVAV5RGuwReO/VaXfSdAuq3pmluND6qzmTX8mCULos2HZ
-ph90Wz2TpMNtQxopPDX0lVYU7V7MiI+ZQkh4SWx8u9rPAb7FNnh7tGQ2jLiEZNty
-f890y9qD5KZgOroYLb16
-=Qpqt
+iQIcBAABAgAGBQJUkP0EAAoJEJPB2e07PgbqWS0QAK3JVAZrCqcb18BPzPHVZBdb
+EZCbhq8bnujTkwlR/WtQRG1DfTiY4T06lQmvyLqbWB975SoycjxJu46phosFcE0F
+my67mZFDgnbzKOSl+R6O1lB5oMsoUPDVOZ+5VIy/265lNAOUZKS6AdZqrT0yqfez
+ZIG9TtEMeE1X5JGqmDagm+ZWMu5TqcRjHq+RE1t4FOubJ7Mz++casMo5wIAd9aVm
+1dtTFmKMLqiiaYoLUt4B52Jv1Zk8u/+aqi8kB8pqH8c4jj9NqJTtSnNesOs7Gr/6
+qdkh61Le1EnkGwMWsdgkZApxXQXKOZn+4VVfD5/tmlDCEr2f0AM9UBliCIeZknpu
+0xM6Ficom/EOgegLxcQiHIcs5TKJorwKPQTEkfBxR1aecFPSk32dTvAMffEcD7DL
+nzRY4JP7bGQX6ZnLqR6+GsaF0d/rlyT9JfhSpWAcNKFf6hVMTDMSUSE39MoaNJTX
+MvoNtzbW3qEWkKiGBj3wOT5AXkfiZFSI5wsxkz4T+ELyx+jd5YFoxJ6g8z0IrI4M
+Q7yWVbQNM8eXzKOyn82GzjR5SXJvHts4T3qVTVQLpXEyudB4ylo+uMkuwsjpzwFF
+YFYvIfLX1/+3//9gypfJdo49YJJa6gqM6f8gVNQHdUWB+0YzqOz6a5b3LWFHTGyY
+6kj6ud1HYjI6rGFIhb+x
+=nbsm
 -----END PGP SIGNATURE-----
 
 ```
@@ -153,9 +153,7 @@ size     exec  file                                               contents
 #### Presets
 
 ```
-git      # ignore .git and anything as described by .gitignore files
-dropbox  # ignore .dropbox-cache and other Dropbox-related files    
-kb       # ignore anything as described by .kbignore files          
+git  # ignore .git and anything as described by .gitignore files
 ```
 
 <!-- summarize version = 0.0.9 -->
