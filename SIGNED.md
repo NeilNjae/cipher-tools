@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABAgAGBQJUkP0EAAoJEJPB2e07PgbqWS0QAK3JVAZrCqcb18BPzPHVZBdb
-EZCbhq8bnujTkwlR/WtQRG1DfTiY4T06lQmvyLqbWB975SoycjxJu46phosFcE0F
-my67mZFDgnbzKOSl+R6O1lB5oMsoUPDVOZ+5VIy/265lNAOUZKS6AdZqrT0yqfez
-ZIG9TtEMeE1X5JGqmDagm+ZWMu5TqcRjHq+RE1t4FOubJ7Mz++casMo5wIAd9aVm
-1dtTFmKMLqiiaYoLUt4B52Jv1Zk8u/+aqi8kB8pqH8c4jj9NqJTtSnNesOs7Gr/6
-qdkh61Le1EnkGwMWsdgkZApxXQXKOZn+4VVfD5/tmlDCEr2f0AM9UBliCIeZknpu
-0xM6Ficom/EOgegLxcQiHIcs5TKJorwKPQTEkfBxR1aecFPSk32dTvAMffEcD7DL
-nzRY4JP7bGQX6ZnLqR6+GsaF0d/rlyT9JfhSpWAcNKFf6hVMTDMSUSE39MoaNJTX
-MvoNtzbW3qEWkKiGBj3wOT5AXkfiZFSI5wsxkz4T+ELyx+jd5YFoxJ6g8z0IrI4M
-Q7yWVbQNM8eXzKOyn82GzjR5SXJvHts4T3qVTVQLpXEyudB4ylo+uMkuwsjpzwFF
-YFYvIfLX1/+3//9gypfJdo49YJJa6gqM6f8gVNQHdUWB+0YzqOz6a5b3LWFHTGyY
-6kj6ud1HYjI6rGFIhb+x
-=nbsm
+iQIcBAABAgAGBQJUlDlsAAoJEJPB2e07PgbqdygQAIr93N/1xV9Ag7rNSIB7Pgz1
+zpvnYeuz0uC0EgvgBiTBTiL4obNFeS0B4AnYzxtZekYdP9fpFgAFdytaKq4Pacja
+v/wLJlwyaNLyEiGTwEpcqEwopwcMLM/F0TM7brXFZSPBRhsUZ755SIyavkPKfGA6
+NFfTq9WjprAAEq9XSv6ehgiGJkwsTXbP0rM3X7QhyY6FRL41G6fpxAsrlgvLdQDj
+tup8VibhEUFuctvAsQbtfVocWpmWSEnYUHRusMlrc8LY6crCXydnQvV3sbIggtsz
+yQoCtxzE6HF4eKgjGO2cd+NHIA7BB2vgzz6xymPrMVXxhx3hPyAg2a9k+MCUdmzd
+SCeWOpEtG+rVP1tIiSM5VHWlluok2o40dUhfUT563M0Gvo/jhLm9OPkM4SddJG+U
+Q/A0/CBtu9eWizzh+2N1mG6F5ryUFTAmDVTTLFYCMgCurTcwIkX2HUKAsbW65U0q
+JAM7qJg7bYVIoJ0B6keO3iDnPiEk9IRsP7quU2F7/Vjn1keWdJ0SeeI9vy5Ws5/S
+sW7A+v0lVx2gey3Y3X9fRpzyDdY82eitaKUa8CT7IhhhWjB4XvSTDygsO637AZS1
+s7EFPc9vppGKa1CIyD/2VKHvl8iXs+DarWzy/jutdPvc9qcM/V8Pmu88Fq6nL5Nk
+R5UvOSoqssCptx2rgaDF
+=m8Bf
 -----END PGP SIGNATURE-----
 
 ```
@@ -101,6 +101,8 @@ size     exec  file                                               contents
 634                6b.ciphertext                                  6049395e22af4f76540970c90faf301cf2999cefbc008a651ab36fe413e8aedc                                                                 
 1650               7a.ciphertext                                  8a856dc907c04dea27d7d12f530c1c3e11dff6b51fb593bea10a8d68e0240cf6                                                                 
 988                7b.ciphertext                                  cfb66667a8011226be0be7c98e9deb7efa02e9a53cad67743baf166c20136ada                                                                 
+1391               8a.ciphertext                                  ac2b18d13ef44be0fb233d2455c51897b4df59491bbdd23ef82fbd9490bc86b1                                                                 
+7001               8b.ciphertext                                  8d7e366e8fbb5766717481eeec77b089d3e8f9e708ac198d56176cb0882a9472                                                                 
 3882             2014-challenge1.ipynb                            07715f100d97af32ad5a13b56ade2f5753e17e32404e2eda0dcb9634736298f5                                                                 
 28071            2014-challenge2.ipynb                            1535404ae5a412160c82d19e38f7069a2eaca600bd433e77877bd13e14929e6b                                                                 
 29190            2014-challenge3.ipynb                            1454c5e5014eac93c42e88611f3f6b3f014bf70a8e9d8e87ef4725f8d12a27b7                                                                 
@@ -108,6 +110,7 @@ size     exec  file                                               contents
 23322            2014-challenge5.ipynb                            fb3bb531c62ed943528715cc19e800293e3cd4a176ce3a3fe01e7e585386907e                                                                 
 40307            2014-challenge6.ipynb                            5085a4ae2a562c87983cbff817ac89826973341551980563ae0c77ab747a5dff                                                                 
 44472            2014-challenge7.ipynb                            9800d39c881f22f67f1182f6ca73bbf40a123d0deb598a6009f545f421955241                                                                 
+77771            2014-challenge8.ipynb                            908dec38d100f5d4f41261068a5d07358ba28d48c93a5d21ce43bea31841b3e5                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
