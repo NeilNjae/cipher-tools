@@ -1,21 +1,21 @@
 ##### Signed by https://keybase.io/neilnjae
 ```
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+Version: GnuPG v2
 
-iQIcBAABAgAGBQJUodXPAAoJEJPB2e07PgbqiKIQAI+/L+eAsXMar1bKzhmeGiTP
-/D9bQ8u5UEzFw/4b+u2o6oAmNif54vRJMq0sJQpjgkWQRvzAqGiKfqSggAoJdxxL
-hTzR9vpA9v0RPTLS2HI5DhtBn3II5VvpuZNsQVnZwMuagiQ3g/CYGxL2D8JIL7ky
-upLn8TRNMwVrhAcsSHm/ecMvnEyfM9bQ7bC4lTm8RvEQ+tq7HNBFDKlo+NPke4zO
-ndWwtgg7+FynrWJ8zvkI9JhNMzOoCgZDYEu2scFg01+D6IJMeURuUKmrWMmzyW0j
-YOoXXvcdDjb1Ff4CXpyurl7TgH/u0ZEwIESPf8n0sc5IPgTX3JEw4ZIRtsr6lmeo
-GfTxP9KpuWLLDipCxOmdk+XPT6H0ORjbMZqXiYP7TA3CE7u9F3/roRzwHKsToT3c
-Puu+zWnYMqVDuQT/L4sIIIH+Tno82593mONGDUQfQd68XTcLc2aMg+qJtB+INGVC
-mkEjUnrKsVo71QA6s94/yntnMqHStf3URbmMOaMCZEPFF4rEqxqXTpgVsIq5pdSI
-DxeyTom8Prj5mpquoLSBl5TsHYq2ij3wcdthoZU7K+eNv0J7uznSqjUAiVsFNdws
-htFXKBiNfrx69wUG6FtZ8Ext6EJRD8I8EAF5LQZ3DPLLcioonYwXI3gvlCsZsF0g
-napuYFyPZVmZC2jqjzPB
-=f2TR
+iQIcBAABAgAGBQJU6u7XAAoJEJPB2e07Pgbqj+4P/RQk28yTg894dSybAhs3kNtS
+knFx9OYSkv+PkUHAMq6HglIVG4T1n4237tekNSVzMFaummaQ+VRVFprqYgcvh7ol
+4z+i6BWazou6sSa8qHJviNeF4oj+cnqzVlSWfPhdRHcjxathxyaFockaZagGeA1P
+egKPF3WXpq+rR6nFDXMLq7kdAyyLIwNVcepr9ieOLeKvx5rdi8dTFssvsXIJ37DZ
+Tl6ynEGpvkhZZrfm/vsFp79uDqT+XfP1cKM7Rm7jmYa5hiPgLE3kM5wOEpmUMXvD
+PzSjJ5yuUm82p6qHQW4BK+IFTdPFbL0ErziVP7vvWlFX2iilZ9sE2EEMvh/tCwmT
+K9vDJk2l0CkhFOOkih7O7tmxF2a27LrxpGtqv7Kw/w7+1LhwhoEwVLnXNl/PS4JM
+iT7QvkK3mYCcB9IqUPNmCs3doqSuOqoRMUFdYxj0qOlQgqNukc5U5ETX52goGpB6
+huxD5FyFgznn5YAaYIqklO81z1YL2R0CZ54CoIx027hKHvo98JEN9g0kxBpoo7AK
+JcphW4z+EOQtNtHHsXoifp/wRiChBzhE1QMXw5OSeMpvO7p8zPYS6poO2kn+kzsz
+6f8X7/4PrmusahqFZ5w3xEbmEdxsvpmhhXYgAdh1dWtBAMY+DIwn5IaVccvftsHx
+/ERD+mLkHcWviY54Kawy
+=fVdI
 -----END PGP SIGNATURE-----
 
 ```
@@ -110,7 +110,7 @@ size     exec  file                                               contents
 23322            2014-challenge5.ipynb                            fb3bb531c62ed943528715cc19e800293e3cd4a176ce3a3fe01e7e585386907e                                                                 
 40307            2014-challenge6.ipynb                            5085a4ae2a562c87983cbff817ac89826973341551980563ae0c77ab747a5dff                                                                 
 44472            2014-challenge7.ipynb                            9800d39c881f22f67f1182f6ca73bbf40a123d0deb598a6009f545f421955241                                                                 
-128113           2014-challenge8.ipynb                            bc4b9252c1a103e7169580be3fbe47dd1c9b4b730c29efb862a93d3cd2ce4cb1                                                                 
+188080           2014-challenge8.ipynb                            c59bcfbb39e48e6e151cc0c86fe48add67844954cf3c65d560bbda0c972a8376                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
@@ -135,6 +135,7 @@ size     exec  file                                               contents
 368              lettercount.py                                   ed36497d62cf75b91994055e4a18848b2fabe5ce793cd76a77fabfc94d81d4f3                                                                 
 592              make-cracking-dictionary.py                      71791e64e4853cd9ca292cb436bbe8c72dd60f509811174df93ed2067683d5c1                                                                 
 7077             norms.py                                         a657a36c1741e6f3a513386b318fcc99e6b11f98ec64a48284b47462ff2acf30                                                                 
+8411             norms.pyc                                        ac7a18765c7bcc27e406d8f38d943408097b3384a271502185d53482e6ec0da7|002b186e716cec64869a00bd2d72e16614931e696daa0cf3529d634a0f270e42
 112847           plot-caesar-parameters.ipynb                     639459b4b2e434f9f0852c012ed9a8a8d87bd1cb6c2d65ca5abfdb0e42c3dea6                                                                 
 23863            railfence-experiment-1.ipynb                     e34a61cef19b3249a3d6d731fe054769c02233b0be661161ebf45bada3b7b97b                                                                 
 18628            railfence-experiment-2.ipynb                     8c4d90c1c934b764deba0956bb4be81868e463789dc8fe02e5621ab3a95c0889                                                                 
