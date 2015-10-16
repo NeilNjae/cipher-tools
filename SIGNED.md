@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABAgAGBQJU6u7XAAoJEJPB2e07Pgbqj+4P/RQk28yTg894dSybAhs3kNtS
-knFx9OYSkv+PkUHAMq6HglIVG4T1n4237tekNSVzMFaummaQ+VRVFprqYgcvh7ol
-4z+i6BWazou6sSa8qHJviNeF4oj+cnqzVlSWfPhdRHcjxathxyaFockaZagGeA1P
-egKPF3WXpq+rR6nFDXMLq7kdAyyLIwNVcepr9ieOLeKvx5rdi8dTFssvsXIJ37DZ
-Tl6ynEGpvkhZZrfm/vsFp79uDqT+XfP1cKM7Rm7jmYa5hiPgLE3kM5wOEpmUMXvD
-PzSjJ5yuUm82p6qHQW4BK+IFTdPFbL0ErziVP7vvWlFX2iilZ9sE2EEMvh/tCwmT
-K9vDJk2l0CkhFOOkih7O7tmxF2a27LrxpGtqv7Kw/w7+1LhwhoEwVLnXNl/PS4JM
-iT7QvkK3mYCcB9IqUPNmCs3doqSuOqoRMUFdYxj0qOlQgqNukc5U5ETX52goGpB6
-huxD5FyFgznn5YAaYIqklO81z1YL2R0CZ54CoIx027hKHvo98JEN9g0kxBpoo7AK
-JcphW4z+EOQtNtHHsXoifp/wRiChBzhE1QMXw5OSeMpvO7p8zPYS6poO2kn+kzsz
-6f8X7/4PrmusahqFZ5w3xEbmEdxsvpmhhXYgAdh1dWtBAMY+DIwn5IaVccvftsHx
-/ERD+mLkHcWviY54Kawy
-=fVdI
+iQIcBAABCAAGBQJWILouAAoJEJPB2e07PgbqryEQAI0JcUaIHReXj+R9fbd2XsgN
+VezfumlVz/PXtbHP39grBqWwxWEwqhh6qZBdBpImVYR5xUmYtWL/5zsNFY0iQwMS
+TmBgVn6YH9j9iQ7MpZUscO71P2pwhKqwGEcb7NxcHr4HocmmTrHdhVmPL27suLwC
+NDYyy1SY4vCoxBaMbY4rbTcUHs/jY0tuIyEX7q6JByM07Rune+p3OxtYyjx3HBmz
+pQy7Cs1yJf5vb4BZuhjB3izyI8H6MIhc1oupBn1UTxKW5I4yCk6bFBT+t/dJGBYV
+D6FD3fSgjwKCqtgkJ7sxFpHiqUud9UCxDRW6YyQqSZd+nW7SJjXX7aepMj6giMRW
++O1sLJoid3aQkKKHcWDp5/Nb3sl+xBQx8MfVLZUFGFU78UUwf09ZNIfEuNk5ZXdC
+1MVyNHothCFas7AoDjLMnOAtUucs71ZwT0AMMQFxPGDT7a8z2Qexxs7Wy1j8DY6E
+joLvLIyJsZF+NKKEWi1FsPy2DuGfqG+0m6qWo2rMz/ugV6f8pyVfIDVdkDNpE9uN
+Rn3t7D6u+XMGlmnmx6lAHVsDLBlOB5zS7LyBsiGjkhcFc+PSL+Zv4MlTBIZQyLeD
+HyzhUtVFGsTBy1sZOaazipdC1+74X0I5OiUVoSCPcNOsFGTqfU0+tjXCFTwgpQEb
+EfQreGq0WtV1zoNFVsLN
+=mndn
 -----END PGP SIGNATURE-----
 
 ```
@@ -29,6 +29,7 @@ JcphW4z+EOQtNtHHsXoifp/wRiChBzhE1QMXw5OSeMpvO7p8zPYS6poO2kn+kzsz
 ```
 size     exec  file                                               contents                                                                                                                         
                ./                                                                                                                                                                                  
+60               .directory                                       0e83b2cb4dc042236e38c6f8b2575dd0e30b70d4d396795008d5fb3facea2872                                                                 
 384              .gitignore                                       a93de2ae5c2a47a38599751d1f914566569dfa09dd1778e207117db6c71421dd                                                                 
                  2012/                                                                                                                                                                             
 1678               1a.ciphertext                                  c7c16198650e7d91577683acca664a0e588ac5474046a028dea3d9dc4b388df8                                                                 
@@ -111,6 +112,10 @@ size     exec  file                                               contents
 40307            2014-challenge6.ipynb                            5085a4ae2a562c87983cbff817ac89826973341551980563ae0c77ab747a5dff                                                                 
 44472            2014-challenge7.ipynb                            9800d39c881f22f67f1182f6ca73bbf40a123d0deb598a6009f545f421955241                                                                 
 188080           2014-challenge8.ipynb                            c59bcfbb39e48e6e151cc0c86fe48add67844954cf3c65d560bbda0c972a8376                                                                 
+                 2015/                                                                                                                                                                             
+874                1a.ciphertext                                  5d0d71f24522e1c05127feb601bf8dc82566f3d2795fb51c4a60e22d900bb5eb                                                                 
+394                1b.ciphertext                                  a35e8265aea45ab5f7c5eb141e5e65c85ecc24c7d87f3e8197dfe6795a7d3226                                                                 
+3620             2015-challenge1.ipynb                            2ab544f48c22a3a2e665b03ae094ac2de04aee8bdb37366209276a937d248d6a                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
@@ -131,7 +136,7 @@ size     exec  file                                               contents
 3027             find_best_caesar_break_parameters.py             0347d80309179d937a88fd1c8684490a513ccd086366c5a0dd55b8a2fe5c565f                                                                 
 1236             find_wikipedia_titles.py                         f040bf855dfec7fff9d8e5eba2fb509179bc53bc02a20b26b7fc61fef983aa45                                                                 
 37128            hill-ciphers.ipynb                               ce802c2be807b4565858b568d3a82c65a3957aa625344189f8f2a055237b3fdd                                                                 
-5401             language_models.py                               e4f868b0322ac57fc4027c22c3c6a4d6b24a30894d19110f1a28f11bec0cbd04                                                                 
+5516             language_models.py                               9f6c60892b385a8443202edda95074eb28e2b66981e25e27f4153b887e2c9ee3                                                                 
 368              lettercount.py                                   ed36497d62cf75b91994055e4a18848b2fabe5ce793cd76a77fabfc94d81d4f3                                                                 
 592              make-cracking-dictionary.py                      71791e64e4853cd9ca292cb436bbe8c72dd60f509811174df93ed2067683d5c1                                                                 
 7077             norms.py                                         a657a36c1741e6f3a513386b318fcc99e6b11f98ec64a48284b47462ff2acf30                                                                 

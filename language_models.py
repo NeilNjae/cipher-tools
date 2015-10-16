@@ -6,6 +6,8 @@ import unicodedata
 import itertools
 from math import log10
 
+unaccent_specials = ''.maketrans({"’": "'"})
+
 def letters(text):
     """Remove all non-alphabetic characters from a text
     >>> letters('The Quick')
@@ -31,7 +33,8 @@ def unaccent(text):
     >>> unaccent('HÉLLÖ')
     'HELLO'
     """
-    return unicodedata.normalize('NFKD', text).\
+    translated_text = text.translate(unaccent_specials)
+    return unicodedata.normalize('NFKD', translated_text).\
         encode('ascii', 'ignore').\
         decode('utf-8')
 
