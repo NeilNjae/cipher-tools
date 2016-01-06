@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABCAAGBQJWWJa0AAoJEJPB2e07PgbqOFkP/jmfCjzYoLGLAcbfUNDTl+kB
-5M81aiy73fMNJV2+GoGBflZpJ1Br0/yi+kSMFmK2Vv68jpHNuGaL+ihncVhE2TbE
-2LvhwbFYGugkKNBYt8nDDb2VMMKoaTU9xqpPxYTI1FAIKTDVCimZw3BurzJsd8P1
-Ow9OEA6LwzP2wJksOj+W+f0i4eATPbq8S3/1uoccgoWLmMgwq2GenDKqZIYs1H0a
-PFPld3Q/WC5BsMt7+Cn4JPQfe+IlfKrfWKTCx0ycs2zONWljvxrNf16qt9681sDm
-FKMsBGjB5yfvUAXs1iMhxWrXFY+dZlBkMeQmyDy/4BGzJMu3XlJOcMG0JaDCaeHW
-+JTUIl7cRMj/DsKbZO4ENFIHe8RL5rrgW1gVOlhT3WJVY9WAi57PDnAvo1CQTjXe
-3w7/KVu5YU7YiAZnF6p1W3DU1N0VyD7zTWgltj0r85CWAalJgqzat1Uyku5MWLbA
-KGof90lYreYrhFbQ8lLepKEI2c5MyBkrW4CO6/IPJlRAT2qQNLZBRNbz3FQK8bWz
-QOg7LeRtrBaKDAFaOV2tkfCS41XxipEVlSlHCS4R0M7Lwl91FWKQ9+60cAVUcUEJ
-NPyCUseKkemvEYp6I3NKjEzB2VNJbaobEWXMff33xvoZqc46+oCyrLsvutdr/Zwj
-8fTRls78YF61wxgZsLa0
-=++sq
+iQIcBAABCAAGBQJWjWDiAAoJEJPB2e07PgbqTQYP/1p/mIWKco0sY82X/5qVzeED
+BC90G90sl0hijCLVIWOJX1lQNAjShUDFb/jw9EXP1eZBInfSrkXVwTX6WkoXzkyz
+FOc4D1EN2IsSsvcI9HMMyxsu4Bnrj24/r0vbLoiNt2KCiEosN5h/ZQR43ZTcVwjB
+HLe8izsuBLjhkOi2bSOGGRKDRn52figwO9x2+fCGFpWskJR2BWL2tJM6wp4OihVF
+hqAhY7VdTOPM51dc4xVvP09kJf/jhaTILPi6WJhO09PwURPyfZ5dZr3te0IxLwmL
+IxBOx9aLDSbfoYeWhpNqIEpXyu626hYESppLnIcTItlLxf7EqXnRJquw8ipbeFae
+MAd26KcRl4/ox4isXBPPJo70MtsrDlg8Sdq5o4iWu2gAyVR9OMRtyPMpcFWYwFc3
+9LQY/BSxFUcFF7ROHQwvNy+4AlaaGvADgywY1TU3M/7wwPFfSxQIvJeSt/PCSqRU
+rIU8dQE4n3LyNPY3xnoWx/pSbz6EiZ4Lpq+E8N0GzORF7WgYdZaCLd2p3SAT/fCy
+u8Xw3R3+Wvn7L+tQFpMRrTnQBbtqVyec1wqmvevIeSRQBV5ukbmdRaeAhlROVsAp
+yrDLbwMIv2JqQMz+5EzpeE9Nj3pwwiTNLi1e+65werspyTIPSIEd2XqO3WXO816U
+hJywA30EPavQXyfxxRrx
+=6EPA
 -----END PGP SIGNATURE-----
 
 ```
@@ -125,12 +125,15 @@ size     exec  file                                               contents
 840                5b.ciphertext                                  69f3e64a2fa925a84f1f0b09b30bf901564436519f1c8b515121219fcd544638                                                                 
 2114               6a.ciphertext                                  64834f6db2055a3c1944d0c22e635fc411cb210ca71a7d737008f42de4febab9                                                                 
 867                6b.ciphertext                                  abc25188099a927323379ff6e3abad85312aca3cd01338848437c654f6ee5f72                                                                 
+1779               7a.ciphertext                                  e519e7120bc68dc433723b1408a5b50780ce15413dae6af3e6874e2b44993dfc                                                                 
+725                7b.ciphertext                                  9376b3432de0b238d17704cee5ebc029142018233339161c64b3f6ade9b7df04                                                                 
 3620             2015-challenge1.ipynb                            2ab544f48c22a3a2e665b03ae094ac2de04aee8bdb37366209276a937d248d6a                                                                 
 4092             2015-challenge2.ipynb                            58c2aeca6c73a8fef71d0cc8321469358803f392c02fd44631dd0b25c2755f4a                                                                 
 3987             2015-challenge3.ipynb                            dfec26ba881c7ad0af54d072aeba4d08162661e863266936963130548ff86b65                                                                 
 8030             2015-challenge4.ipynb                            f77ead0eae7fcd67039d500a31ad1748a4df115905adecd0e93e56f72bbdcfa0                                                                 
 5039             2015-challenge5.ipynb                            b0c28829c329d7a2752f4991006e6d78a10415d7609b893b80b3bdb788d6e533                                                                 
 14079            2015-challenge6.ipynb                            7bd1dcff4b764d75e002622ce6a4cc3c00625aa311ef886e5a436822660c565c                                                                 
+76275            2015-challenge7.ipynb                            c48d71ef5c105dff987981c05ce4a9d2cce382e6d54358d7e2a3b6fe9fc74f10                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
@@ -138,8 +141,9 @@ size     exec  file                                               contents
 6488666          big.txt                                          fa066c7d40f0f201ac4144e652aa62430e58a6b3805ec70650f678da5804e87b                                                                 
 16832            cadenus-ciphers.ipynb                            50e49b3ec5e6440b86fe13472b9f4ab9e133e5665c7280b2abf7a6b57bb8a89a                                                                 
 514              caesar_break_parameter_trials.csv                6586223bcc00e06e3ff79d107202d6c29ef962a6dd544add00610c5907407e85|1cb7cc77831ef3ef4f994a9ea77e82a841b38acdde45ede9cedbe7a54f1e8e46
-41380            cipher.py                                        39536843924325b9acdc6aad387c55240fc12a9c23caeaee6ef67e0d7b94e95c                                                                 
-28349            cipherbreak.py                                   2a4cdf810302d5645064e460a4409f32173b02fc4e7c7ce0a84d1458a04007bc                                                                 
+318              cipher-training.sublime-project                  58e5d5b4e54fb29abecaef2d41266e3355adccb8b6a70bd595e509bd07c16587                                                                 
+42052            cipher.py                                        4ae3835f58782e76f8dc747ce46ae461c11236cf3397ee32adec8e974cf06153                                                                 
+28736            cipherbreak.py                                   cbda3e76773ad3125e00360622d1e01eccf376d4e783617c925cc4c557e97d86                                                                 
 11564            count_1edit.txt                                  3bf563ef032ba151ec1a4b2d1f33f50c49f4a47e4dc5b8152394bc5b63f57655|b5fbacbebcc25f5011ce97bc9ac967a09c50eef28b4aa98379a6c426df6ac08b
 223              count_1l.txt                                     335388d457db6ef1da05d8b55ab879e9be7d4e021085efc8d9dfeac0e4a79aa9                                                                 
 4956241          count_1w.txt                                     51df159fd3de12b20e403c108f526e96dbd723d9cabdd5f17955cdc16059e690                                                                 

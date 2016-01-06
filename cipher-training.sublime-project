@@ -1,0 +1,23 @@
+{
+	"folders":
+	[
+		{	"file_exclude_patterns":
+			[
+				"*.png",
+				"*.jpg",
+				"*.ipynb"
+			],
+			"folder_exclude_patterns":
+			[
+				"*.ipynb_checkpoints",
+				"__pycache__"
+			],
+			"follow_symlinks": true,
+			"path": "/home/neil/Documents/programming/cipher-training"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4
+	}
+}

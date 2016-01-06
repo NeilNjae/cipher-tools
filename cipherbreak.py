@@ -465,6 +465,9 @@ def railfence_break(message, max_key_length=20,
     return max(results, key=lambda k: k[1])
 
 def amsco_break(message, translist=transpositions, patterns = [(1, 2), (2, 1)],
+                                  fillstyles = [AmscoFillStyle.continuous, 
+                                                AmscoFillStyle.same_each_row, 
+                                                AmscoFillStyle.reverse_each_row],
                                   fitness=Pbigrams, 
                                   chunksize=500):
     """Breaks an AMSCO transposition cipher using a dictionary and
@@ -498,24 +501,26 @@ def amsco_break(message, translist=transpositions, patterns = [(1, 2), (2, 1)],
     (((2, 0, 5, 3, 1, 4, 6), (2, 1)), -997.0129085...)
     """
     with Pool() as pool:
-        helper_args = [(message, trans, pattern, fitness)
+        helper_args = [(message, trans, pattern, fillstyle, fitness)
                        for trans in translist.keys()
-                       for pattern in patterns]
+                       for pattern in patterns
+                       for fillstyle in fillstyles]
         # Gotcha: the helper function here needs to be defined at the top level
         #   (limitation of Pool.starmap)
         breaks = pool.starmap(amsco_break_worker, helper_args, chunksize) 
         return max(breaks, key=lambda k: k[1])
 
 def amsco_break_worker(message, transposition,
-        pattern, fitness):
+        pattern, fillstyle, fitness):
     plaintext = amsco_transposition_decipher(message, transposition,
-        fillpattern=pattern)
+        fillpattern=pattern, fillstyle=fillstyle)
     fit = fitness(sanitise(plaintext))
     logger.debug('AMSCO transposition break attempt using key {0} and pattern'
-                         '{1} gives fit of {2} and decrypt starting: {3}'.format(
-                             transposition, pattern, fit, 
+                         '{1} ({2}) gives fit of {3} and decrypt starting: '
+                         '{4}'.format(
+                             transposition, pattern, fillstyle, fit, 
                              sanitise(plaintext)[:50]))
-    return (transposition, pattern), fit
+    return (transposition, pattern, fillstyle), fit
 
 
 def hill_break(message, matrix_size=2, fitness=Pletters, 

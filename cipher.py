@@ -763,8 +763,14 @@ def hill_decipher(matrix, message, fillvalue='a'):
 # from 'start' to 'end'
 AmscoSlice = collections.namedtuple('AmscoSlice', ['index', 'start', 'end'])
 
+class AmscoFillStyle(Enum):
+    continuous = 1
+    same_each_row = 2
+    reverse_each_row = 3
+
 def amsco_transposition_positions(message, keyword, 
       fillpattern=(1, 2),
+      fillstyle=AmscoFillStyle.continuous,
       fillcolumnwise=False,
       emptycolumnwise=True):
     """Creates the grid for the AMSCO transposition cipher. Each element in the
@@ -801,17 +807,25 @@ def amsco_transposition_positions(message, keyword,
 
     current_position = 0
     grid = []
+    current_fillpattern = fillpattern
     while current_position < message_length:
         row = []
+        if fillstyle == AmscoFillStyle.same_each_row:
+            fill_iterator = cycle(fillpattern)
+        if fillstyle == AmscoFillStyle.reverse_each_row:
+            fill_iterator = cycle(current_fillpattern)
         for _ in range(len(transpositions)):
             index = next(indices)
             gap = next(fill_iterator)
             row += [AmscoSlice(index, current_position, current_position + gap)]
             current_position += gap
         grid += [row]
+        if fillstyle == AmscoFillStyle.reverse_each_row:
+            current_fillpattern = list(reversed(current_fillpattern))
     return [transpose(r, transpositions) for r in grid]
 
-def amsco_transposition_encipher(message, keyword, fillpattern=(1,2)):
+def amsco_transposition_encipher(message, keyword, 
+    fillpattern=(1,2), fillstyle=AmscoFillStyle.reverse_each_row):
     """AMSCO transposition encipher.
 
     >>> amsco_transposition_encipher('hellothere', 'abc', fillpattern=(1, 2))
@@ -829,12 +843,14 @@ def amsco_transposition_encipher(message, keyword, fillpattern=(1,2)):
     >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 3, 2))
     'hxomeiphscerettoisenteer'
     """
-    grid = amsco_transposition_positions(message, keyword, fillpattern=fillpattern)
+    grid = amsco_transposition_positions(message, keyword, 
+        fillpattern=fillpattern, fillstyle=fillstyle)
     ct_as_grid = [[message[s.start:s.end] for s in r] for r in grid]
     return combine_every_nth(ct_as_grid)
 
 
-def amsco_transposition_decipher(message, keyword, fillpattern=(1,2)):
+def amsco_transposition_decipher(message, keyword, 
+    fillpattern=(1,2), fillstyle=AmscoFillStyle.reverse_each_row):
     """AMSCO transposition decipher
 
     >>> amsco_transposition_decipher('hoteelhler', 'abc', fillpattern=(1, 2))
@@ -853,7 +869,8 @@ def amsco_transposition_decipher(message, keyword, fillpattern=(1,2)):
     'hereissometexttoencipher'
     """
 
-    grid = amsco_transposition_positions(message, keyword, fillpattern=fillpattern)
+    grid = amsco_transposition_positions(message, keyword, 
+        fillpattern=fillpattern, fillstyle=fillstyle)
     transposed_sections = [s for c in [l for l in zip(*grid)] for s in c]
     plaintext_list = [''] * len(transposed_sections)
     current_pos = 0
