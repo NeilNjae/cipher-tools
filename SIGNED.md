@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABCAAGBQJWjWDiAAoJEJPB2e07PgbqTQYP/1p/mIWKco0sY82X/5qVzeED
-BC90G90sl0hijCLVIWOJX1lQNAjShUDFb/jw9EXP1eZBInfSrkXVwTX6WkoXzkyz
-FOc4D1EN2IsSsvcI9HMMyxsu4Bnrj24/r0vbLoiNt2KCiEosN5h/ZQR43ZTcVwjB
-HLe8izsuBLjhkOi2bSOGGRKDRn52figwO9x2+fCGFpWskJR2BWL2tJM6wp4OihVF
-hqAhY7VdTOPM51dc4xVvP09kJf/jhaTILPi6WJhO09PwURPyfZ5dZr3te0IxLwmL
-IxBOx9aLDSbfoYeWhpNqIEpXyu626hYESppLnIcTItlLxf7EqXnRJquw8ipbeFae
-MAd26KcRl4/ox4isXBPPJo70MtsrDlg8Sdq5o4iWu2gAyVR9OMRtyPMpcFWYwFc3
-9LQY/BSxFUcFF7ROHQwvNy+4AlaaGvADgywY1TU3M/7wwPFfSxQIvJeSt/PCSqRU
-rIU8dQE4n3LyNPY3xnoWx/pSbz6EiZ4Lpq+E8N0GzORF7WgYdZaCLd2p3SAT/fCy
-u8Xw3R3+Wvn7L+tQFpMRrTnQBbtqVyec1wqmvevIeSRQBV5ukbmdRaeAhlROVsAp
-yrDLbwMIv2JqQMz+5EzpeE9Nj3pwwiTNLi1e+65werspyTIPSIEd2XqO3WXO816U
-hJywA30EPavQXyfxxRrx
-=6EPA
+iQIcBAABCAAGBQJWjX6wAAoJEJPB2e07PgbqhgsP/2YEJGETmbYlwtwWyKL2q/DN
+ICr7LSmgmPnelBgiOXF4JjhpEdmhuhT6XErTzyVcTmm6aXIdijncMD3qISvYePjk
+VfYd2RbRpA61J/5oZabxOxnaxOvLUSOp1BK0akmNOdi0aPJVm9fatYJMsuWdzwCL
+0hOklUUL2kvDFHRVYgupl57+dTDMWlTOH/es0izL+ZUDqMZcjyDiN3aVNjrHihDe
+RNeOgOod7FLb+GNMC9k5l1O6JovTgrcrw6a+6nyBbBKVcubeY+GS1CKfg0JaFiuM
+f8ewiGBixzV93A+c/nojHIR1jCdzBA91/mYUWmxSUP2kz9MS4HAh2ASbEYR0N6oM
+gJ5JGCHW5BuyTYwJ0xiHoia8GVw64Bw9J/Q6qomZBodw3DNjWXDnZcyrzYFzKuhI
+uP6NK+79Uc5PevDlOV60tLnY869ynXYY4uKIr6TT5NRFdvQi6OVHEBSryUolnnxQ
+YfVwFPNPPPAD+yLrgecD+f6VQjczy3um0pHthaOZwbgX4Sk0I2B/Nq40j/7K/iW6
+kVR2n1/R1wuVekMYpd58F/IUz+wk0JNvrr7O6usUAVEOPo33jCUsuS9wljYAwzqP
+vesbeWXRFGyN0rQDHgSfQivTqG5BL2XV4Nf+uWzeTOSwzAziO4MRHrzgGbo3aMAo
+4xz7E+Wi448R2zkNiUsS
+=vzqt
 -----END PGP SIGNATURE-----
 
 ```
@@ -127,6 +127,13 @@ size     exec  file                                               contents
 867                6b.ciphertext                                  abc25188099a927323379ff6e3abad85312aca3cd01338848437c654f6ee5f72                                                                 
 1779               7a.ciphertext                                  e519e7120bc68dc433723b1408a5b50780ce15413dae6af3e6874e2b44993dfc                                                                 
 725                7b.ciphertext                                  9376b3432de0b238d17704cee5ebc029142018233339161c64b3f6ade9b7df04                                                                 
+1661               8a.ciphertext                                  e748aef744bd869ff60aa65993c0e0738af05e95b64a82c1047ae07ea2e353f5                                                                 
+1771               8b.ciphertext                                  669a7144433b0554e1de51583abb048ca396f2ffe6a79e53dad6e6ffbf06bc8c                                                                 
+7607               Solitaire.py                                   abb966d0aa4f23599204a1a75f3179903c175eac637c0847bcc772374f380126|9e3ee44bd5d7ec196b513afad0856ed4f2cd6bf3e0fe9b6bc0130bb7731d04c8
+63970              cards2.png                                     f2959fc211d97c9b16bf049eb5c9e99167b033f887c43f9ae20adb13717c7899|b42371c35b39715277627114132f8b261283b2b1d59e47b7066e06f4df5a4ad6
+10000              pysol.zip                                      64e25c247e877f37285db635fcb5dea101e0c531fdbfe5000bcc088c22caad79|68d878fb019198e691d321be1dd6744fae0b48da9c4e705c34f96e351b00fbed
+5281               sol.py                                         dbea0e836eb158a26407ca3b74289d24fa7eae16ed1093eb7c598767a150fccc|e50319aa995f934a4cbd52bc28d8f49f376e62470170690cdbed7352f67a7942
+2195               sol.py.zip                                     4c22e57eaacd8a91ef9b0c338429e400210a03dec9fbacec4a45fe1faed50720|1fd0a62af53125eacfa11016088451e2c58269d98aaef74c320730ebc7601b66
 3620             2015-challenge1.ipynb                            2ab544f48c22a3a2e665b03ae094ac2de04aee8bdb37366209276a937d248d6a                                                                 
 4092             2015-challenge2.ipynb                            58c2aeca6c73a8fef71d0cc8321469358803f392c02fd44631dd0b25c2755f4a                                                                 
 3987             2015-challenge3.ipynb                            dfec26ba881c7ad0af54d072aeba4d08162661e863266936963130548ff86b65                                                                 
@@ -134,6 +141,7 @@ size     exec  file                                               contents
 5039             2015-challenge5.ipynb                            b0c28829c329d7a2752f4991006e6d78a10415d7609b893b80b3bdb788d6e533                                                                 
 14079            2015-challenge6.ipynb                            7bd1dcff4b764d75e002622ce6a4cc3c00625aa311ef886e5a436822660c565c                                                                 
 76275            2015-challenge7.ipynb                            c48d71ef5c105dff987981c05ce4a9d2cce382e6d54358d7e2a3b6fe9fc74f10                                                                 
+3741             2015-challenge8.ipynb                            d66fca286b89099f3ca296f1f8283f22c12ae9e5480192f2bdb316a46fd07f43                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
