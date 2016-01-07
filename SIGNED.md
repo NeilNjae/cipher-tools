@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABCAAGBQJWjX6wAAoJEJPB2e07PgbqhgsP/2YEJGETmbYlwtwWyKL2q/DN
-ICr7LSmgmPnelBgiOXF4JjhpEdmhuhT6XErTzyVcTmm6aXIdijncMD3qISvYePjk
-VfYd2RbRpA61J/5oZabxOxnaxOvLUSOp1BK0akmNOdi0aPJVm9fatYJMsuWdzwCL
-0hOklUUL2kvDFHRVYgupl57+dTDMWlTOH/es0izL+ZUDqMZcjyDiN3aVNjrHihDe
-RNeOgOod7FLb+GNMC9k5l1O6JovTgrcrw6a+6nyBbBKVcubeY+GS1CKfg0JaFiuM
-f8ewiGBixzV93A+c/nojHIR1jCdzBA91/mYUWmxSUP2kz9MS4HAh2ASbEYR0N6oM
-gJ5JGCHW5BuyTYwJ0xiHoia8GVw64Bw9J/Q6qomZBodw3DNjWXDnZcyrzYFzKuhI
-uP6NK+79Uc5PevDlOV60tLnY869ynXYY4uKIr6TT5NRFdvQi6OVHEBSryUolnnxQ
-YfVwFPNPPPAD+yLrgecD+f6VQjczy3um0pHthaOZwbgX4Sk0I2B/Nq40j/7K/iW6
-kVR2n1/R1wuVekMYpd58F/IUz+wk0JNvrr7O6usUAVEOPo33jCUsuS9wljYAwzqP
-vesbeWXRFGyN0rQDHgSfQivTqG5BL2XV4Nf+uWzeTOSwzAziO4MRHrzgGbo3aMAo
-4xz7E+Wi448R2zkNiUsS
-=vzqt
+iQIcBAABCAAGBQJWjpTaAAoJEJPB2e07Pgbqh6IP/3ZEzWXxCdqrHoXYRRuRvP3U
+7Q8FJro7m+dW0gV3R+0BvcJx7hmepvU8Hr4O4RLTQ3AWnlVSorMGFgOoZ3XLYvZl
+YACQU4q8Cy3PB2nm8/Mcj/yLVyiyGanxYaxGhBoYSUnaE6ncJ8wod3iGHwQouIgA
+sQmaJSoBj0RuYCcTlg8ipOmwZ/doNjKcFbmJQx7BRdlaQ1QQtqyDJgX6y0e4snU0
+ktcu0dCwroyAzu+HXQE5prhsB3x3UHzTq3VwIIgeNnO/Hye9LXgrT8fSdY54YndU
+E/S/gUD8/jB5TFTdHVmAEQAqg/YHXc49o1taPU+NU6hSl9EDmhM7CacBu+//VUy4
+VXjFFWJV9YFX6yhaNHSS5Vuz7h8oXKOQwGYa4dMlrGl912MnOHl+WjCDjcHL+0ht
+cFfEq3OgQDL4Q7Eln1bW7VwYDcpId1yNYcuHvd+h3bSzAxNtMcjH3Sim7EDcFP2z
+n6nuwFNdfY+drpAllw1df8QotFP8vkiA3O9sUtTIJkECmu9vGqJDfujhBOhPNQxk
+9bwSIWhXz0yvt3V7P/ds2PRGBB67ejkWOEEMhI/94yu/prZaeZQsm49ULoqz+6z/
+3eGlgz/Y0RRjlgorl7VwOwacuqb5w++WZ2CX4O5oylkxOtC/rkuOTFvwsas2c3sy
+as4QzMxXGkYvRCKzUvR7
+=gSfT
 -----END PGP SIGNATURE-----
 
 ```
@@ -69,6 +69,8 @@ size     exec  file                                               contents
 1340               1a.plaintext                                   cbdaac33a7943a752ba5dd21cf7af23bdbdd22e4a5feb0bccecce45d605d0581                                                                 
 1495               1b.ciphertext                                  2e0389e2c7d3156892f7d361ee79f86eb79d34812fca37d8ce692cb6f3976446                                                                 
 1495               1b.plaintext                                   717b1f8955515a5d5d2f049f0ffe137820d71f8b2a1689e1a29ec30ed7c9d473                                                                 
+121429             2013-challenge6.ipynb                          4169b040ef2d648af0c5678c22756ab31933f663ec7f38fb27a0af81c8c8d4b8                                                                 
+25749              2013-challenge7.ipynb                          a651b44828eeb79c82f63eb00ba0f8d5a3f406e104cb1a59601a61f0aee7432b                                                                 
 1135               2a.ciphertext                                  85ad3dac4751a8db90f391d0f06935a5ef2118d9ac72e05fe0518d7f77bff058                                                                 
 1135               2a.plaintext                                   11cdf7c462c536085daced417023adaeff2f6b7a6162ccd12b340b079bd36b48                                                                 
 926                2b.ciphertext                                  0fc59b28e4cd2db0aa9f28a603e2b25988a6688f05f90a59b205088093721340                                                                 
@@ -85,11 +87,17 @@ size     exec  file                                               contents
 1565               7b.ciphertext                                  adeef9d9e985c534c40acee5c6734d04195895a32efd9452a89cafef1fdc91b8                                                                 
 182                mona-lisa-words.txt                            d7d05c9c86f6282fa66df5f4ca795c89f01cef88a9ce8c921ce4484b3d6078a7                                                                 
 1190               solutions.txt                                  bd14d8cb1b6694ee4b07d7f38f4df7931e89c10247f101878b6056647bf67cee                                                                 
-135303           2013-challenge6.ipynb                            5b37a8b10db4c8d9831827a2acdffdcdb65369557d15b3e08a900ee8e088da73                                                                 
-31542            2013-challenge7.ipynb                            6de8c15b9cca8b166be4ab86df94898544803e7ed46f8042e363414bed1d2dcc                                                                 
                  2014/                                                                                                                                                                             
 735                1a.ciphertext                                  3adb9e2747c6e3b4033c8042a6dcccb7c2e45988d64c5c78ec0a2c472dc88f95                                                                 
 610                1b.ciphertext                                  bc11485a47af830fa0ded0b07feebf042c0a6956dc71daa60b525067e96c220a                                                                 
+4061               2014-challenge1.ipynb                          a1d569b4c7d6d359a9c131244276fbbb61c035e7ffbdb6e224beabf3190c73e5                                                                 
+23543              2014-challenge2.ipynb                          92c301162a49bdda75ec939f77c015a025626bc728365d296187d764a89ef1bc                                                                 
+24088              2014-challenge3.ipynb                          e0db661b881ee1bc3d51e0edfa958b709677dace6eef7125ae9e034e131ca6c8                                                                 
+28626              2014-challenge4.ipynb                          11db485e9db34673b920635fbeeec85eeb85f776aabc687ebbd114a87039f38d                                                                 
+21102              2014-challenge5.ipynb                          085151062fb8b3d7f8d6d7cff5b73ec3053b5d22383301f416a2a29e6b5ab53e                                                                 
+34054              2014-challenge6.ipynb                          0e6f30c7296fe16b107ee5df2676e988c8b450b1cbf0e7347bf6e2ac9191f068                                                                 
+38294              2014-challenge7.ipynb                          176ead363cc1970d243ea2e7f7ba49eadc617058ad5144044ce4c8c0e9375c16                                                                 
+187296             2014-challenge8.ipynb                          11fb5200127f954536176cc3b3e4258ee3005fbe0c19e0138e6b9d18c290a71f                                                                 
 767                2a.ciphertext                                  3881a4f1fc0fadc064bc27d3052800b5eb497e833b208c2cee381b466c9b1db8                                                                 
 398                2b.ciphertext                                  78faf9d7a0aad25a9fa72f886c398bc0b684a389bc5624ab4514e93685157a93                                                                 
 958                3a.ciphertext                                  0d0524b194961bdbe6fe200cfe983a9338abcca5adabb6776769387967a50711                                                                 
@@ -104,17 +112,17 @@ size     exec  file                                               contents
 988                7b.ciphertext                                  cfb66667a8011226be0be7c98e9deb7efa02e9a53cad67743baf166c20136ada                                                                 
 1391               8a.ciphertext                                  ac2b18d13ef44be0fb233d2455c51897b4df59491bbdd23ef82fbd9490bc86b1                                                                 
 7001               8b.ciphertext                                  8d7e366e8fbb5766717481eeec77b089d3e8f9e708ac198d56176cb0882a9472                                                                 
-3882             2014-challenge1.ipynb                            07715f100d97af32ad5a13b56ade2f5753e17e32404e2eda0dcb9634736298f5                                                                 
-28071            2014-challenge2.ipynb                            1535404ae5a412160c82d19e38f7069a2eaca600bd433e77877bd13e14929e6b                                                                 
-29190            2014-challenge3.ipynb                            1454c5e5014eac93c42e88611f3f6b3f014bf70a8e9d8e87ef4725f8d12a27b7                                                                 
-32758            2014-challenge4.ipynb                            1794b0b2c6fd4630f6d9ffe15ffdad52d04af23082eddc920ec02ba4740032e4                                                                 
-23322            2014-challenge5.ipynb                            fb3bb531c62ed943528715cc19e800293e3cd4a176ce3a3fe01e7e585386907e                                                                 
-40307            2014-challenge6.ipynb                            5085a4ae2a562c87983cbff817ac89826973341551980563ae0c77ab747a5dff                                                                 
-44472            2014-challenge7.ipynb                            9800d39c881f22f67f1182f6ca73bbf40a123d0deb598a6009f545f421955241                                                                 
-188080           2014-challenge8.ipynb                            c59bcfbb39e48e6e151cc0c86fe48add67844954cf3c65d560bbda0c972a8376                                                                 
                  2015/                                                                                                                                                                             
 874                1a.ciphertext                                  5d0d71f24522e1c05127feb601bf8dc82566f3d2795fb51c4a60e22d900bb5eb                                                                 
 394                1b.ciphertext                                  a35e8265aea45ab5f7c5eb141e5e65c85ecc24c7d87f3e8197dfe6795a7d3226                                                                 
+3835               2015-challenge1.ipynb                          4c9d020904f448c1a8c6443d5a8d6da48d615ce61508e67670ce01ac1c4c5b2e                                                                 
+4307               2015-challenge2.ipynb                          702cb83d7b0c52b2ddf360d475e5e1acaaee0419c4a82c17e32a009ce559e352                                                                 
+4199               2015-challenge3.ipynb                          7116fb88f407edd43695d00229479ba5413368a5cb3c2bfb083d7e47f732ff05                                                                 
+32985              2015-challenge4.ipynb                          7c8a2e5d7a2e210431ae273a2a298daea2cb58b71cdb549f0e87a7754990680e                                                                 
+5251               2015-challenge5.ipynb                          20037e3678a1290aaacdec2b4baeba315385bc2ff233a84272e6424ebdeecd23                                                                 
+14285              2015-challenge6.ipynb                          0cd2bbd2f67683f696275cd6041d26a54d7cc43971ca0bef8daf91d5b61a80de                                                                 
+76477              2015-challenge7.ipynb                          de19305ec9c87c0c7d7db34cdf54f8dc67bca1330b15876835c4208167d662ed                                                                 
+3953               2015-challenge8.ipynb                          6959c7a98353bda0028003491d2e558670f61ff5b0714756c8e18db93398c1be                                                                 
 1193               2a.ciphertext                                  412db1381dcb01f858bf848e48ada16aa4603cbb348c1f092ae39b06d2efa5f9                                                                 
 544                2b.ciphertext                                  5ff59d7cff1c4d27dee6414769bdbcfb0b0ab9c5931e772bf9f6442eeb9b6855                                                                 
 898                3a.ciphertext                                  5a9f89002db8520dbad882565a0130d3a462ed967e9cebeca828e9f727a267c4                                                                 
@@ -134,14 +142,6 @@ size     exec  file                                               contents
 10000              pysol.zip                                      64e25c247e877f37285db635fcb5dea101e0c531fdbfe5000bcc088c22caad79|68d878fb019198e691d321be1dd6744fae0b48da9c4e705c34f96e351b00fbed
 5281               sol.py                                         dbea0e836eb158a26407ca3b74289d24fa7eae16ed1093eb7c598767a150fccc|e50319aa995f934a4cbd52bc28d8f49f376e62470170690cdbed7352f67a7942
 2195               sol.py.zip                                     4c22e57eaacd8a91ef9b0c338429e400210a03dec9fbacec4a45fe1faed50720|1fd0a62af53125eacfa11016088451e2c58269d98aaef74c320730ebc7601b66
-3620             2015-challenge1.ipynb                            2ab544f48c22a3a2e665b03ae094ac2de04aee8bdb37366209276a937d248d6a                                                                 
-4092             2015-challenge2.ipynb                            58c2aeca6c73a8fef71d0cc8321469358803f392c02fd44631dd0b25c2755f4a                                                                 
-3987             2015-challenge3.ipynb                            dfec26ba881c7ad0af54d072aeba4d08162661e863266936963130548ff86b65                                                                 
-8030             2015-challenge4.ipynb                            f77ead0eae7fcd67039d500a31ad1748a4df115905adecd0e93e56f72bbdcfa0                                                                 
-5039             2015-challenge5.ipynb                            b0c28829c329d7a2752f4991006e6d78a10415d7609b893b80b3bdb788d6e533                                                                 
-14079            2015-challenge6.ipynb                            7bd1dcff4b764d75e002622ce6a4cc3c00625aa311ef886e5a436822660c565c                                                                 
-76275            2015-challenge7.ipynb                            c48d71ef5c105dff987981c05ce4a9d2cce382e6d54358d7e2a3b6fe9fc74f10                                                                 
-3741             2015-challenge8.ipynb                            d66fca286b89099f3ca296f1f8283f22c12ae9e5480192f2bdb316a46fd07f43                                                                 
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
@@ -150,8 +150,8 @@ size     exec  file                                               contents
 16832            cadenus-ciphers.ipynb                            50e49b3ec5e6440b86fe13472b9f4ab9e133e5665c7280b2abf7a6b57bb8a89a                                                                 
 514              caesar_break_parameter_trials.csv                6586223bcc00e06e3ff79d107202d6c29ef962a6dd544add00610c5907407e85|1cb7cc77831ef3ef4f994a9ea77e82a841b38acdde45ede9cedbe7a54f1e8e46
 318              cipher-training.sublime-project                  58e5d5b4e54fb29abecaef2d41266e3355adccb8b6a70bd595e509bd07c16587                                                                 
-42052            cipher.py                                        4ae3835f58782e76f8dc747ce46ae461c11236cf3397ee32adec8e974cf06153                                                                 
-28736            cipherbreak.py                                   cbda3e76773ad3125e00360622d1e01eccf376d4e783617c925cc4c557e97d86                                                                 
+42922            cipher.py                                        58637b8946b4fb973b19a374a2066a896d86c928dacaa1ccd2252e6f8bb6e810                                                                 
+28908            cipherbreak.py                                   0fb22645ddce4e04c7e441a1f7bdc0e4a397a3c9b2cfb3098bcb213e79a361c9                                                                 
 11564            count_1edit.txt                                  3bf563ef032ba151ec1a4b2d1f33f50c49f4a47e4dc5b8152394bc5b63f57655|b5fbacbebcc25f5011ce97bc9ac967a09c50eef28b4aa98379a6c426df6ac08b
 223              count_1l.txt                                     335388d457db6ef1da05d8b55ab879e9be7d4e021085efc8d9dfeac0e4a79aa9                                                                 
 4956241          count_1w.txt                                     51df159fd3de12b20e403c108f526e96dbd723d9cabdd5f17955cdc16059e690                                                                 
@@ -163,7 +163,7 @@ size     exec  file                                               contents
 3027             find_best_caesar_break_parameters.py             0347d80309179d937a88fd1c8684490a513ccd086366c5a0dd55b8a2fe5c565f                                                                 
 1236             find_wikipedia_titles.py                         f040bf855dfec7fff9d8e5eba2fb509179bc53bc02a20b26b7fc61fef983aa45                                                                 
 37128            hill-ciphers.ipynb                               ce802c2be807b4565858b568d3a82c65a3957aa625344189f8f2a055237b3fdd                                                                 
-5516             language_models.py                               9f6c60892b385a8443202edda95074eb28e2b66981e25e27f4153b887e2c9ee3                                                                 
+5645             language_models.py                               bfd5b60cdef8af20cdb061b24a1691f569984be3be333782c3d76e3370e16d14                                                                 
 368              lettercount.py                                   ed36497d62cf75b91994055e4a18848b2fabe5ce793cd76a77fabfc94d81d4f3                                                                 
 592              make-cracking-dictionary.py                      71791e64e4853cd9ca292cb436bbe8c72dd60f509811174df93ed2067683d5c1                                                                 
 7077             norms.py                                         a657a36c1741e6f3a513386b318fcc99e6b11f98ec64a48284b47462ff2acf30                                                                 

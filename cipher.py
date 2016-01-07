@@ -836,11 +836,17 @@ def amsco_transposition_encipher(message, keyword,
     'hotelerelh'
     >>> amsco_transposition_encipher('hellothere', 'acb', fillpattern=(2, 1))
     'hetelorlhe'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'encode')
+    'etecstthhomoerereenisxip'
     >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 2))
+    'hetcsoeisterereipexthomn'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 2), fillstyle=AmscoFillStyle.continuous)
     'hecsoisttererteipexhomen'
     >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(2, 1))
-    'heetcisooestrrepeixthemn'
+    'heecisoosttrrtepeixhemen'
     >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 3, 2))
+    'hxtomephescieretoeisnter'
+    >>> amsco_transposition_encipher('hereissometexttoencipher', 'cipher', fillpattern=(1, 3, 2), fillstyle=AmscoFillStyle.continuous)
     'hxomeiphscerettoisenteer'
     """
     grid = amsco_transposition_positions(message, keyword, 
@@ -861,11 +867,17 @@ def amsco_transposition_decipher(message, keyword,
     'hellothere'
     >>> amsco_transposition_decipher('hetelorlhe', 'acb', fillpattern=(2, 1))
     'hellothere'
-    >>> amsco_transposition_decipher('hecsoisttererteipexhomen', 'cipher', fillpattern=(1, 2))
+    >>> amsco_transposition_decipher('etecstthhomoerereenisxip', 'encode')
     'hereissometexttoencipher'
-    >>> amsco_transposition_decipher('heetcisooestrrepeixthemn', 'cipher', fillpattern=(2, 1))
+    >>> amsco_transposition_decipher('hetcsoeisterereipexthomn', 'cipher', fillpattern=(1, 2))
     'hereissometexttoencipher'
-    >>> amsco_transposition_decipher('hxomeiphscerettoisenteer', 'cipher', fillpattern=(1, 3, 2))
+    >>> amsco_transposition_decipher('hecsoisttererteipexhomen', 'cipher', fillpattern=(1, 2), fillstyle=AmscoFillStyle.continuous)
+    'hereissometexttoencipher'
+    >>> amsco_transposition_decipher('heecisoosttrrtepeixhemen', 'cipher', fillpattern=(2, 1))
+    'hereissometexttoencipher'
+    >>> amsco_transposition_decipher('hxtomephescieretoeisnter', 'cipher', fillpattern=(1, 3, 2))
+    'hereissometexttoencipher'
+    >>> amsco_transposition_decipher('hxomeiphscerettoisenteer', 'cipher', fillpattern=(1, 3, 2), fillstyle=AmscoFillStyle.continuous)
     'hereissometexttoencipher'
     """
 

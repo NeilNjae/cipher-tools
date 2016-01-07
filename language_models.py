@@ -5,6 +5,7 @@ import collections
 import unicodedata
 import itertools
 from math import log10
+import os 
 
 unaccent_specials = ''.maketrans({"’": "'"})
 
@@ -56,7 +57,7 @@ def sanitise(text):
 def datafile(name, sep='\t'):
     """Read key,value pairs from file.
     """
-    with open(name, 'r') as f:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), name), 'r') as f:
         for line in f:
             splits = line.split(sep)
             yield [splits[0], int(splits[1])]
@@ -70,7 +71,7 @@ normalised_english_bigram_counts = norms.normalise(english_bigram_counts)
 english_trigram_counts = collections.Counter(dict(datafile('count_3l.txt')))
 normalised_english_trigram_counts = norms.normalise(english_trigram_counts)
 
-with open('words.txt', 'r') as f:
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'words.txt'), 'r') as f:
     keywords = [line.rstrip() for line in f]
 
 

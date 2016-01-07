@@ -199,23 +199,27 @@ def keyword_break_worker(message, keyword, wrap_alphabet, fitness):
     return (keyword, wrap_alphabet), fit
 
 def monoalphabetic_break_hillclimbing(message, max_iterations=10000000, 
-        fitness=Pletters):
+        alphabet=None, fitness=Pletters):
     ciphertext = unaccent(message).lower()
-    alphabet = list(string.ascii_lowercase)
-    random.shuffle(alphabet)
-    alphabet = ''.join(alphabet)
+    if not alphabet:
+        alphabet = list(string.ascii_lowercase)
+        random.shuffle(alphabet)
+        alphabet = ''.join(alphabet)
     return monoalphabetic_break_hillclimbing_worker(ciphertext, alphabet,
                                                     max_iterations, fitness)
 
 def monoalphabetic_break_hillclimbing_mp(message, workers=10, 
-        max_iterations = 10000000, fitness=Pletters, chunksize=1):
+        max_iterations = 10000000, alphabet=None, fitness=Pletters, chunksize=1):
     worker_args = []
     ciphertext = unaccent(message).lower()
     for i in range(workers):
-        alphabet = list(string.ascii_lowercase)
-        random.shuffle(alphabet)
-        alphabet = ''.join(alphabet)
-        worker_args.append((ciphertext, alphabet, max_iterations, fitness))
+        if alphabet:
+            this_alphabet = alphabet
+        else:
+            this_alphabet = list(string.ascii_lowercase)
+            random.shuffle(this_alphabet)
+            this_alphabet = ''.join(this_alphabet)
+        worker_args.append((ciphertext, this_alphabet, max_iterations, fitness))
     with Pool() as pool:
         breaks = pool.starmap(monoalphabetic_break_hillclimbing_worker,
                               worker_args, chunksize)
