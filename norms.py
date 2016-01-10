@@ -13,7 +13,7 @@ def normalise(frequencies):
     >>> sorted(normalise({1: 1, 2: 2, 3: 1}).items())
     [(1, 0.25), (2, 0.5), (3, 0.25)]
     """
-    length = sum([f for f in frequencies.values()])
+    length = sum(f for f in frequencies.values())
     return collections.defaultdict(int, ((k, v / length) 
         for (k, v) in frequencies.items()))
 
@@ -159,17 +159,17 @@ def harmonic_mean(frequencies1, frequencies2):
     return len(frequencies1) / total
 
 
-def cosine_distance(frequencies1, frequencies2):
+def cosine_similarity(frequencies1, frequencies2):
     """Finds the distances between two frequency profiles, expressed as dictionaries.
     Assumes every key in frequencies1 is also in frequencies2
 
-    >>> cosine_distance({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    >>> cosine_similarity({'a':1, 'b':1, 'c':1}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
     1.0000000000...
-    >>> cosine_distance({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    >>> cosine_similarity({'a':2, 'b':2, 'c':2}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
     1.0000000000...
-    >>> cosine_distance({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
+    >>> cosine_similarity({'a':0, 'b':2, 'c':0}, {'a':1, 'b':1, 'c':1}) # doctest: +ELLIPSIS
     0.5773502691...
-    >>> cosine_distance({'a':0, 'b':1}, {'a':1, 'b':1}) # doctest: +ELLIPSIS
+    >>> cosine_similarity({'a':0, 'b':1}, {'a':1, 'b':1}) # doctest: +ELLIPSIS
     0.7071067811...
     """
     numerator = 0
@@ -178,8 +178,8 @@ def cosine_distance(frequencies1, frequencies2):
     for k in frequencies1:
         numerator += frequencies1[k] * frequencies2[k]
         length1 += frequencies1[k]**2
-    for k in frequencies2.keys():
-        length2 += frequencies2[k]
+    for k in frequencies2:
+        length2 += frequencies2[k]**2
     return numerator / (length1 ** 0.5 * length2 ** 0.5)
 
 

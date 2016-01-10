@@ -3,19 +3,19 @@
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAABCAAGBQJWjpTaAAoJEJPB2e07Pgbqh6IP/3ZEzWXxCdqrHoXYRRuRvP3U
-7Q8FJro7m+dW0gV3R+0BvcJx7hmepvU8Hr4O4RLTQ3AWnlVSorMGFgOoZ3XLYvZl
-YACQU4q8Cy3PB2nm8/Mcj/yLVyiyGanxYaxGhBoYSUnaE6ncJ8wod3iGHwQouIgA
-sQmaJSoBj0RuYCcTlg8ipOmwZ/doNjKcFbmJQx7BRdlaQ1QQtqyDJgX6y0e4snU0
-ktcu0dCwroyAzu+HXQE5prhsB3x3UHzTq3VwIIgeNnO/Hye9LXgrT8fSdY54YndU
-E/S/gUD8/jB5TFTdHVmAEQAqg/YHXc49o1taPU+NU6hSl9EDmhM7CacBu+//VUy4
-VXjFFWJV9YFX6yhaNHSS5Vuz7h8oXKOQwGYa4dMlrGl912MnOHl+WjCDjcHL+0ht
-cFfEq3OgQDL4Q7Eln1bW7VwYDcpId1yNYcuHvd+h3bSzAxNtMcjH3Sim7EDcFP2z
-n6nuwFNdfY+drpAllw1df8QotFP8vkiA3O9sUtTIJkECmu9vGqJDfujhBOhPNQxk
-9bwSIWhXz0yvt3V7P/ds2PRGBB67ejkWOEEMhI/94yu/prZaeZQsm49ULoqz+6z/
-3eGlgz/Y0RRjlgorl7VwOwacuqb5w++WZ2CX4O5oylkxOtC/rkuOTFvwsas2c3sy
-as4QzMxXGkYvRCKzUvR7
-=gSfT
+iQIcBAABCAAGBQJWknovAAoJEJPB2e07Pgbqd8YQALEujIWisxG31Hy25uWt9dpL
+Fp1HeRaqTPe4bEZHVwrMLsKsqRpQWjoCLbSrtssuAVd1UD+IHCMT5pW39hnSASsf
+euNQW9MUrDP9CydAkNMfXEWG9Jp3fAUtm7SIiQc7D7n+/r8vrW5aa0uRCG9H56tn
+LeRLGLbkEA1dPOW08ehd772k/jMIf2Z7jEIhVoBm2tSE+1GpvvDXdbVm8iB1Yv3r
+7fCTQKTtsGqxtbhzcOABRIHze7m+U72nULK2Q24e165MNBPXPBu93J+JBphOPz4u
+apwq463oRAXA0LcjX1iU7t5rHJxngUV8VoXIWhqplaPoekmEGpH6zePYxLnpUrfT
++R/JxeGpPFEHcpHN7oUmNmeD1Xgir+7tKCy5mfI+ltTiw1ftaUthX8MImughMDGx
+KkMRkntleeAe5nIrk9NlaBEFVyah62CEE6F5h/EoZJS9UsiXF7HBpPdbtfar4glE
+t1iYNRg5zuEJEVN7j1ktmwrMtw/QufMCTinUqWhjNKlA+orRvgXgSAywpWNS9BBc
+n2Kf8HgtjeCkF9IjqfbB1yRlIwwnVN1Zfn2UsFs2/5lH6YXCSjdD7iMJLTTOgbBY
+mkHajKR3rR4uizA/jJ24MmqC+78/dldGQ1BwwYXOiTnpQEzZ52NpiTMAsmlXxt85
+5sbthAzP9pIV+/svQYEm
+=R1hh
 -----END PGP SIGNATURE-----
 
 ```
@@ -139,19 +139,17 @@ size     exec  file                                               contents
 1771               8b.ciphertext                                  669a7144433b0554e1de51583abb048ca396f2ffe6a79e53dad6e6ffbf06bc8c                                                                 
 7607               Solitaire.py                                   abb966d0aa4f23599204a1a75f3179903c175eac637c0847bcc772374f380126|9e3ee44bd5d7ec196b513afad0856ed4f2cd6bf3e0fe9b6bc0130bb7731d04c8
 63970              cards2.png                                     f2959fc211d97c9b16bf049eb5c9e99167b033f887c43f9ae20adb13717c7899|b42371c35b39715277627114132f8b261283b2b1d59e47b7066e06f4df5a4ad6
-10000              pysol.zip                                      64e25c247e877f37285db635fcb5dea101e0c531fdbfe5000bcc088c22caad79|68d878fb019198e691d321be1dd6744fae0b48da9c4e705c34f96e351b00fbed
 5281               sol.py                                         dbea0e836eb158a26407ca3b74289d24fa7eae16ed1093eb7c598767a150fccc|e50319aa995f934a4cbd52bc28d8f49f376e62470170690cdbed7352f67a7942
-2195               sol.py.zip                                     4c22e57eaacd8a91ef9b0c338429e400210a03dec9fbacec4a45fe1faed50720|1fd0a62af53125eacfa11016088451e2c58269d98aaef74c320730ebc7601b66
 18025            LICENSE                                          a01259a1b522cf0de95824f9860613b453153eebac468e96196d5d7dba84786c                                                                 
 7999             LJ!-Qt!-Fghxft-dferts%3B-hsjeukaxxn-sfedw.ipynb  429b6c6995096ff19c28a5ee342bef8ea4774200bdf9aaf6268de3cb8b28df28                                                                 
 61               README.md                                        277247b410300ee16477b12ca54ad878d81c8061f6134e2e1cadccaf299de3a3                                                                 
-469              affine_break_parameter_trials.csv                1a9d635d0af2f41fc6f1e83ae87d6372034259321ba288a11fb024e98ed52f4f|dd9c840434de596a30c84e79de26a9824b36c217a84876c2aab0579b76999735
+569              affine_break_parameter_trials.csv                6593e15e63e3e5632222fece8971ab473a7cdcf43020cd279e6f926cac0445fd|80705a44f33ed99ee08ed7d80e18945e84a2ae60afa1b39c331fa6bf58e21115
 6488666          big.txt                                          fa066c7d40f0f201ac4144e652aa62430e58a6b3805ec70650f678da5804e87b                                                                 
 16832            cadenus-ciphers.ipynb                            50e49b3ec5e6440b86fe13472b9f4ab9e133e5665c7280b2abf7a6b57bb8a89a                                                                 
-514              caesar_break_parameter_trials.csv                6586223bcc00e06e3ff79d107202d6c29ef962a6dd544add00610c5907407e85|1cb7cc77831ef3ef4f994a9ea77e82a841b38acdde45ede9cedbe7a54f1e8e46
+514              caesar_break_parameter_trials.csv                cafee5b7e752807f856090b527870fc3a189de325e41c09c2933fe7bf5efcbe5|54761ff222587ae788d3213505308b631a8a3f17793beb3fbf492bfdaba320c3
 318              cipher-training.sublime-project                  58e5d5b4e54fb29abecaef2d41266e3355adccb8b6a70bd595e509bd07c16587                                                                 
 42922            cipher.py                                        58637b8946b4fb973b19a374a2066a896d86c928dacaa1ccd2252e6f8bb6e810                                                                 
-28908            cipherbreak.py                                   0fb22645ddce4e04c7e441a1f7bdc0e4a397a3c9b2cfb3098bcb213e79a361c9                                                                 
+28937            cipherbreak.py                                   5ba9424badfed9721f8f6f044e636b693105fbbdb03ad65907c10c25a26ac760                                                                 
 11564            count_1edit.txt                                  3bf563ef032ba151ec1a4b2d1f33f50c49f4a47e4dc5b8152394bc5b63f57655|b5fbacbebcc25f5011ce97bc9ac967a09c50eef28b4aa98379a6c426df6ac08b
 223              count_1l.txt                                     335388d457db6ef1da05d8b55ab879e9be7d4e021085efc8d9dfeac0e4a79aa9                                                                 
 4956241          count_1w.txt                                     51df159fd3de12b20e403c108f526e96dbd723d9cabdd5f17955cdc16059e690                                                                 
@@ -159,20 +157,21 @@ size     exec  file                                               contents
 5566017          count_2w.txt                                     781c0596c3eea532d30bef9f3dba1d5137d652f00376260822c761a7584dfb8c                                                                 
 220441           count_3l.txt                                     8702c95530c7d0d182ab94dc03ed7681fcf969819f6db011a58de31411dc6365                                                                 
 320508           count_big.txt                                    3ba257fba1934bd138413d8274e79b56c5992431a27692fd562929aa43ec01a3                                                                 
-3355             find_best_affine_break_parameters.py             6b11004bb93ac26ec7d42d33504e758edbaf9d55365ae2e4ca2fca7589263f25                                                                 
-3027             find_best_caesar_break_parameters.py             0347d80309179d937a88fd1c8684490a513ccd086366c5a0dd55b8a2fe5c565f                                                                 
+3348             find_best_affine_break_parameters.py             b08fbccd56f7a3243cde14bd895e8ca417b89cd0faaced9a0e68ecb372ffcc14                                                                 
+3020             find_best_caesar_break_parameters.py             7119e2eea7c138e133b6f2df691af9e1128ff10d2b6ae16f32b0c0b35e488d76                                                                 
 1236             find_wikipedia_titles.py                         f040bf855dfec7fff9d8e5eba2fb509179bc53bc02a20b26b7fc61fef983aa45                                                                 
 37128            hill-ciphers.ipynb                               ce802c2be807b4565858b568d3a82c65a3957aa625344189f8f2a055237b3fdd                                                                 
 5645             language_models.py                               bfd5b60cdef8af20cdb061b24a1691f569984be3be333782c3d76e3370e16d14                                                                 
 368              lettercount.py                                   ed36497d62cf75b91994055e4a18848b2fabe5ce793cd76a77fabfc94d81d4f3                                                                 
 592              make-cracking-dictionary.py                      71791e64e4853cd9ca292cb436bbe8c72dd60f509811174df93ed2067683d5c1                                                                 
-7077             norms.py                                         a657a36c1741e6f3a513386b318fcc99e6b11f98ec64a48284b47462ff2acf30                                                                 
+7070             norms.py                                         c80289c5769e518ea40a7de85c869febab2e6d40c64a596bcd2a13ea2a9ece1a                                                                 
 8411             norms.pyc                                        ac7a18765c7bcc27e406d8f38d943408097b3384a271502185d53482e6ec0da7|002b186e716cec64869a00bd2d72e16614931e696daa0cf3529d634a0f270e42
 112847           plot-caesar-parameters.ipynb                     639459b4b2e434f9f0852c012ed9a8a8d87bd1cb6c2d65ca5abfdb0e42c3dea6                                                                 
 23863            railfence-experiment-1.ipynb                     e34a61cef19b3249a3d6d731fe054769c02233b0be661161ebf45bada3b7b97b                                                                 
 18628            railfence-experiment-2.ipynb                     8c4d90c1c934b764deba0956bb4be81868e463789dc8fe02e5621ab3a95c0889                                                                 
 881              segment.py                                       94d257cc6151861ef3d3033c4d2d03d8c121b0a982344abf400f65fd507fed28                                                                 
 4538523          shakespeare.txt                                  6f9c770efced5c3d87efa6197cd3091b982341372e36c6357f865df91ddecde6                                                                 
+592309           sherlock-holmes.txt                              0027de6f4110440ea51d67a2f3af3484898c630808f13b1d4db108e6283e67a3|2034ee1ebdec47e839607124d22b674d4614e1cc6209d758f7b6e99e69ae8e08
 451530           spell-errors.txt                                 a4abe6ce6c24280f9a8d0485cbf78ddd2e58279ca01293692630a08ba4b13407                                                                 
 69351            unknown-word-probability-investigation.ipynb     8a9cd7163f10bf2bfb3e286445eddcfc953f80abfdef4e29dac27617a53c3d41                                                                 
 3291641          war-and-peace.txt                                3ed0f41cfdf660846878943bad5b9d575bcae1e4a92ee9a7f43d3c9dba2af344|6799e48d3fd0a6f4c40b9951ec86de6da81f0b9cd36e413490ac511542ca54d3

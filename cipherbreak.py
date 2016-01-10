@@ -359,7 +359,7 @@ def column_transposition_break_mp(message, translist=transpositions,
     with Pool() as pool:
         helper_args = [(message, trans, fillcolumnwise, emptycolumnwise,
                         fitness)
-                       for trans in translist.keys()
+                       for trans in translist
                        for fillcolumnwise in [True, False]
                        for emptycolumnwise in [True, False]]
         # Gotcha: the helper function here needs to be defined at the top level
@@ -489,7 +489,7 @@ def amsco_break(message, translist=transpositions, patterns = [(1, 2), (2, 1)],
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
         patterns=[(1, 2)]) # doctest: +ELLIPSIS
-    (((2, 0, 5, 3, 1, 4, 6), (1, 2)), -709.4646722...)
+    (((2, 0, 5, 3, 1, 4, 6), (1, 2), <AmscoFillStyle.continuous: 1>), -709.4646722...)
     >>> amsco_break(amsco_transposition_encipher(sanitise( \
             "It is a truth universally acknowledged, that a single man in \
              possession of a good fortune, must be in want of a wife. However \
@@ -502,11 +502,11 @@ def amsco_break(message, translist=transpositions, patterns = [(1, 2), (2, 1)],
                    (5, 0, 6, 1, 3, 4, 2): ['fourteen'], \
                    (6, 1, 0, 4, 5, 3, 2): ['keyword']}, \
         patterns=[(1, 2), (2, 1)], fitness=Ptrigrams) # doctest: +ELLIPSIS
-    (((2, 0, 5, 3, 1, 4, 6), (2, 1)), -997.0129085...)
+    (((2, 0, 5, 3, 1, 4, 6), (2, 1), <AmscoFillStyle.continuous: 1>), -997.0129085...)
     """
     with Pool() as pool:
         helper_args = [(message, trans, pattern, fillstyle, fitness)
-                       for trans in translist.keys()
+                       for trans in translist
                        for pattern in patterns
                        for fillstyle in fillstyles]
         # Gotcha: the helper function here needs to be defined at the top level
@@ -588,13 +588,13 @@ def pocket_enigma_break_by_crib(message, wheel_spec, crib, crib_position):
 
 
 def plot_frequency_histogram(freqs, sort_key=None):
-    x = range(len(freqs.keys()))
-    y = [freqs[l] for l in sorted(freqs.keys(), key=sort_key)]
+    x = range(len(freqs))
+    y = [freqs[l] for l in sorted(freqs, key=sort_key)]
     f = plt.figure()
     ax = f.add_axes([0.1, 0.1, 0.9, 0.9])
     ax.bar(x, y, align='center')
     ax.set_xticks(x)
-    ax.set_xticklabels(sorted(freqs.keys(), key=sort_key))
+    ax.set_xticklabels(sorted(freqs, key=sort_key))
     f.show()
 
 
