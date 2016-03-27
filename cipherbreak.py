@@ -204,7 +204,7 @@ def monoalphabetic_break_hillclimbing(message, max_iterations=10000000,
     if not alphabet:
         alphabet = list(string.ascii_lowercase)
         random.shuffle(alphabet)
-        alphabet = ''.join(alphabet)
+        alphabet = cat(alphabet)
     return monoalphabetic_break_hillclimbing_worker(ciphertext, alphabet,
                                                     max_iterations, fitness)
 
@@ -218,7 +218,7 @@ def monoalphabetic_break_hillclimbing_mp(message, workers=10,
         else:
             this_alphabet = list(string.ascii_lowercase)
             random.shuffle(this_alphabet)
-            this_alphabet = ''.join(this_alphabet)
+            this_alphabet = cat(this_alphabet)
         worker_args.append((ciphertext, this_alphabet, max_iterations, fitness))
     with Pool() as pool:
         breaks = pool.starmap(monoalphabetic_break_hillclimbing_worker,
@@ -290,7 +290,7 @@ def vigenere_frequency_break(message, max_key_length=20, fitness=Pletters):
     """
     def worker(message, key_length, fitness):
         splits = every_nth(sanitised_message, key_length)
-        key = ''.join([chr(caesar_break(s)[0] + ord('a')) for s in splits])
+        key = cat([chr(caesar_break(s)[0] + ord('a')) for s in splits])
         plaintext = vigenere_decipher(message, key)
         fit = fitness(plaintext)
         return key, fit
@@ -314,7 +314,7 @@ def beaufort_frequency_break(message, max_key_length=20, fitness=Pletters):
     """
     def worker(message, key_length, fitness):
         splits = every_nth(sanitised_message, key_length)
-        key = ''.join([chr(-caesar_break(s)[0] % 26 + ord('a'))
+        key = cat([chr(-caesar_break(s)[0] % 26 + ord('a'))
                        for s in splits])
         plaintext = beaufort_decipher(message, key)
         fit = fitness(plaintext)

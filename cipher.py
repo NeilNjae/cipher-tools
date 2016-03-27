@@ -9,6 +9,11 @@ from numpy import linalg
 from language_models import *
 
 
+## Utility functions
+cat = ''.join
+wcat = ' '.join
+
+
 modular_division_table = [[0]*26 for _ in range(26)]
 for a in range(26):
     for b in range(26):
@@ -31,7 +36,7 @@ def every_nth(text, n, fillvalue=''):
     ['afkpuz', 'bglqv!', 'chmrw!', 'dinsx!', 'ejoty!']
     """
     split_text = chunks(text, n, fillvalue)
-    return [''.join(l) for l in zip_longest(*split_text, fillvalue=fillvalue)]
+    return [cat(l) for l in zip_longest(*split_text, fillvalue=fillvalue)]
 
 def combine_every_nth(split_text):
     """Reforms a text split into every_nth strings
@@ -43,7 +48,7 @@ def combine_every_nth(split_text):
     >>> combine_every_nth(every_nth(string.ascii_lowercase, 26))
     'abcdefghijklmnopqrstuvwxyz'
     """
-    return ''.join([''.join(l) 
+    return cat([cat(l) 
                     for l in zip_longest(*split_text, fillvalue='')])
 
 def chunks(text, n, fillvalue=None):
@@ -156,7 +161,7 @@ def caesar_encipher(message, shift):
     'Jgnnq Yqtnf!'
     """
     enciphered = [caesar_encipher_letter(l, shift) for l in message]
-    return ''.join(enciphered)
+    return cat(enciphered)
 
 def caesar_decipher(message, shift):
     """Decipher a message with the Caesar cipher of given shift
@@ -175,10 +180,10 @@ def caesar_decipher(message, shift):
 def affine_encipher_letter(accented_letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> ''.join([affine_encipher_letter(l, 3, 5, True) \
+    >>> cat([affine_encipher_letter(l, 3, 5, True) \
             for l in string.ascii_uppercase])
     'HKNQTWZCFILORUXADGJMPSVYBE'
-    >>> ''.join([affine_encipher_letter(l, 3, 5, False) \
+    >>> cat([affine_encipher_letter(l, 3, 5, False) \
             for l in string.ascii_uppercase])
     'FILORUXADGJMPSVYBEHKNQTWZC'
     """
@@ -199,10 +204,10 @@ def affine_encipher_letter(accented_letter, multiplier=1, adder=0, one_based=Tru
 def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> ''.join([affine_decipher_letter(l, 3, 5, True) \
+    >>> cat([affine_decipher_letter(l, 3, 5, True) \
             for l in 'HKNQTWZCFILORUXADGJMPSVYBE'])
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    >>> ''.join([affine_decipher_letter(l, 3, 5, False) \
+    >>> cat([affine_decipher_letter(l, 3, 5, False) \
             for l in 'FILORUXADGJMPSVYBEHKNQTWZC'])
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     """
@@ -230,7 +235,7 @@ def affine_encipher(message, multiplier=1, adder=0, one_based=True):
     """
     enciphered = [affine_encipher_letter(l, multiplier, adder, one_based) 
                   for l in message]
-    return ''.join(enciphered)
+    return cat(enciphered)
 
 def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     """Decipher a message
@@ -241,7 +246,7 @@ def affine_decipher(message, multiplier=1, adder=0, one_based=True):
     """
     enciphered = [affine_decipher_letter(l, multiplier, adder, one_based) 
                   for l in message]
-    return ''.join(enciphered)
+    return cat(enciphered)
 
 
 class KeywordWrapAlphabet(Enum):
@@ -265,7 +270,7 @@ def keyword_cipher_alphabet_of(keyword, wrap_alphabet=KeywordWrapAlphabet.from_a
     'bayeszcdfghijklmnopqrtuvwx'
     """
     if wrap_alphabet == KeywordWrapAlphabet.from_a:
-        cipher_alphabet = ''.join(deduplicate(sanitise(keyword) + 
+        cipher_alphabet = cat(deduplicate(sanitise(keyword) + 
                                               string.ascii_lowercase))
     else:
         if wrap_alphabet == KeywordWrapAlphabet.from_last:
@@ -274,7 +279,7 @@ def keyword_cipher_alphabet_of(keyword, wrap_alphabet=KeywordWrapAlphabet.from_a
             last_keyword_letter = sorted(sanitise(keyword))[-1]
         last_keyword_position = string.ascii_lowercase.find(
             last_keyword_letter) + 1
-        cipher_alphabet = ''.join(
+        cipher_alphabet = cat(
             deduplicate(sanitise(keyword) + 
                         string.ascii_lowercase[last_keyword_position:] + 
                         string.ascii_lowercase))
@@ -332,7 +337,7 @@ def vigenere_encipher(message, keyword):
     """
     shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
     pairs = zip(message, cycle(shifts))
-    return ''.join([caesar_encipher_letter(l, k) for l, k in pairs])
+    return cat([caesar_encipher_letter(l, k) for l, k in pairs])
 
 def vigenere_decipher(message, keyword):
     """Vigenere decipher
@@ -342,7 +347,7 @@ def vigenere_decipher(message, keyword):
     """
     shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
     pairs = zip(message, cycle(shifts))
-    return ''.join([caesar_decipher_letter(l, k) for l, k in pairs])
+    return cat([caesar_decipher_letter(l, k) for l, k in pairs])
 
 beaufort_encipher=vigenere_decipher
 beaufort_decipher=vigenere_encipher
@@ -428,7 +433,7 @@ def column_transposition_encipher(message, keyword, fillvalue=' ',
     if emptycolumnwise:
         return combine_every_nth(transposed)
     else:
-        return ''.join(chain(*transposed))
+        return cat(chain(*transposed))
 
 def column_transposition_decipher(message, keyword, fillvalue=' ', 
       fillcolumnwise=False,
@@ -463,7 +468,7 @@ def column_transposition_decipher(message, keyword, fillvalue=' ',
     if fillcolumnwise:
         return combine_every_nth(untransposed)
     else:
-        return ''.join(chain(*untransposed))
+        return cat(chain(*untransposed))
 
 def scytale_encipher(message, rows, fillvalue=' '):
     """Enciphers using the scytale transposition cipher.
@@ -544,14 +549,14 @@ def railfence_encipher(message, height, fillvalue=''):
     sections = chunks(message, (height - 1) * 2, fillvalue=fillvalue)
     n_sections = len(sections)
     # Add the top row
-    rows = [''.join([s[0] for s in sections])]
+    rows = [cat([s[0] for s in sections])]
     # process the middle rows of the grid
     for r in range(1, height-1):
-        rows += [''.join([s[r:r+1] + s[height*2-r-2:height*2-r-1] for s in sections])]
+        rows += [cat([s[r:r+1] + s[height*2-r-2:height*2-r-1] for s in sections])]
     # process the bottom row
-    rows += [''.join([s[height - 1:height] for s in sections])]
-    # rows += [' '.join([s[height - 1] for s in sections])]
-    return ''.join(rows)
+    rows += [cat([s[height - 1:height] for s in sections])]
+    # rows += [wcat([s[height - 1] for s in sections])]
+    return cat(rows)
 
 def railfence_decipher(message, height, fillvalue=''):
     """Railfence decipher. 
@@ -626,11 +631,11 @@ def railfence_decipher(message, height, fillvalue=''):
     down_rows = [rows[0]]
     up_rows = []
     for i in range(1, height-1):
-        down_rows += [''.join([c for n, c in enumerate(rows[i]) if n % 2 == 0])]
-        up_rows += [''.join([c for n, c in enumerate(rows[i]) if n % 2 == 1])]
+        down_rows += [cat([c for n, c in enumerate(rows[i]) if n % 2 == 0])]
+        up_rows += [cat([c for n, c in enumerate(rows[i]) if n % 2 == 1])]
     down_rows += [rows[-1]]
     up_rows.reverse()
-    return ''.join(c for r in zip_longest(*(down_rows + up_rows), fillvalue='') for c in r)
+    return cat(c for r in zip_longest(*(down_rows + up_rows), fillvalue='') for c in r)
 
 def make_cadenus_keycolumn(doubled_letters = 'vw', start='a', reverse=False):
     """Makes the key column for a Cadenus cipher (the column down between the
@@ -666,7 +671,7 @@ def make_cadenus_keycolumn(doubled_letters = 'vw', start='a', reverse=False):
     index_to_remove = string.ascii_lowercase.find(doubled_letters[0])
     short_alphabet = string.ascii_lowercase[:index_to_remove] + string.ascii_lowercase[index_to_remove+1:]
     if reverse:
-        short_alphabet = ''.join(reversed(short_alphabet))
+        short_alphabet = cat(reversed(short_alphabet))
     start_pos = short_alphabet.find(start)
     rotated_alphabet = short_alphabet[start_pos:] + short_alphabet[:start_pos]
     keycolumn = {l: i for i, l in enumerate(rotated_alphabet)}
@@ -695,7 +700,7 @@ def cadenus_encipher(message, keyword, keycolumn, fillvalue='a'):
     rotated_rows = zip(*rotated_columns)
     transpositions = transpositions_of(keyword)
     transposed = [transpose(r, transpositions) for r in rotated_rows]
-    return ''.join(chain(*transposed))
+    return cat(chain(*transposed))
 
 def cadenus_decipher(message, keyword, keycolumn, fillvalue='a'):
     """
@@ -717,7 +722,7 @@ def cadenus_decipher(message, keyword, keycolumn, fillvalue='a'):
     rotated_columns = [col[-start:] + col[:-start] for start, col in zip([keycolumn[l] for l in keyword], columns)]    
     rotated_rows = zip(*rotated_columns)
     # return rotated_columns
-    return ''.join(chain(*rotated_rows))
+    return cat(chain(*rotated_rows))
 
 
 def hill_encipher(matrix, message_letters, fillvalue='a'):
@@ -740,7 +745,7 @@ def hill_encipher(matrix, message_letters, fillvalue='a'):
     # message_chunks = chunks(message, len(matrix), fillvalue=None)
     enciphered_chunks = [((matrix * np.matrix(c).T).T).tolist()[0] 
             for c in message_chunks]
-    return ''.join([chr(int(round(l)) % 26 + ord('a')) 
+    return cat([chr(int(round(l)) % 26 + ord('a')) 
             for l in sum(enciphered_chunks, [])])
 
 def hill_decipher(matrix, message, fillvalue='a'):
@@ -889,7 +894,7 @@ def amsco_transposition_decipher(message, keyword,
     for slice in transposed_sections:
         plaintext_list[slice.index] = message[current_pos:current_pos-slice.start+slice.end][:len(message[slice.start:slice.end])]
         current_pos += len(message[slice.start:slice.end])
-    return ''.join(plaintext_list)
+    return cat(plaintext_list)
 
 
 class PocketEnigma(object):
@@ -990,7 +995,7 @@ class PocketEnigma(object):
 
         >>> pe.set_position('f')
         5
-        >>> ''.join([pe.lookup(l) for l in string.ascii_lowercase])
+        >>> cat([pe.lookup(l) for l in string.ascii_lowercase])
         'udhbfejcpgmokrliwntsayqzvx'
         >>> pe.lookup('A')
         ''
