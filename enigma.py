@@ -1003,6 +1003,9 @@ class Enigma(object):
 ##################################
 # # Bombe
 ##################################
+#
+# Good explanation of [how the bombe worked](http://www.ellsbury.com/enigmabombe.htm) by Graham Ellsbury
+#
 
 Signal = collections.namedtuple('Signal', ['bank', 'wire'])
 Connection = collections.namedtuple('Connection', ['banks', 'scrambler'])
@@ -1046,7 +1049,7 @@ class Scrambler(object):
         self.wheel3.set_position(wheel3_pos)      
 
 
-class Bombe(object):
+class Bombe(object): 
     def __init__(self, wheel1_spec, wheel2_spec, wheel3_spec, reflector_spec,
                 menu=None, start_signal=None, use_diagonal_board=True, 
                 verify_plugboard=True):
