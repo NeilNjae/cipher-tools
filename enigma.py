@@ -182,7 +182,11 @@ class SimpleWheel(LetterTransformer):
             return object.__getattribute__(self, name)
     
     def set_position(self, position):
-        self.position = ord(position) - ord('a')
+        if isinstance(position, str):
+            # self.position = ord(position) - ord('a')
+            self.position = pos(position)
+        else:
+            self.position = position
     
     def forward(self, letter):
         if letter in string.ascii_lowercase:
@@ -234,8 +238,12 @@ class Wheel(SimpleWheel):
             return object.__getattribute__(self, name)
 
     def set_position(self, position):
-        self.position = (pos(position) - self.ring_setting + 1) % 26
-        self.peg_positions = [(pos(p) - pos(position)) % 26  for p in self.ring_peg_letters]
+        if isinstance(position, str):
+            self.position = (pos(position) - self.ring_setting + 1) % 26
+        else:
+            self.position = (position - self.ring_setting) % 26
+        # self.peg_positions = [(pos(p) - pos(position)) % 26  for p in self.ring_peg_letters]
+        self.peg_positions = [(pos(p) - (self.position + self.ring_setting - 1)) % 26  for p in self.ring_peg_letters]
         
     def advance(self):
         super(Wheel, self).advance()

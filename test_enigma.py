@@ -93,6 +93,29 @@ class SimpleWheelTest(unittest.TestCase):
                 for l in string.ascii_lowercase),
             'ajpczwrlfbdkotyuqgenhxmivs')
 
+    def test_set_position(self):
+        wheel_3 = SimpleWheel(wheel_iii_spec)
+        wheel_3.set_position('a')
+        self.assertEqual(wheel_3.position, 0)
+        self.assertEqual(wheel_3.position_l, 'a')
+
+        wheel_3.set_position('f')
+        self.assertEqual(wheel_3.position, 5)
+        self.assertEqual(wheel_3.position_l, 'f')
+
+        wheel_3.advance()
+        self.assertEqual(wheel_3.position, 6)
+        self.assertEqual(wheel_3.position_l, 'g')
+
+        wheel_3.set_position(12)
+        self.assertEqual(wheel_3.position, 12)
+        self.assertEqual(wheel_3.position_l, 'm')
+
+        wheel_3.advance()
+        self.assertEqual(wheel_3.position, 13)
+        self.assertEqual(wheel_3.position_l, 'n')
+
+
     def test_advance(self):
         wheel_3 = SimpleWheel(wheel_iii_spec)
         wheel_3.set_position('a')
@@ -131,7 +154,7 @@ class SimpleWheelTest(unittest.TestCase):
             'tagbpcsdqeufvnzhyixjwlrkom')
 
 
-class SimpleWheelTest(unittest.TestCase):
+class WheelTest(unittest.TestCase):
     def test_init1(self):
         wheel = Wheel(wheel_iii_spec, wheel_iii_pegs, position='b', 
             ring_setting=1)
@@ -157,7 +180,6 @@ class SimpleWheelTest(unittest.TestCase):
         self.assertEqual(cat(wheel.backward(l) 
                 for l in string.ascii_lowercase),
             'ptlyrmidoxbswhnfckquzgeavj')
-
 
     def test_advance(self):
         wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
@@ -243,7 +265,6 @@ class SimpleWheelTest(unittest.TestCase):
                 for l in string.ascii_lowercase),
             'ptlyrmidoxbswhnfckquzgeavj')
 
-
     def test_advance_27(self):
         wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
             ring_setting=3)
@@ -260,6 +281,54 @@ class SimpleWheelTest(unittest.TestCase):
         self.assertEqual(cat(wheel.backward(l) 
                 for l in string.ascii_lowercase),
             'skxqlhcnwarvgmebjptyfdzuio')
+
+    def test_set_position(self):
+        wheel_3 = Wheel(wheel_iii_spec, wheel_iii_pegs, ring_setting=3)
+        wheel_3.set_position('a')
+        self.assertEqual(wheel_3.position, 24)
+        self.assertEqual(wheel_3.position_l, 'a')
+        self.assertEqual(wheel_3.peg_positions, [21])
+
+        wheel_3.set_position('z')
+        self.assertEqual(wheel_3.position, 23)
+        self.assertEqual(wheel_3.position_l, 'z')
+        self.assertEqual(wheel_3.peg_positions, [22])
+
+        wheel_3.set_position(26)
+        self.assertEqual(wheel_3.position, 23)
+        self.assertEqual(wheel_3.position_l, 'z')
+        self.assertEqual(wheel_3.peg_positions, [22])
+
+        wheel_3.set_position(27)
+        self.assertEqual(wheel_3.position, 24)
+        self.assertEqual(wheel_3.position_l, 'a')
+        self.assertEqual(wheel_3.peg_positions, [21])
+
+        wheel_3.set_position('f')
+        self.assertEqual(wheel_3.position, 3)
+        self.assertEqual(wheel_3.position_l, 'f')
+        self.assertEqual(wheel_3.peg_positions, [16])
+
+        wheel_3.set_position(6)
+        self.assertEqual(wheel_3.position, 3)
+        self.assertEqual(wheel_3.position_l, 'f')
+        self.assertEqual(wheel_3.peg_positions, [16])
+
+        wheel_3.advance()
+        self.assertEqual(wheel_3.position, 4)
+        self.assertEqual(wheel_3.position_l, 'g')
+        self.assertEqual(wheel_3.peg_positions, [15])
+
+        wheel_3.set_position(12)
+        self.assertEqual(wheel_3.position, 9)
+        self.assertEqual(wheel_3.position_l, 'l')
+        self.assertEqual(wheel_3.peg_positions, [10])
+
+        wheel_3.advance()
+        self.assertEqual(wheel_3.position, 10)
+        self.assertEqual(wheel_3.position_l, 'm')
+        self.assertEqual(wheel_3.peg_positions, [9])
+
 
 class EnigmaTest(unittest.TestCase):
 
@@ -280,6 +349,14 @@ class EnigmaTest(unittest.TestCase):
                 wheel_iii_spec, wheel_iii_pegs, 
                 6, 20, 24, 
                 'ua pf rq so ni ey bg hl tx zj')
+
+        # Settings for Bletchley Park outreach department's Enigma
+        self.enigma_bp = Enigma(reflector_b_spec, 
+                 wheel_i_spec, wheel_i_pegs,
+                 wheel_iii_spec, wheel_iii_pegs,
+                 wheel_ii_spec, wheel_ii_pegs,
+                 1, 26, 26, 
+                 'qm we ro tu zj ps dl fg')
 
 
     def test_middle_advance(self):
