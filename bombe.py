@@ -9,6 +9,10 @@ Signal = collections.namedtuple('Signal', ['bank', 'wire'])
 Connection = collections.namedtuple('Connection', ['banks', 'scrambler'])
 MenuItem = collections.namedtuple('MenuIem', ['before', 'after', 'number'])
 
+def make_menu(plaintext, ciphertext):
+    return [MenuItem(p, c, i+1) 
+            for i, (p, c) in enumerate(zip(plaintext, ciphertext))]
+
 
 class Scrambler(object):
     def __init__(self, wheel1_spec, wheel2_spec, wheel3_spec, reflector_spec,
@@ -82,6 +86,7 @@ class Bombe(object):
         self.connections += [Connection([bank_before, bank_after], scrambler)]
         
     def read_menu(self, menu):
+        self.connections = []
         for item in menu:
             scrambler = Scrambler(self.wheel1_spec, self.wheel2_spec, self.wheel3_spec,
                                   self.reflector_spec,
@@ -161,3 +166,16 @@ class Bombe(object):
                 possibles = possibles.union({frozenset((b, inactive[0]))})
         return possibles
 
+
+def run_multi_bombe(wheel1_spec, wheel2_spec, wheel3_spec, reflector_spec, menu,
+                    start_signal=None, use_diagonal_board=True, 
+                    verify_plugboard=True):
+    allwheels = itertools.product(string.ascii_lowercase, repeat=3)
+
+    with multiprocessing.Pool() as pool:
+        res = pool.map(Bombe(wheel1_spec, wheel2_spec, wheel3_spec, 
+            reflector_spec, menu=menu, start_signal=start_signal, 
+            use_diagonal_board=use_diagonal_board, 
+            verify_plugboard=verify_plugboard),
+                  allwheels)
+    return [r[0] for r in res if r[1]]
