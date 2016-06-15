@@ -13,6 +13,16 @@ from language_models import *
 cat = ''.join
 wcat = ' '.join
 
+def pos(letter): 
+    if letter in string.ascii_lowercase:
+        return ord(letter) - ord('a')
+    elif letter in string.ascii_uppercase:
+        return ord(letter) - ord('A')
+    else:
+        return ''
+    
+def unpos(number): return chr(number % 26 + ord('a'))
+
 
 modular_division_table = [[0]*26 for _ in range(26)]
 for a in range(26):
@@ -125,14 +135,24 @@ def caesar_encipher_letter(accented_letter, shift):
     >>> caesar_encipher_letter('é', 1)
     'f'
     """
+    # letter = unaccent(accented_letter)
+    # if letter in string.ascii_letters:
+    #     if letter in string.ascii_uppercase:
+    #         alphabet_start = ord('A')
+    #     else:
+    #         alphabet_start = ord('a')
+    #     return chr(((ord(letter) - alphabet_start + shift) % 26) + 
+    #                alphabet_start)
+    # else:
+    #     return letter
+
     letter = unaccent(accented_letter)
     if letter in string.ascii_letters:
+        cipherletter = unpos(pos(letter) + shift)
         if letter in string.ascii_uppercase:
-            alphabet_start = ord('A')
+            return cipherletter.upper()
         else:
-            alphabet_start = ord('a')
-        return chr(((ord(letter) - alphabet_start + shift) % 26) + 
-                   alphabet_start)
+            return cipherletter
     else:
         return letter
 
@@ -180,49 +200,74 @@ def caesar_decipher(message, shift):
 def affine_encipher_letter(accented_letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> cat([affine_encipher_letter(l, 3, 5, True) \
-            for l in string.ascii_uppercase])
-    'HKNQTWZCFILORUXADGJMPSVYBE'
-    >>> cat([affine_encipher_letter(l, 3, 5, False) \
-            for l in string.ascii_uppercase])
-    'FILORUXADGJMPSVYBEHKNQTWZC'
+    >>> cat(affine_encipher_letter(l, 3, 5, True) \
+            for l in string.ascii_letters)
+    'hknqtwzcfiloruxadgjmpsvybeHKNQTWZCFILORUXADGJMPSVYBE'
+    >>> cat(affine_encipher_letter(l, 3, 5, False) \
+            for l in string.ascii_letters)
+    'filoruxadgjmpsvybehknqtwzcFILORUXADGJMPSVYBEHKNQTWZC'
     """
+    # letter = unaccent(accented_letter)
+    # if letter in string.ascii_letters:
+    #     if letter in string.ascii_uppercase:
+    #         alphabet_start = ord('A')
+    #     else:
+    #         alphabet_start = ord('a')
+    #     letter_number = ord(letter) - alphabet_start
+    #     if one_based: letter_number += 1
+    #     cipher_number = (letter_number * multiplier + adder) % 26
+    #     if one_based: cipher_number -= 1
+    #     return chr(cipher_number % 26 + alphabet_start)
+    # else:
+    #     return letter
     letter = unaccent(accented_letter)
     if letter in string.ascii_letters:
-        if letter in string.ascii_uppercase:
-            alphabet_start = ord('A')
-        else:
-            alphabet_start = ord('a')
-        letter_number = ord(letter) - alphabet_start
+        letter_number = pos(letter)
         if one_based: letter_number += 1
         cipher_number = (letter_number * multiplier + adder) % 26
         if one_based: cipher_number -= 1
-        return chr(cipher_number % 26 + alphabet_start)
+        if letter in string.ascii_uppercase:
+            return unpos(cipher_number).upper()
+        else:
+            return unpos(cipher_number)
     else:
         return letter
 
 def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
     """Encipher a letter, given a multiplier and adder
     
-    >>> cat([affine_decipher_letter(l, 3, 5, True) \
-            for l in 'HKNQTWZCFILORUXADGJMPSVYBE'])
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    >>> cat([affine_decipher_letter(l, 3, 5, False) \
-            for l in 'FILORUXADGJMPSVYBEHKNQTWZC'])
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    >>> cat(affine_decipher_letter(l, 3, 5, True) \
+            for l in 'hknqtwzcfiloruxadgjmpsvybeHKNQTWZCFILORUXADGJMPSVYBE')
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    >>> cat(affine_decipher_letter(l, 3, 5, False) \
+            for l in 'filoruxadgjmpsvybehknqtwzcFILORUXADGJMPSVYBEHKNQTWZC')
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     """
+    # if letter in string.ascii_letters:
+    #     if letter in string.ascii_uppercase:
+    #         alphabet_start = ord('A')
+    #     else:
+    #         alphabet_start = ord('a')
+    #     cipher_number = ord(letter) - alphabet_start
+    #     if one_based: cipher_number += 1
+    #     plaintext_number = ( 
+    #         modular_division_table[multiplier]
+    #                               [(cipher_number - adder) % 26])
+    #     if one_based: plaintext_number -= 1
+    #     return chr(plaintext_number % 26 + alphabet_start) 
+    # else:
+    #     return letter
     if letter in string.ascii_letters:
-        if letter in string.ascii_uppercase:
-            alphabet_start = ord('A')
-        else:
-            alphabet_start = ord('a')
-        cipher_number = ord(letter) - alphabet_start
+        cipher_number = pos(letter)
         if one_based: cipher_number += 1
         plaintext_number = ( 
             modular_division_table[multiplier]
                                   [(cipher_number - adder) % 26])
         if one_based: plaintext_number -= 1
-        return chr(plaintext_number % 26 + alphabet_start) 
+        if letter in string.ascii_uppercase:
+            return unpos(plaintext_number).upper()
+        else:
+            return unpos(plaintext_number) 
     else:
         return letter
 
