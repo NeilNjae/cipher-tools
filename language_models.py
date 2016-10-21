@@ -7,7 +7,7 @@ import itertools
 from math import log10
 import os 
 
-unaccent_specials = ''.maketrans({"’": "'"})
+unaccent_specials = ''.maketrans({"’": "'", '“': '"', '”': '"'})
 
 def letters(text):
     """Remove all non-alphabetic characters from a text
