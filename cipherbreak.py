@@ -13,11 +13,11 @@ from multiprocessing import Pool
 
 import matplotlib.pyplot as plt
 
+logging.basicConfig(filename="cipher.log", level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.FileHandler('cipher.log'))
-logger.setLevel(logging.WARNING)
-#logger.setLevel(logging.INFO)
-#logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.WARNING)
+# logger.setLevel(logging.INFO)
+# logger.setLevel(logging.DEBUG)
 
 from cipher import *
 from language_models import *
