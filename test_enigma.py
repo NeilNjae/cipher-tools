@@ -1,5 +1,6 @@
 import unittest
 import collections
+import string
 
 from enigma import *
 
