@@ -569,6 +569,42 @@ def hill_break_worker(message, matrix, fitness):
                      fit, sanitise(plaintext)[:50]))
     return matrix, fit
 
+def bifid_break_mp(message, wordlist=keywords, fitness=Pletters,
+                     number_of_solutions=1, chunksize=500):
+    """Breaks a keyword substitution cipher using a dictionary and
+    frequency analysis
+
+    >>> bifid_break_mp(bifid_encipher('this is a test message for the ' \
+          'keyword decipherment', 'elephant', wrap_alphabet=KeywordWrapAlphabet.from_last), \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
+    (('elephant', <KeywordWrapAlphabet.from_last: 2>), -52.834575011...)
+    >>> bifid_break_mp(bifid_encipher('this is a test message for the ' \
+          'keyword decipherment', 'elephant', wrap_alphabet=KeywordWrapAlphabet.from_last), \
+          wordlist=['cat', 'elephant', 'kangaroo'], \
+          number_of_solutions=2) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+    [(('elephant', <KeywordWrapAlphabet.from_last: 2>), -52.834575011...), 
+    (('elephant', <KeywordWrapAlphabet.from_largest: 3>), -52.834575011...)]
+    """
+    with Pool() as pool:
+        helper_args = [(message, word, wrap, fitness)
+                       for word in wordlist
+                       for wrap in KeywordWrapAlphabet]
+        # Gotcha: the helper function here needs to be defined at the top level
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(bifid_break_worker, helper_args, chunksize)
+        if number_of_solutions == 1:
+            return max(breaks, key=lambda k: k[1])
+        else:
+            return sorted(breaks, key=lambda k: k[1], reverse=True)[:number_of_solutions]
+
+def bifid_break_worker(message, keyword, wrap_alphabet, fitness):
+    plaintext = bifid_decipher(message, keyword, wrap_alphabet)
+    fit = fitness(plaintext)
+    logger.debug('Keyword break attempt using key {0} (wrap={1}) gives fit of '
+                 '{2} and decrypt starting: {3}'.format(keyword, 
+                     wrap_alphabet, fit, sanitise(plaintext)[:50]))
+    return (keyword, wrap_alphabet), fit
+
 
 def pocket_enigma_break_by_crib(message, wheel_spec, crib, crib_position):
     """Break a pocket enigma using a crib (some plaintext that's expected to

@@ -7,6 +7,7 @@ import numpy as np
 from numpy import matrix
 from numpy import linalg
 from language_models import *
+import pprint
 
 
 ## Utility functions
@@ -941,6 +942,82 @@ def amsco_transposition_decipher(message, keyword,
         current_pos += len(message[slice.start:slice.end])
     return cat(plaintext_list)
 
+
+def bifid_grid(keyword, wrap_alphabet, letter_mapping):
+    """Create the grids for a Bifid cipher
+    """
+    cipher_alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet)
+    if letter_mapping is None:
+        letter_mapping = {'j': 'i'}
+    translation = ''.maketrans(letter_mapping)
+    cipher_alphabet = cat(collections.OrderedDict.fromkeys(cipher_alphabet.translate(translation)))
+    f_grid = {k: ((i // 5) + 1, (i % 5) + 1) 
+              for i, k in enumerate(cipher_alphabet)}
+    r_grid = {((i // 5) + 1, (i % 5) + 1): k 
+              for i, k in enumerate(cipher_alphabet)}
+    return translation, f_grid, r_grid
+
+def bifid_encipher(message, keyword, wrap_alphabet=KeywordWrapAlphabet.from_a, 
+                   letter_mapping=None, period=None, fillvalue=None):
+    """Bifid cipher
+
+    >>> bifid_encipher("indiajelly", 'iguana')
+    'ibidonhprm'
+    >>> bifid_encipher("indiacurry", 'iguana', period=4)
+    'ibnhgaqltm'
+    >>> bifid_encipher("indiacurry", 'iguana', period=4, fillvalue='x')
+    'ibnhgaqltzml'
+    """
+    translation, f_grid, r_grid = bifid_grid(keyword, wrap_alphabet, letter_mapping)
+    
+    t_message = message.translate(translation)
+    pairs0 = [f_grid[l] for l in sanitise(t_message)]
+    if period:
+        chunked_pairs = [pairs0[i:i+period] for i in range(0, len(pairs0), period)]
+        if len(chunked_pairs[-1]) < period and fillvalue:
+            chunked_pairs[-1] += [f_grid[fillvalue]] * (period - len(chunked_pairs[-1]))
+    else:
+        chunked_pairs = [pairs0]
+    
+    pairs1 = []
+    for c in chunked_pairs:
+        items = sum(list(list(i) for i in zip(*c)), [])
+        p = [(items[i], items[i+1]) for i in range(0, len(items), 2)]
+        pairs1 += p
+    
+    return cat(r_grid[p] for p in pairs1)
+
+
+def bifid_decipher(message, keyword, wrap_alphabet=KeywordWrapAlphabet.from_a, 
+                   letter_mapping=None, period=None, fillvalue=None):
+    """Decipher with bifid cipher
+
+    >>> bifid_decipher('ibidonhprm', 'iguana')
+    'indiaielly'
+    >>> bifid_decipher("ibnhgaqltm", 'iguana', period=4)
+    'indiacurry'
+    >>> bifid_decipher("ibnhgaqltzml", 'iguana', period=4)
+    'indiacurryxx'
+    """
+    translation, f_grid, r_grid = bifid_grid(keyword, wrap_alphabet, letter_mapping)
+    
+    t_message = message.translate(translation)
+    pairs0 = [f_grid[l] for l in sanitise(t_message)]
+    if period:
+        chunked_pairs = [pairs0[i:i+period] for i in range(0, len(pairs0), period)]
+        if len(chunked_pairs[-1]) < period and fillvalue:
+            chunked_pairs[-1] += [f_grid[fillvalue]] * (period - len(chunked_pairs[-1]))
+    else:
+        chunked_pairs = [pairs0]
+        
+    pairs1 = []
+    for c in chunked_pairs:
+        items = [j for i in c for j in i]
+        gap = len(c)
+        p = [(items[i], items[i+gap]) for i in range(gap)]
+        pairs1 += p
+
+    return cat(r_grid[p] for p in pairs1) 
 
 class PocketEnigma(object):
     """A pocket enigma machine
