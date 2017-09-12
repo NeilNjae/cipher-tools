@@ -60,14 +60,14 @@ wheel_viii_spec = 'fkqhtlxocbjspdzramewniuygv'
 beta_wheel_spec = 'leyjvcnixwpbqmdrtakzgfuhos'
 gamma_wheel_spec = 'fsokanuerhmbtiycwlqpzxvgjd'
 
-wheel_i_pegs = ['q']
-wheel_ii_pegs = ['e']
-wheel_iii_pegs = ['v']
-wheel_iv_pegs = ['j']
-wheel_v_pegs = ['z']
-wheel_vi_pegs = ['z', 'm']
-wheel_vii_pegs = ['z', 'm']
-wheel_viii_pegs = ['z', 'm']
+wheel_i_notches = ['q']
+wheel_ii_notches = ['e']
+wheel_iii_notches = ['v']
+wheel_iv_notches = ['j']
+wheel_v_notches = ['z']
+wheel_vi_notches = ['z', 'm']
+wheel_vii_notches = ['z', 'm']
+wheel_viii_notches = ['z', 'm']
 
 reflector_b_spec = 'ay br cu dh eq fs gl ip jx kn mo tz vw'
 reflector_c_spec = 'af bv cp dj ei go hy kr lz mx nw tq su'
@@ -223,7 +223,7 @@ class SimpleWheel(LetterTransformer):
 class Wheel(SimpleWheel):
     """A wheel with a movable ring.
 
-    The ring holds the letters and the pegs that turn other wheels. The core
+    The ring holds the letters and the notches that turn other wheels. The core
     holds the wiring that does the transformation.
 
     The ring position is how many steps the core is turned relative to the ring.
@@ -236,12 +236,12 @@ class Wheel(SimpleWheel):
     The position_l is the position of the ring, or what would be observed
     by the user of the Enigma machine. 
 
-    The peg_positions are the number of advances of this wheel before it will 
+    The notch_positions are the number of advances of this wheel before it will 
     advance the next wheel.
 
     """
-    def __init__(self, transform, ring_peg_letters, ring_setting=1, position='a', raw_transform=False):
-        self.ring_peg_letters = ring_peg_letters
+    def __init__(self, transform, ring_notch_letters, ring_setting=1, position='a', raw_transform=False):
+        self.ring_notch_letters = ring_notch_letters
         self.ring_setting = ring_setting
         super(Wheel, self).__init__(transform, position=position, raw_transform=raw_transform)
         self.set_position(position)
@@ -257,12 +257,14 @@ class Wheel(SimpleWheel):
             self.position = (pos(position) - self.ring_setting + 1) % 26
         else:
             self.position = (position - self.ring_setting) % 26
-        # self.peg_positions = [(pos(p) - pos(position)) % 26  for p in self.ring_peg_letters]
-        self.peg_positions = [(pos(p) - (self.position + self.ring_setting - 1)) % 26  for p in self.ring_peg_letters]
+        # # self.notch_positions = [(pos(p) - pos(position)) % 26  for p in self.ring_notch_letters]
+        # self.notch_positions = [(pos(p) - (self.position + self.ring_setting - 1)) % 26  for p in self.ring_notch_letters]
+        self.notch_positions = [(self.position + self.ring_setting - 1 - pos(p)) % 26  for p in self.ring_notch_letters]
         
     def advance(self):
         super(Wheel, self).advance()
-        self.peg_positions = [(p - 1) % 26 for p in self.peg_positions]
+        self.notch_positions = [(p + 1) % 26 for p in self.notch_positions]
+        return self.position
 
 
 class Enigma(object):
@@ -271,15 +273,15 @@ class Enigma(object):
 
     """
     def __init__(self, reflector_spec,
-                 left_wheel_spec, left_wheel_pegs,
-                 middle_wheel_spec, middle_wheel_pegs,
-                 right_wheel_spec, right_wheel_pegs,
+                 left_wheel_spec, left_wheel_notches,
+                 middle_wheel_spec, middle_wheel_notches,
+                 right_wheel_spec, right_wheel_notches,
                  left_ring_setting, middle_ring_setting, right_ring_setting,
                  plugboard_setting):
         self.reflector = Reflector(reflector_spec)
-        self.left_wheel = Wheel(left_wheel_spec, left_wheel_pegs, ring_setting=left_ring_setting)
-        self.middle_wheel = Wheel(middle_wheel_spec, middle_wheel_pegs, ring_setting=middle_ring_setting)
-        self.right_wheel = Wheel(right_wheel_spec, right_wheel_pegs, ring_setting=right_ring_setting)
+        self.left_wheel = Wheel(left_wheel_spec, left_wheel_notches, ring_setting=left_ring_setting)
+        self.middle_wheel = Wheel(middle_wheel_spec, middle_wheel_notches, ring_setting=middle_ring_setting)
+        self.right_wheel = Wheel(right_wheel_spec, right_wheel_notches, ring_setting=right_ring_setting)
         self.plugboard = Plugboard(plugboard_setting)
         
     def __getattribute__(self,name):
@@ -287,8 +289,8 @@ class Enigma(object):
             return self.left_wheel.position, self.middle_wheel.position, self.right_wheel.position 
         elif name=='wheel_positions_l':
             return self.left_wheel.position_l, self.middle_wheel.position_l, self.right_wheel.position_l 
-        elif name=='peg_positions':
-            return self.left_wheel.peg_positions, self.middle_wheel.peg_positions, self.right_wheel.peg_positions
+        elif name=='notch_positions':
+            return self.left_wheel.notch_positions, self.middle_wheel.notch_positions, self.right_wheel.notch_positions
         else:
             return object.__getattribute__(self, name)
 
@@ -312,9 +314,9 @@ class Enigma(object):
     def advance(self):
         advance_middle = False
         advance_left = False
-        if 0 in self.right_wheel.peg_positions:
+        if 0 in self.right_wheel.notch_positions:
             advance_middle = True
-        if 0 in self.middle_wheel.peg_positions:
+        if 0 in self.middle_wheel.notch_positions:
             advance_left = True
             advance_middle = True
         self.right_wheel.advance()
@@ -339,7 +341,7 @@ class Enigma(object):
 #     print('enigma.advance()')
 #     print("assert(enigma.wheel_positions == {})".format(enigma.wheel_positions))
 #     print("assert(cat(enigma.wheel_positions_l) == '{}')".format(cat(enigma.wheel_positions_l)))
-#     print("assert(enigma.peg_positions == {})".format(enigma.peg_positions))
+#     print("assert(enigma.notch_positions == {})".format(enigma.notch_positions))
 #     print("assert(cat(enigma.lookup(l) for l in string.ascii_lowercase) == '{}')".format(cat(enigma.lookup(l) for l in string.ascii_lowercase)))
 #     print()
 

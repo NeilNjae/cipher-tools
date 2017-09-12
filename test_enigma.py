@@ -157,23 +157,23 @@ class SimpleWheelTest(unittest.TestCase):
 
 class WheelTest(unittest.TestCase):
     def test_init1(self):
-        wheel = Wheel(wheel_iii_spec, wheel_iii_pegs, position='b', 
+        wheel = Wheel(wheel_iii_spec, wheel_iii_notches, position='b', 
             ring_setting=1)
         self.assertEqual(wheel.position, 1)
-        self.assertEqual(wheel.peg_positions, [20])
+        self.assertEqual(wheel.notch_positions, [6])
         self.assertEqual(wheel.position_l, 'b')
 
         wheel.advance()
         self.assertEqual(wheel.position, 2)
-        self.assertEqual(wheel.peg_positions, [19])
+        self.assertEqual(wheel.notch_positions, [7])
         self.assertEqual(wheel.position_l, 'c')
 
     def test_init2(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         self.assertEqual(wheel.position, 25)
-        self.assertIn(11, wheel.peg_positions)
-        self.assertIn(24, wheel.peg_positions)
+        self.assertIn(2, wheel.notch_positions)
+        self.assertIn(15, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'b')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -183,13 +183,13 @@ class WheelTest(unittest.TestCase):
             'ptlyrmidoxbswhnfckquzgeavj')
 
     def test_advance(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         wheel.advance()
 
         self.assertEqual(wheel.position, 0)
-        self.assertIn(10, wheel.peg_positions)
-        self.assertIn(23, wheel.peg_positions)
+        self.assertIn(3, wheel.notch_positions)
+        self.assertIn(16, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'c')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -199,14 +199,14 @@ class WheelTest(unittest.TestCase):
             'skxqlhcnwarvgmebjptyfdzuio')
 
     def test_advance_23(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         for _ in range(23):
             wheel.advance()
 
         self.assertEqual(wheel.position, 22)
-        self.assertIn(1, wheel.peg_positions)
-        self.assertIn(14, wheel.peg_positions)
+        self.assertIn(12, wheel.notch_positions)
+        self.assertIn(25, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'y')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -216,14 +216,14 @@ class WheelTest(unittest.TestCase):
             'dymswobuplgraevzkqifntxcjh')
 
     def test_advance_24(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         for _ in range(24):
             wheel.advance()
 
         self.assertEqual(wheel.position, 23)
-        self.assertIn(0, wheel.peg_positions)
-        self.assertIn(13, wheel.peg_positions)
+        self.assertIn(0, wheel.notch_positions)
+        self.assertIn(13, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'z')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -233,14 +233,14 @@ class WheelTest(unittest.TestCase):
             'xlrvnatokfqzduyjphemswbigc')
 
     def test_advance_25(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         for _ in range(25):
             wheel.advance()
 
         self.assertEqual(wheel.position, 24)
-        self.assertIn(25, wheel.peg_positions)
-        self.assertIn(12, wheel.peg_positions)
+        self.assertIn(1, wheel.notch_positions)
+        self.assertIn(14, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'a')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -250,14 +250,14 @@ class WheelTest(unittest.TestCase):
             'kqumzsnjepyctxiogdlrvahfbw')
 
     def test_advance_26(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         for _ in range(26):
             wheel.advance()
 
         self.assertEqual(wheel.position, 25)
-        self.assertIn(24, wheel.peg_positions)
-        self.assertIn(11, wheel.peg_positions)
+        self.assertIn(2, wheel.notch_positions)
+        self.assertIn(15, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'b')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -267,14 +267,14 @@ class WheelTest(unittest.TestCase):
             'ptlyrmidoxbswhnfckquzgeavj')
 
     def test_advance_27(self):
-        wheel = Wheel(wheel_vi_spec, wheel_vi_pegs, position='b', 
+        wheel = Wheel(wheel_vi_spec, wheel_vi_notches, position='b', 
             ring_setting=3)
         for _ in range(27):
             wheel.advance()
 
         self.assertEqual(wheel.position, 0)
-        self.assertIn(23, wheel.peg_positions)
-        self.assertIn(10, wheel.peg_positions)
+        self.assertIn(3, wheel.notch_positions)
+        self.assertIn(16, wheel.notch_positions)
         self.assertEqual(wheel.position_l, 'c')
         self.assertEqual(cat(wheel.forward(l) 
                 for l in string.ascii_lowercase),
@@ -284,60 +284,60 @@ class WheelTest(unittest.TestCase):
             'skxqlhcnwarvgmebjptyfdzuio')
 
     def test_set_position(self):
-        wheel_3 = Wheel(wheel_iii_spec, wheel_iii_pegs, ring_setting=3)
+        wheel_3 = Wheel(wheel_iii_spec, wheel_iii_notches, ring_setting=3)
         wheel_3.set_position('a')
         self.assertEqual(wheel_3.position, 24)
         self.assertEqual(wheel_3.position_l, 'a')
-        self.assertEqual(wheel_3.peg_positions, [21])
+        self.assertEqual(wheel_3.notch_positions, [5])
 
         wheel_3.set_position('z')
         self.assertEqual(wheel_3.position, 23)
         self.assertEqual(wheel_3.position_l, 'z')
-        self.assertEqual(wheel_3.peg_positions, [22])
+        self.assertEqual(wheel_3.notch_positions, [4])
 
         wheel_3.set_position(26)
         self.assertEqual(wheel_3.position, 23)
         self.assertEqual(wheel_3.position_l, 'z')
-        self.assertEqual(wheel_3.peg_positions, [22])
+        self.assertEqual(wheel_3.notch_positions, [4])
 
         wheel_3.set_position(27)
         self.assertEqual(wheel_3.position, 24)
         self.assertEqual(wheel_3.position_l, 'a')
-        self.assertEqual(wheel_3.peg_positions, [21])
+        self.assertEqual(wheel_3.notch_positions, [5])
 
         wheel_3.set_position('f')
         self.assertEqual(wheel_3.position, 3)
         self.assertEqual(wheel_3.position_l, 'f')
-        self.assertEqual(wheel_3.peg_positions, [16])
+        self.assertEqual(wheel_3.notch_positions, [10])
 
         wheel_3.set_position(6)
         self.assertEqual(wheel_3.position, 3)
         self.assertEqual(wheel_3.position_l, 'f')
-        self.assertEqual(wheel_3.peg_positions, [16])
+        self.assertEqual(wheel_3.notch_positions, [10])
 
         wheel_3.advance()
         self.assertEqual(wheel_3.position, 4)
         self.assertEqual(wheel_3.position_l, 'g')
-        self.assertEqual(wheel_3.peg_positions, [15])
+        self.assertEqual(wheel_3.notch_positions, [11])
 
         wheel_3.set_position(12)
         self.assertEqual(wheel_3.position, 9)
         self.assertEqual(wheel_3.position_l, 'l')
-        self.assertEqual(wheel_3.peg_positions, [10])
+        self.assertEqual(wheel_3.notch_positions, [16])
 
         wheel_3.advance()
         self.assertEqual(wheel_3.position, 10)
         self.assertEqual(wheel_3.position_l, 'm')
-        self.assertEqual(wheel_3.peg_positions, [9])
+        self.assertEqual(wheel_3.notch_positions, [17])
 
 
 class EnigmaTest(unittest.TestCase):
 
     def setUp(self):
         self.enigma = Enigma(reflector_b_spec, 
-                wheel_i_spec, wheel_i_pegs, 
-                wheel_ii_spec, wheel_ii_pegs, 
-                wheel_iii_spec, wheel_iii_pegs, 
+                wheel_i_spec, wheel_i_notches, 
+                wheel_ii_spec, wheel_ii_notches, 
+                wheel_iii_spec, wheel_iii_notches, 
                 1, 1, 1, 
                 '')
 
@@ -345,17 +345,17 @@ class EnigmaTest(unittest.TestCase):
         # Enigma simulation settings are 
         # http://enigma.louisedade.co.uk/enigma.html?m3;b;b153;AFTX;AJEU;AU-BG-EY-FP-HL-IN-JZ-OS-QR-TX
         self.enigma31 = Enigma(reflector_b_spec, 
-                wheel_i_spec, wheel_i_pegs, 
-                wheel_v_spec, wheel_v_pegs, 
-                wheel_iii_spec, wheel_iii_pegs, 
+                wheel_i_spec, wheel_i_notches, 
+                wheel_v_spec, wheel_v_notches, 
+                wheel_iii_spec, wheel_iii_notches, 
                 6, 20, 24, 
                 'ua pf rq so ni ey bg hl tx zj')
 
         # Settings for Bletchley Park outreach department's Enigma
         self.enigma_bp = Enigma(reflector_b_spec, 
-                 wheel_i_spec, wheel_i_pegs,
-                 wheel_iii_spec, wheel_iii_pegs,
-                 wheel_ii_spec, wheel_ii_pegs,
+                 wheel_i_spec, wheel_i_notches,
+                 wheel_iii_spec, wheel_iii_notches,
+                 wheel_ii_spec, wheel_ii_notches,
                  1, 26, 26, 
                  'qm we ro tu zj ps dl fg')
 
@@ -364,42 +364,42 @@ class EnigmaTest(unittest.TestCase):
         self.enigma.set_wheels('a', 'a', 't')
         self.assertEqual(self.enigma.wheel_positions, (0, 0, 19))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'aat')
-        self.assertEqual(self.enigma.peg_positions, ([16], [4], [2]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [22], [24]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase), 
             'puvioztjdhxmlyeawsrgbcqknf')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 0, 20))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'aau')
-        self.assertEqual(self.enigma.peg_positions, ([16], [4], [1]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [22], [25]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'baigpldqcowfyzjehvtsxrkumn')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 0, 21))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'aav')
-        self.assertEqual(self.enigma.peg_positions, ([16], [4], [0]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [22], [0]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'mnvfydiwgzsoablrxpkutchqej')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 1, 22))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'abw')
-        self.assertEqual(self.enigma.peg_positions, ([16], [3], [25]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [23], [1]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'ulfopcykswhbzvderqixanjtgm')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 1, 23))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'abx')
-        self.assertEqual(self.enigma.peg_positions, ([16], [3], [24]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [23], [2]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'qmwftdyovursbzhxaklejicpgn')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 1, 24))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'aby')
-        self.assertEqual(self.enigma.peg_positions, ([16], [3], [23]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [23], [3]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'oljmzxrvucybdqasngpwihtfke')
 
@@ -408,42 +408,42 @@ class EnigmaTest(unittest.TestCase):
         self.enigma.set_wheels('a', 'd', 't')
         self.assertEqual(self.enigma.wheel_positions, (0, 3, 19))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'adt')
-        self.assertEqual(self.enigma.peg_positions, ([16], [1], [2]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [25], [24]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'zcbpqxwsjiuonmldethrkygfva')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 3, 20))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'adu')
-        self.assertEqual(self.enigma.peg_positions, ([16], [1], [1]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [25], [25]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'ehprawjbngotxikcsdqlzyfmvu')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 3, 21))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'adv')
-        self.assertEqual(self.enigma.peg_positions, ([16], [1], [0]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [25], [0]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'eqzxarpihmnvjkwgbfuyslodtc')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (0, 4, 22))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'aew')
-        self.assertEqual(self.enigma.peg_positions, ([16], [0], [25]))
+        self.assertEqual(self.enigma.notch_positions, ([10], [0], [1]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'qedcbtpluzmhkongavwfirsyxj')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (1, 5, 23))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'bfx')
-        self.assertEqual(self.enigma.peg_positions, ([15], [25], [24]))
+        self.assertEqual(self.enigma.notch_positions, ([11], [1], [2]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'iwuedhsfazqxytvrkpgncoblmj')
 
         self.enigma.advance()
         self.assertEqual(self.enigma.wheel_positions, (1, 5, 24))
         self.assertEqual(cat(self.enigma.wheel_positions_l), 'bfy')
-        self.assertEqual(self.enigma.peg_positions, ([15], [25], [23]))
+        self.assertEqual(self.enigma.notch_positions, ([11], [1], [3]))
         self.assertEqual(cat(self.enigma.lookup(l) for l in string.ascii_lowercase),
             'baknstqzrmcxjdvygiefwoulph')
 
@@ -470,35 +470,35 @@ class EnigmaTest(unittest.TestCase):
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (4, 11, 24))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jev')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [21], [0]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [5], [0]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'mvqjlyowkdieasgzcunxrbhtfp')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (4, 12, 25))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jfw')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [20], [25]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [6], [1]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'sjolzuyvrbwdpxcmtiaqfhknge')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (4, 12, 0))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jfx')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [20], [24]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [6], [2]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'qrxedkoywufmlvgsabpzjnicht')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (4, 12, 1))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jfy')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [20], [23]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [6], [3]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'hpsukliagqefwvtbjxcodnmrzy')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (4, 12, 2))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jfz')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [20], [22]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [6], [4]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'zevnbpyqowrtxdifhkulscjmga')
 
@@ -509,238 +509,309 @@ class EnigmaTest(unittest.TestCase):
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 3))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ida')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [21]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [5]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'ikhpqrvcambzjondefwyxgsutl')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 4))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idb')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [20]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [6]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'cdabskhgzwfmlqvunyexpojtri')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 5))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idc')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [19]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [7]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'pcbwiqhgemyvjsuaftnroldzkx')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 6))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idd')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [18]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [8]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'xcbfvdnouptmlghjzwykierasq')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 7))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ide')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [17]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [9]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'xfvglbdynuseriwqpmkzjcoaht')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 8))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idf')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [16]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [10]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'tfpqlbouynsewjgcdxkahzmriv')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 9))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idg')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [15]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [11]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'cjaunvlwtbygzexrspqidfhokm')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 10))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idh')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [14]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [12]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'yltxkrqvowebzpingfucshjdam')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 11))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idi')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [13]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [13]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'myktluzrnxceaiqsohpdfwvjbg')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 12))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idj')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [12]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [14]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'pynjrmiugdqxfcvakewzhoslbt')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 13))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idk')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [11]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [15]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'mwvedyplnoxhaijgrqtszcbkfu')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 14))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idl')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [10]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [16]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'qcbrfeutvoxpnmjladzhgiykws')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 15))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idm')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [9]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [17]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'dnoahryetsmukbcvwfjilpqzgx')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 16))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idn')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [8]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [18]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'nidcfehgbqsovalyjzkxwmutpr')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 17))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ido')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [7]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [19]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'joifxdulcarhzpbntkwqgysevm')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 18))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idp')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [6]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [20]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'ptnlsxvozmwdjchayuebrgkfqi')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 19))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idq')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [5]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [21]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'slwopzqnmxybihdeguavrtcjkf')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 20))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idr')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [4]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [22]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'hcbedwlamzogixkytsrqvufnpj')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 21))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ids')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [3]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [23]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'odxbjwzrmelkisavuhnyqpfctg')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 22))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idt')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [2]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [24]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'udgbfeclrwnhxksvtioqapjmzy')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 23))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idu')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [1]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [25]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'nrdczqxmowvshaiufblypkjgte')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 10, 24))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'idv')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [22], [0]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [4], [0]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'hkifjdoacebqtzgulyvmpsxwrn')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 11, 25))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'iew')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [21], [25]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [5], [1]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'yptzuhofqvnmlkgbixwcejsrad')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 11, 0))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'iex')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [21], [24]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [5], [2]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'vkdcwhqfjibzsptngumoraeyxl')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (3, 11, 1))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'iey')
-        self.assertEqual(self.enigma31.peg_positions, ([8], [21], [23]))
+        self.assertEqual(self.enigma31.notch_positions, ([18], [5], [3]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'wenpbqrouxlkychdfgzvitajms')
 
     def test_double_advance_with_ring_settings_2(self):
         self.enigma31.set_wheels('a', 'y', 't')
+        # self.assertEqual(self.enigma31.wheel_positions, (21, 5, 22))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayt')
+        # self.assertEqual(self.enigma31.notch_positions, ([16], [1], [2]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (21, 5, 23))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayu')
+        # self.assertEqual(self.enigma31.notch_positions, ([16], [1], [1]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (21, 5, 24))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayv')
+        # self.assertEqual(self.enigma31.notch_positions, ([16], [1], [0]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (21, 6, 25))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'azw')
+        # self.assertEqual(self.enigma31.notch_positions, ([16], [0], [25]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 7, 0))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bax')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [25], [24]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 7, 1))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bay')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [25], [23]))  
+
         self.assertEqual(self.enigma31.wheel_positions, (21, 5, 22))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayt')
-        self.assertEqual(self.enigma31.peg_positions, ([16], [1], [2]))
+        self.assertEqual(self.enigma31.notch_positions, ([10], [25], [24]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'izhrgtecaslkywvqpdjfxonumb')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (21, 5, 23))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayu')
-        self.assertEqual(self.enigma31.peg_positions, ([16], [1], [1]))
+        self.assertEqual(self.enigma31.notch_positions, ([10], [25], [25]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'dtoavihgflwjnmcsrqpbzekyxu')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (21, 5, 24))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'ayv')
-        self.assertEqual(self.enigma31.peg_positions, ([16], [1], [0]))
+        self.assertEqual(self.enigma31.notch_positions, ([10], [25], [0]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'xquhtpsdwkjonmlfbvgecriazy')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (21, 6, 25))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'azw')
-        self.assertEqual(self.enigma31.peg_positions, ([16], [0], [25]))
+        self.assertEqual(self.enigma31.notch_positions, ([10], [0], [1]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'dofapcluvmngjkbezyxwhitsrq')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 7, 0))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bax')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [25], [24]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [1], [2]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'jdlbmswztapcexrkuofiqygnvh')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 7, 1))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bay')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [25], [23]))  
+        self.assertEqual(self.enigma31.notch_positions, ([11], [1], [3]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'iydcnuhgawsoxelztvkqfrjmbp')
+
 
         self.enigma31.set_wheels('a', 'z', 't')
+        # self.assertEqual(self.enigma31.wheel_positions, (21, 6, 22))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'azt')
+        # self.assertEqual(self.enigma31.notch_positions, ([16], [0], [2]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 7, 23))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bau')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [25], [1]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 7, 24))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bav')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [25], [0]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 8, 25))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bbw')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [24], [25]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 8, 0))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bbx')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [24], [24]))
+
+        # self.enigma31.advance()
+        # self.assertEqual(self.enigma31.wheel_positions, (22, 8, 1))
+        # self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bby')
+        # self.assertEqual(self.enigma31.notch_positions, ([15], [24], [23]))
+
         self.assertEqual(self.enigma31.wheel_positions, (21, 6, 22))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'azt')
-        self.assertEqual(self.enigma31.peg_positions, ([16], [0], [2]))
+        self.assertEqual(self.enigma31.notch_positions, ([10], [0], [24]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'idjbptqwacsvnmregokfzlhyxu')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 7, 23))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bau')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [25], [1]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [1], [25]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'rniszouwcxtvqbfymadkglhjpe')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 7, 24))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bav')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [25], [0]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [1], [0]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'qijfsdmkbchugxtwazeolypnvr')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 8, 25))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bbw')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [24], [25]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [2], [1]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'xprtlozyskjewqfbncidvumahg')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 8, 0))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bbx')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [24], [24]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [2], [2]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'vtfuyczoqxmpkwhlisrbdanjeg')
 
         self.enigma31.advance()
         self.assertEqual(self.enigma31.wheel_positions, (22, 8, 1))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'bby')
-        self.assertEqual(self.enigma31.peg_positions, ([15], [24], [23]))
+        self.assertEqual(self.enigma31.notch_positions, ([11], [2], [3]))
+        assert(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase) == 'tjrhzpqdobwxyuifgcvansklme')
 
 
     def test_encipher_with_ring(self):
@@ -751,7 +822,7 @@ class EnigmaTest(unittest.TestCase):
             'apocwtjuikurcfivlozvhffkoacxufcekthcvodfqpxdjqyckdozlqki')
         self.assertEqual(self.enigma31.wheel_positions, (4, 9, 10))
         self.assertEqual(cat(self.enigma31.wheel_positions_l), 'jch')
-        self.assertEqual(self.enigma31.peg_positions, ([7], [23], [14]))
+        self.assertEqual(self.enigma31.notch_positions, ([19], [3], [12]))
         self.assertEqual(cat(self.enigma31.lookup(l) for l in string.ascii_lowercase),
             'mopnigfuesqwadbcktjrhylzvx')
 
