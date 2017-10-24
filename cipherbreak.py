@@ -266,7 +266,7 @@ def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
     >>> vigenere_keyword_break_mp(vigenere_encipher(sanitise('this is a test ' \
              'message for the vigenere decipherment'), 'cat'), \
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
-    ('cat', -52.947271216...)
+    ('cat', -52.9472712...)
     """
     with Pool() as pool:
         helper_args = [(message, word, fitness)
@@ -297,7 +297,7 @@ def vigenere_frequency_break(message, max_key_length=20, fitness=Pletters):
             "certain that the theft has been discovered and that I will " \
             "be caught. The SS officer visits less often now that he is " \
             "sure"), 'florence')) # doctest: +ELLIPSIS
-    ('florence', -307.5473096791...)
+    ('florence', -307.5473096...)
     """
     def worker(message, key_length, fitness):
         splits = every_nth(sanitised_message, key_length)
@@ -334,6 +334,78 @@ def beaufort_frequency_break(message, max_key_length=20, fitness=Pletters):
     results = starmap(worker, [(sanitised_message, i, fitness)
                                for i in range(1, max_key_length+1)])
     return max(results, key=lambda k: k[1])
+
+
+def polybius_break_mp(message, column_labels, row_labels,
+                      letters_to_merge=None,
+                      wordlist=keywords, fitness=Pletters,
+                      number_of_solutions=1, chunksize=500):
+    """Breaks a Polybius substitution cipher using a dictionary and
+    frequency analysis
+
+    >>> polybius_break_mp(polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'abcde'), \
+          'abcde', 'abcde', \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+    (('elephant', <KeywordWrapAlphabet.from_a: 1>, 'abcde', 'abcde', False), \
+    -54.53880...)
+    >>> polybius_break_mp(polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'abcde', column_first=True), \
+          'abcde', 'abcde', \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+    (('elephant', <KeywordWrapAlphabet.from_a: 1>, 'abcde', 'abcde', True), \
+    -54.53880...)
+    >>> polybius_break_mp(polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'abcde', column_first=False), \
+          'abcde', 'abcde', \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+    (('elephant', <KeywordWrapAlphabet.from_a: 1>, 'abcde', 'abcde', False), \
+    -54.53880...)
+    >>> polybius_break_mp(polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'pqrst', column_first=True), \
+          'abcde', 'pqrst', \
+          wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+    (('elephant', <KeywordWrapAlphabet.from_a: 1>, 'abcde', 'pqrst', True), \
+    -54.53880...)
+    """
+    if letters_to_merge is None: 
+        letters_to_merge = {'j': 'i'}
+    with Pool() as pool:
+        helper_args = [(message, word, wrap, 
+                        column_labels, row_labels, column_first, 
+                        letters_to_merge, 
+                        fitness)
+                       for word in wordlist
+                       for wrap in KeywordWrapAlphabet
+                       for column_first in [False, True]]
+        # Gotcha: the helper function here needs to be defined at the top level
+        #   (limitation of Pool.starmap)
+        breaks = pool.starmap(polybius_break_worker, helper_args, chunksize)
+        if number_of_solutions == 1:
+            return max(breaks, key=lambda k: k[1])
+        else:
+            return sorted(breaks, key=lambda k: k[1], reverse=True)[:number_of_solutions]
+
+def polybius_break_worker(message, keyword, wrap_alphabet, 
+                          column_order, row_order, column_first, 
+                          letters_to_merge, 
+                          fitness):
+    plaintext = polybius_decipher(message, keyword, 
+                                  column_order, row_order, 
+                                  column_first=column_first,
+                                  letters_to_merge=letters_to_merge, 
+                                  wrap_alphabet=wrap_alphabet)
+    if plaintext:
+        fit = fitness(plaintext)
+    else:
+        fit = float('-inf')
+    logger.debug('Polybius break attempt using key {0} (wrap={1}, merging {2}), '
+                 'columns as {3}, rows as {4} (column_first={5}) '
+                 'gives fit of {6} and decrypt starting: '
+                 '{7}'.format(keyword, wrap_alphabet, letters_to_merge,
+                              column_order, row_order, column_first,
+                              fit, sanitise(plaintext)[:50]))
+    return (keyword, wrap_alphabet, column_order, row_order, column_first), fit
 
 
 def column_transposition_break_mp(message, translist=transpositions,

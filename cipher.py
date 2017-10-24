@@ -399,6 +399,110 @@ beaufort_encipher=vigenere_decipher
 beaufort_decipher=vigenere_encipher
 
 
+def polybius_grid(keyword, column_order, row_order, letters_to_merge=None,
+                  wrap_alphabet=KeywordWrapAlphabet.from_a):
+    """Grid for a Polybius cipher, using a keyword to rearrange the
+    alphabet.
+
+
+    >>> polybius_grid('a', 'abcde', 'abcde')['x'] == ('e', 'c')
+    True
+    >>> polybius_grid('elephant', 'abcde', 'abcde')['e'] == ('a', 'a')
+    True
+    >>> polybius_grid('elephant', 'abcde', 'abcde')['b'] == ('b', 'c')
+    True
+    """
+    alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet=wrap_alphabet)
+    if letters_to_merge is None: 
+        letters_to_merge = {'j': 'i'}
+    grid = {l: k 
+            for k, l in zip([(c, r) for c in column_order for r in row_order],
+                [l for l in alphabet if l not in letters_to_merge])}
+    for l in letters_to_merge:
+        grid[l] = grid[letters_to_merge[l]]
+    return grid
+
+def polybius_reverse_grid(keyword, column_order, row_order, letters_to_merge=None,
+                  wrap_alphabet=KeywordWrapAlphabet.from_a):
+    """Grid for decrypting using a Polybius cipher, using a keyword to 
+    rearrange the alphabet.
+
+    >>> polybius_reverse_grid('a', 'abcde', 'abcde')['e', 'c'] == 'x'
+    True
+    >>> polybius_reverse_grid('elephant', 'abcde', 'abcde')['a', 'a'] == 'e'
+    True
+    >>> polybius_reverse_grid('elephant', 'abcde', 'abcde')['b', 'c'] == 'b'
+    True
+    """
+    alphabet = keyword_cipher_alphabet_of(keyword, wrap_alphabet=wrap_alphabet)
+    if letters_to_merge is None: 
+        letters_to_merge = {'j': 'i'}
+    grid = {k: l 
+            for k, l in zip([(c, r) for c in column_order for r in row_order],
+                [l for l in alphabet if l not in letters_to_merge])}
+    return grid  
+
+
+def polybius_flatten(pair, column_first):
+    """Convert a series of pairs into a single list of characters"""
+    if column_first:
+        return str(pair[1]) + str(pair[0])
+    else:
+        return str(pair[0]) + str(pair[1])
+
+def polybius_encipher(message, keyword, column_order, row_order, 
+                      column_first=False,
+                      letters_to_merge=None, wrap_alphabet=KeywordWrapAlphabet.from_a): 
+    """Encipher a message with Polybius cipher, using a keyword to rearrange
+    the alphabet
+
+
+    >>> polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', \
+          [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], \
+          wrap_alphabet=KeywordWrapAlphabet.from_last)
+    '2214445544551522115522511155551543114252542214111352123234442355411135441314115451112122'
+    >>> polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'abcde', \
+          column_first=False)
+    'bbadccddccddaebbaaddbbceaaddddaecbaacadadcbbadaaacdaabedbcccdeddbeaabdccacadaadcceaababb'
+    >>> polybius_encipher('this is a test message for the ' \
+          'polybius decipherment', 'elephant', 'abcde', 'abcde', \
+          column_first=True)
+    'bbdaccddccddeabbaaddbbecaaddddeabcaaacadcdbbdaaacaadbadecbccedddebaadbcccadaaacdecaaabbb'
+    """
+    grid = polybius_grid(keyword, column_order, row_order, letters_to_merge, wrap_alphabet)
+    return cat(polybius_flatten(grid[l], column_first)
+               for l in message
+               if l in grid)
+
+
+def polybius_decipher(message, keyword, column_order, row_order, 
+                      column_first=False,
+                      letters_to_merge=None, wrap_alphabet=KeywordWrapAlphabet.from_a):    
+    """Decipher a message with a Polybius cipher, using a keyword to rearrange
+    the alphabet
+
+    >>> polybius_decipher('bbdaccddccddeabbaaddbbecaaddddeabcaaacadcdbbdaaaca'\
+    'adbadecbccedddebaadbcccadaaacdecaaabbb', 'elephant', 'abcde', 'abcde', \
+    column_first=False)
+    'toisisvtestxessvbephktoefhnugiysweqifoekxelt'
+
+    >>> polybius_decipher('bbdaccddccddeabbaaddbbecaaddddeabcaaacadcdbbdaaaca'\
+    'adbadecbccedddebaadbcccadaaacdecaaabbb', 'elephant', 'abcde', 'abcde', \
+    column_first=True)
+    'thisisatestmessageforthepolybiusdecipherment'
+    """
+    grid = polybius_reverse_grid(keyword, column_order, row_order, letters_to_merge, wrap_alphabet)
+    column_index_type = type(column_order[0])
+    row_index_type = type(row_order[0])
+    if column_first:
+        pairs = [(column_index_type(p[1]), row_index_type(p[0])) for p in chunks(message, 2)]
+    else:
+        pairs = [(row_index_type(p[0]), column_index_type(p[1])) for p in chunks(message, 2)]
+    return cat(grid[p] for p in pairs if p in grid)
+
+
 def transpositions_of(keyword):
     """Finds the transpostions given by a keyword. For instance, the keyword
     'clever' rearranges to 'celrv', so the first column (0) stays first, the
