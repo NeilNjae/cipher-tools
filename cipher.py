@@ -381,7 +381,7 @@ def vigenere_encipher(message, keyword):
     >>> vigenere_encipher('hello', 'abc')
     'hfnlp'
     """
-    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    shifts = [pos(l) for l in sanitise(keyword)]
     pairs = zip(message, cycle(shifts))
     return cat([caesar_encipher_letter(l, k) for l, k in pairs])
 
@@ -391,7 +391,7 @@ def vigenere_decipher(message, keyword):
     >>> vigenere_decipher('hfnlp', 'abc')
     'hello'
     """
-    shifts = [ord(l) - ord('a') for l in sanitise(keyword)]
+    shifts = [pos(l) for l in sanitise(keyword)]
     pairs = zip(message, cycle(shifts))
     return cat([caesar_decipher_letter(l, k) for l, k in pairs])
 
@@ -903,12 +903,12 @@ def hill_encipher(matrix, message_letters, fillvalue='a'):
         padding = fillvalue[0] * (n - len(sanitised_message) % n)
     else:
         padding = ''
-    message = [ord(c) - ord('a') for c in sanitised_message + padding]
+    message = [pos(c) for c in sanitised_message + padding]
     message_chunks = [message[i:i+n] for i in range(0, len(message), n)]
     # message_chunks = chunks(message, len(matrix), fillvalue=None)
     enciphered_chunks = [((matrix * np.matrix(c).T).T).tolist()[0] 
             for c in message_chunks]
-    return cat([chr(int(round(l)) % 26 + ord('a')) 
+    return cat([unpos(round(l))
             for l in sum(enciphered_chunks, [])])
 
 def hill_decipher(matrix, message, fillvalue='a'):
@@ -1170,7 +1170,7 @@ class PocketEnigma(object):
             self.validate_wheel_spec(wheel)
             self.make_wheel_map(wheel)
         if position in string.ascii_lowercase:
-            self.position = ord(position) - ord('a')
+            self.position = pos(position)
         else:
             self.position = position
 
@@ -1184,8 +1184,8 @@ class PocketEnigma(object):
         self.validate_wheel_spec(wheel_spec)
         self.wheel_map = [0] * 26
         for p in wheel_spec:
-            self.wheel_map[ord(p[0]) - ord('a')] = ord(p[1]) - ord('a')
-            self.wheel_map[ord(p[1]) - ord('a')] = ord(p[0]) - ord('a')
+            self.wheel_map[pos(p[0])] = pos(p[1])
+            self.wheel_map[pos(p[1])] = pos(p[0])
         return self.wheel_map
 
     def validate_wheel_spec(self, wheel_spec):
@@ -1240,10 +1240,9 @@ class PocketEnigma(object):
         ''
         """
         if letter in string.ascii_lowercase:
-            return chr(
-                (self.wheel_map[(ord(letter) - ord('a') - self.position) % 26] + 
-                    self.position) % 26 + 
-                ord('a'))
+            return unpos(
+                (self.wheel_map[(pos(letter) - self.position) % 26] + 
+                    self.position))
         else:
             return ''
 
@@ -1291,7 +1290,7 @@ class PocketEnigma(object):
         >>> pe.set_position('z')
         25
         """
-        self.position = ord(position) - ord('a')
+        self.position = pos(position)
         return self.position
 
 

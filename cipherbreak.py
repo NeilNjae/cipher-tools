@@ -301,7 +301,7 @@ def vigenere_frequency_break(message, max_key_length=20, fitness=Pletters):
     """
     def worker(message, key_length, fitness):
         splits = every_nth(sanitised_message, key_length)
-        key = cat([chr(caesar_break(s)[0] + ord('a')) for s in splits])
+        key = cat([unpos(caesar_break(s)[0]) for s in splits])
         plaintext = vigenere_decipher(message, key)
         fit = fitness(plaintext)
         return key, fit
@@ -376,8 +376,7 @@ def beaufort_variant_frequency_break(message, max_key_length=20, fitness=Pletter
     """
     def worker(message, key_length, fitness):
         splits = every_nth(sanitised_message, key_length)
-        key = cat([chr(-caesar_break(s)[0] % 26 + ord('a'))
-                       for s in splits])
+        key = cat([unpos(-caesar_break(s)[0]) for s in splits])
         plaintext = beaufort_variant_decipher(message, key)
         fit = fitness(plaintext)
         return key, fit
