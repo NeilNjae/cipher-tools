@@ -311,6 +311,33 @@ def vigenere_frequency_break(message, max_key_length=20, fitness=Pletters):
     return max(results, key=lambda k: k[1])
 
 
+def beaufort_sub_break(message, fitness=Pletters):
+    """Breaks one chunk of a Beaufort cipher with frequency analysis
+
+    >>> beaufort_sub_break('samwpplggnnmmyaazgympjapopnwiywwomwspgpjmefwmawx' \
+      'jafjhxwwwdigxshnlywiamhyshtasxptwueahhytjwsn') # doctest: +ELLIPSIS
+    (0, -117.4492...)
+    >>> beaufort_sub_break('eyprzjjzznxymrygryjqmqhznjrjjapenejznawngnnezgza' \
+      'dgndknaogpdjneadadazlhkhxkryevrronrmdjnndjlo') # doctest: +ELLIPSIS
+    (17, -114.9598...)
+    """
+    best_shift = 0
+    best_fit = float('-inf')
+    for key in range(26):
+        plaintext = [unpos(key - pos(l)) for l in message]
+        fit = fitness(plaintext)
+        logger.debug('Beaufort sub break attempt using key {0} gives fit of {1} '
+                     'and decrypt starting: {2}'.format(key, fit,
+                                                        plaintext[:50]))
+        if fit > best_fit:
+            best_fit = fit
+            best_key = key
+    logger.info('Beaufort sub break best fit: key {0} gives fit of {1} and '
+                'decrypt starting: {2}'.format(best_key, best_fit, 
+                    cat([unpos(best_key - pos(l)) for l in message[:50]])))
+    return best_key, best_fit
+
+
 def beaufort_frequency_break(message, max_key_length=20, fitness=Pletters):
     """Breaks a Beaufort cipher with frequency analysis
 
@@ -324,17 +351,40 @@ def beaufort_frequency_break(message, max_key_length=20, fitness=Pletters):
     ('florence', -307.5473096791...)
     """
     def worker(message, key_length, fitness):
-        splits = every_nth(sanitised_message, key_length)
-        key = cat([chr(-caesar_break(s)[0] % 26 + ord('a'))
-                       for s in splits])
+        splits = every_nth(message, key_length)
+        key = cat([unpos(beaufort_sub_break(s)[0]) for s in splits])
         plaintext = beaufort_decipher(message, key)
         fit = fitness(plaintext)
         return key, fit
     sanitised_message = sanitise(message)
     results = starmap(worker, [(sanitised_message, i, fitness)
                                for i in range(1, max_key_length+1)])
-    return max(results, key=lambda k: k[1])
+    return max(results, key=lambda k: k[1])    
 
+
+def beaufort_variant_frequency_break(message, max_key_length=20, fitness=Pletters):
+    """Breaks a Beaufort cipher with frequency analysis
+
+    >>> beaufort_variant_frequency_break(beaufort_variant_encipher(sanitise("It is time to " \
+            "run. She is ready and so am I. I stole Daniel's pocketbook this " \
+            "afternoon when he left his jacket hanging on the easel in the " \
+            "attic. I jump every time I hear a footstep on the stairs, " \
+            "certain that the theft has been discovered and that I will " \
+            "be caught. The SS officer visits less often now " \
+            "that he is sure"), 'florence')) # doctest: +ELLIPSIS
+    ('florence', -307.5473096791...)
+    """
+    def worker(message, key_length, fitness):
+        splits = every_nth(sanitised_message, key_length)
+        key = cat([chr(-caesar_break(s)[0] % 26 + ord('a'))
+                       for s in splits])
+        plaintext = beaufort_variant_decipher(message, key)
+        fit = fitness(plaintext)
+        return key, fit
+    sanitised_message = sanitise(message)
+    results = starmap(worker, [(sanitised_message, i, fitness)
+                               for i in range(1, max_key_length+1)])
+    return max(results, key=lambda k: k[1])
 
 def polybius_break_mp(message, column_labels, row_labels,
                       letters_to_merge=None,

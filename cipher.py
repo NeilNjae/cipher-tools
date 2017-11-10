@@ -395,8 +395,21 @@ def vigenere_decipher(message, keyword):
     pairs = zip(message, cycle(shifts))
     return cat([caesar_decipher_letter(l, k) for l, k in pairs])
 
-beaufort_encipher=vigenere_decipher
-beaufort_decipher=vigenere_encipher
+
+def beaufort_encipher(message, keyword):
+    """Beaufort encipher
+
+    >>> beaufort_encipher('inhisjournaldatedtheidesofoctober', 'arcanaimperii')
+    'sevsvrusyrrxfayyxuteemazudmpjmmwr'
+    """
+    shifts = [pos(l) for l in sanitise(keyword)]
+    pairs = zip(message, cycle(shifts))
+    return cat([unpos(k - pos(l)) for l, k in pairs])
+
+beaufort_decipher = beaufort_encipher    
+
+beaufort_variant_encipher=vigenere_decipher
+beaufort_variant_decipher=vigenere_encipher
 
 
 def polybius_grid(keyword, column_order, row_order, letters_to_merge=None,
