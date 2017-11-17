@@ -40,6 +40,18 @@ from language_models import *
 # timeit.timeit('keyword_break(c5a)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break', number=1)
 # timeit.repeat('keyword_break_mp(c5a, chunksize=500)', setup='gc.enable() ; from __main__ import c5a ; from cipher import keyword_break_mp', repeat=5, number=1)
 
+
+def index_of_coincidence(text):
+    stext = sanitise(text)
+    counts = collections.Counter(stext)
+    denom = len(stext) * (len(text) - 1) / 26
+    return (
+        sum(max(counts[l] * counts[l] - 1, 0) for l in string.ascii_lowercase)
+        /
+        denom
+    )
+
+
 transpositions = collections.defaultdict(list)
 for word in keywords:
     transpositions[transpositions_of(word)] += [word]

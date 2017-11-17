@@ -13,6 +13,7 @@ import pprint
 ## Utility functions
 cat = ''.join
 wcat = ' '.join
+lcat = '\n'.join
 
 def pos(letter): 
     if letter in string.ascii_lowercase:
