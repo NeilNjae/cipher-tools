@@ -76,20 +76,20 @@ with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'words.txt')
 
 
 def weighted_choice(d):
-	"""Generate random item from a dictionary of item counts
-	"""
-	target = random.uniform(0, sum(d.values()))
-	cuml = 0.0
-	for (l, p) in d.items():
-		cuml += p
-		if cuml > target:
-			return l
-	return None
+    """Generate random item from a dictionary of item counts
+    """
+    target = random.uniform(0, sum(d.values()))
+    cuml = 0.0
+    for (l, p) in d.items():
+        cuml += p
+        if cuml > target:
+            return l
+    return None
 
 def random_english_letter():
-	"""Generate a random letter based on English letter counts
-	"""
-	return weighted_choice(normalised_english_counts)
+    """Generate a random letter based on English letter counts
+    """
+    return weighted_choice(normalised_english_counts)
 
 
 def ngrams(text, n):
@@ -137,12 +137,6 @@ def Pletters(letters):
     """The Naive Bayes log probability of a sequence of letters.
     """
     return sum(Pl[l.lower()] for l in letters)
-
-def Pbigrams(letters):
-    """The Naive Bayes log probability of the bigrams formed from a sequence 
-    of letters.
-    """
-    return sum(P2l[p] for p in ngrams(letters, 2))
 
 def Pbigrams(letters):
     """The Naive Bayes log probability of the bigrams formed from a sequence 

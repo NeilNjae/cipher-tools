@@ -221,35 +221,110 @@ def keyword_break_worker(message, keyword, wrap_alphabet, fitness):
                      wrap_alphabet, fit, sanitise(plaintext)[:50]))
     return (keyword, wrap_alphabet), fit
 
-def monoalphabetic_break_hillclimbing(message, max_iterations=10000000, 
-        alphabet=None, fitness=Pletters):
-    ciphertext = unaccent(message).lower()
-    if not alphabet:
-        alphabet = list(string.ascii_lowercase)
-        random.shuffle(alphabet)
-        alphabet = cat(alphabet)
-    return monoalphabetic_break_hillclimbing_worker(ciphertext, alphabet,
-                                                    max_iterations, fitness)
+# def monoalphabetic_break_hillclimbing(message, max_iterations=10000000, 
+#         alphabet=None, fitness=Pletters):
+#     ciphertext = unaccent(message).lower()
+#     if not alphabet:
+#         alphabet = list(string.ascii_lowercase)
+#         random.shuffle(alphabet)
+#         alphabet = cat(alphabet)
+#     return monoalphabetic_break_hillclimbing_worker(ciphertext, alphabet,
+#                                                     max_iterations, fitness)
 
-def monoalphabetic_break_hillclimbing_mp(message, workers=10, 
-        max_iterations = 10000000, alphabet=None, fitness=Pletters, chunksize=1):
+# def monoalphabetic_break_hillclimbing_mp(message, workers=10, 
+#         max_iterations = 10000000, alphabet=None, fitness=Pletters, chunksize=1):
+#     worker_args = []
+#     ciphertext = unaccent(message).lower()
+#     for i in range(workers):
+#         if alphabet:
+#             this_alphabet = alphabet
+#         else:
+#             this_alphabet = list(string.ascii_lowercase)
+#             random.shuffle(this_alphabet)
+#             this_alphabet = cat(this_alphabet)
+#         worker_args.append((ciphertext, this_alphabet, max_iterations, fitness))
+#     with Pool() as pool:
+#         breaks = pool.starmap(monoalphabetic_break_hillclimbing_worker,
+#                               worker_args, chunksize)
+#     return max(breaks, key=lambda k: k[1])
+
+# def monoalphabetic_break_hillclimbing_worker(message, alphabet,
+#         max_iterations, fitness):
+#     def swap(letters, i, j):
+#         if i > j:
+#             i, j = j, i
+#         if i == j:
+#             return letters
+#         else:
+#             return (letters[:i] + letters[j] + letters[i+1:j] + letters[i] +
+#                     letters[j+1:])
+#     best_alphabet = alphabet
+#     best_fitness = float('-inf')
+#     for i in range(max_iterations):
+#         alphabet = swap(best_alphabet, random.randrange(26), random.randrange(26))
+#         cipher_translation = ''.maketrans(string.ascii_lowercase, alphabet)
+#         plaintext = message.translate(cipher_translation)
+#         if fitness(plaintext) > best_fitness:
+#             best_fitness = fitness(plaintext)
+#             best_alphabet = alphabet
+#             print(i, best_alphabet, best_fitness, plaintext[:50])
+#     return best_alphabet, best_fitness
+
+
+def monoalphabetic_break_hillclimbing(message, 
+                              max_iterations=20000,
+                              plain_alphabet=None, 
+                              cipher_alphabet=None, 
+                              fitness=Pletters, chunksize=1):
+    return simulated_annealing_break(message, 
+                              workers=1, 
+                              initial_temperature=0,
+                              max_iterations=max_iterations,
+                              plain_alphabet=plain_alphabet, 
+                              cipher_alphabet=cipher_alphabet, 
+                              fitness=fitness, chunksize=chunksize)
+
+
+def monoalphabetic_break_hillclimbing_mp(message, 
+                              workers=10, 
+                              max_iterations=20000,
+                              plain_alphabet=None, 
+                              cipher_alphabet=None, 
+                              fitness=Pletters, chunksize=1):
+    return simulated_annealing_break(message, 
+                              workers=workers, 
+                              initial_temperature=0,
+                              max_iterations=max_iterations,
+                              plain_alphabet=plain_alphabet, 
+                              cipher_alphabet=cipher_alphabet, 
+                              fitness=fitness, chunksize=chunksize)
+
+
+def simulated_annealing_break(message, workers=10, 
+                              initial_temperature=200,
+                              max_iterations=20000,
+                              plain_alphabet=None, 
+                              cipher_alphabet=None, 
+                              fitness=Pletters, chunksize=1):
     worker_args = []
-    ciphertext = unaccent(message).lower()
+    ciphertext = sanitise(message)
     for i in range(workers):
-        if alphabet:
-            this_alphabet = alphabet
-        else:
-            this_alphabet = list(string.ascii_lowercase)
-            random.shuffle(this_alphabet)
-            this_alphabet = cat(this_alphabet)
-        worker_args.append((ciphertext, this_alphabet, max_iterations, fitness))
+        if not plain_alphabet:
+            plain_alphabet = string.ascii_lowercase
+        if not cipher_alphabet:
+            cipher_alphabet = list(string.ascii_lowercase)
+            random.shuffle(cipher_alphabet)
+            cipher_alphabet = cat(cipher_alphabet)
+        worker_args.append((ciphertext, plain_alphabet, cipher_alphabet, 
+                            initial_temperature, max_iterations, fitness))
     with Pool() as pool:
-        breaks = pool.starmap(monoalphabetic_break_hillclimbing_worker,
+        breaks = pool.starmap(simulated_annealing_break_worker,
                               worker_args, chunksize)
     return max(breaks, key=lambda k: k[1])
 
-def monoalphabetic_break_hillclimbing_worker(message, alphabet,
-        max_iterations, fitness):
+
+def simulated_annealing_break_worker(message, plain_alphabet, cipher_alphabet, 
+                                     t0, max_iterations, fitness):
     def swap(letters, i, j):
         if i > j:
             i, j = j, i
@@ -258,17 +333,56 @@ def monoalphabetic_break_hillclimbing_worker(message, alphabet,
         else:
             return (letters[:i] + letters[j] + letters[i+1:j] + letters[i] +
                     letters[j+1:])
-    best_alphabet = alphabet
-    best_fitness = float('-inf')
+    
+    temperature = t0
+
+    dt = t0 / (0.9 * max_iterations)
+    
+    current_alphabet = cipher_alphabet
+    alphabet = current_alphabet
+    cipher_translation = ''.maketrans(current_alphabet, plain_alphabet)
+    plaintext = message.translate(cipher_translation)
+    current_fitness = fitness(plaintext)
+
+    best_alphabet = current_alphabet
+    best_fitness = current_fitness
+    best_plaintext = plaintext
+    
+    # print('starting for', max_iterations)
     for i in range(max_iterations):
-        alphabet = swap(alphabet, random.randrange(26), random.randrange(26))
-        cipher_translation = ''.maketrans(string.ascii_lowercase, alphabet)
+        swap_a = random.randrange(26)
+        swap_b = (swap_a + int(random.gauss(0, 4))) % 26
+        alphabet = swap(current_alphabet, swap_a, swap_b)
+        cipher_translation = ''.maketrans(alphabet, plain_alphabet)
         plaintext = message.translate(cipher_translation)
-        if fitness(plaintext) > best_fitness:
-            best_fitness = fitness(plaintext)
-            best_alphabet = alphabet
-            print(i, best_alphabet, best_fitness, plaintext)
-    return best_alphabet, best_fitness
+        new_fitness = fitness(plaintext)
+        try:
+            sa_chance = math.exp((new_fitness - current_fitness) / temperature)
+        except (OverflowError, ZeroDivisionError):
+            # print('exception triggered: new_fit {}, current_fit {}, temp {}'.format(new_fitness, current_fitness, temperature))
+            sa_chance = 0
+        if (new_fitness > current_fitness or random.random() < sa_chance):
+            # logger.debug('Simulated annealing: iteration {}, temperature {}, '
+            #     'current alphabet {}, current_fitness {}, '
+            #     'best_plaintext {}'.format(i, temperature, current_alphabet, 
+            #     current_fitness, best_plaintext[:50]))
+
+            # logger.debug('new_fit {}, current_fit {}, temp {}, sa_chance {}'.format(new_fitness, current_fitness, temperature, sa_chance))
+            current_fitness = new_fitness
+            current_alphabet = alphabet
+            
+        if current_fitness > best_fitness:
+            best_alphabet = current_alphabet
+            best_fitness = current_fitness
+            best_plaintext = plaintext
+        if i % 500 == 0:
+            logger.debug('Simulated annealing: iteration {}, temperature {}, '
+                'current alphabet {}, current_fitness {}, '
+                'best_plaintext {}'.format(i, temperature, current_alphabet, 
+                current_fitness, best_plaintext[:50]))
+        temperature = max(temperature - dt, 0.001)
+
+    return best_alphabet, best_fitness # current_alphabet, current_fitness
 
 
 def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
