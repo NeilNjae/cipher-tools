@@ -379,7 +379,7 @@ def simulated_annealing_break_worker(message, plain_alphabet, cipher_alphabet,
             logger.debug('Simulated annealing: iteration {}, temperature {}, '
                 'current alphabet {}, current_fitness {}, '
                 'best_plaintext {}'.format(i, temperature, current_alphabet, 
-                current_fitness, best_plaintext[:50]))
+                current_fitness, plaintext[:50]))
         temperature = max(temperature - dt, 0.001)
 
     return best_alphabet, best_fitness # current_alphabet, current_fitness
