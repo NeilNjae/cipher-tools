@@ -854,6 +854,90 @@ def bifid_break_worker(message, keyword, wrap_alphabet, period, fitness):
     return (keyword, wrap_alphabet, period), fit
 
 
+def autokey_sa_break( message
+                    , min_keylength=2
+                    , max_keylength=20
+                    , workers=10
+                    , initial_temperature=200
+                    , max_iterations=20000
+                    , fitness=Pletters
+                    , chunksize=1
+                    , result_count=1
+                    ):
+    """Break an autokey cipher by simulated annealing
+    """
+    worker_args = []
+    ciphertext = sanitise(message)
+    for keylength in range(min_keylength, max_keylength+1):
+        for i in range(workers):
+            key = cat(random.choice(string.ascii_lowercase) for _ in range(keylength))
+            worker_args.append((ciphertext, key, 
+                            initial_temperature, max_iterations, fitness))
+            
+    with Pool() as pool:
+        breaks = pool.starmap(autokey_sa_break_worker,
+                              worker_args, chunksize)
+    if result_count <= 1:
+        return max(breaks, key=lambda k: k[1])
+    else:
+        return sorted(set(breaks), key=lambda k: k[1], reverse=True)[:result_count]
+
+
+def autokey_sa_break_worker(message, key, 
+                                     t0, max_iterations, fitness):
+   
+    temperature = t0
+
+    dt = t0 / (0.9 * max_iterations)
+    
+    plaintext = autokey_decipher(message, key)
+    current_fitness = fitness(plaintext)
+    current_key = key
+
+    best_key = current_key
+    best_fitness = current_fitness
+    best_plaintext = plaintext
+    
+    # print('starting for', max_iterations)
+    for i in range(max_iterations):
+        swap_pos = random.randrange(len(current_key))
+        swap_char = random.choice(string.ascii_lowercase)
+        
+        new_key = current_key[:swap_pos] + swap_char + current_key[swap_pos+1:]
+        
+        plaintext = autokey_decipher(message, new_key)
+        new_fitness = fitness(plaintext)
+        try:
+            sa_chance = math.exp((new_fitness - current_fitness) / temperature)
+        except (OverflowError, ZeroDivisionError):
+            # print('exception triggered: new_fit {}, current_fit {}, temp {}'.format(new_fitness, current_fitness, temperature))
+            sa_chance = 0
+        if (new_fitness > current_fitness or random.random() < sa_chance):
+            # logger.debug('Simulated annealing: iteration {}, temperature {}, '
+            #     'current alphabet {}, current_fitness {}, '
+            #     'best_plaintext {}'.format(i, temperature, current_alphabet, 
+            #     current_fitness, best_plaintext[:50]))
+
+            # logger.debug('new_fit {}, current_fit {}, temp {}, sa_chance {}'.format(new_fitness, current_fitness, temperature, sa_chance))
+#             print(new_fitness, new_key, plaintext[:100])
+            current_fitness = new_fitness
+            current_key = new_key
+            
+        if current_fitness > best_fitness:
+            best_key = current_key
+            best_fitness = current_fitness
+            best_plaintext = plaintext
+        if i % 500 == 0:
+            logger.debug('Simulated annealing: iteration {}, temperature {}, '
+                'current key {}, current_fitness {}, '
+                'best_plaintext {}'.format(i, temperature, current_key, 
+                current_fitness, plaintext[:50]))
+        temperature = max(temperature - dt, 0.001)
+        
+#     print(best_key, best_fitness, best_plaintext[:70])
+    return best_key, best_fitness # current_alphabet, current_fitness
+
+
 def pocket_enigma_break_by_crib(message, wheel_spec, crib, crib_position):
     """Break a pocket enigma using a crib (some plaintext that's expected to
     be in a certain position). Returns a list of possible starting wheel

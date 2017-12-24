@@ -1137,6 +1137,32 @@ def bifid_decipher(message, keyword, wrap_alphabet=KeywordWrapAlphabet.from_a,
 
     return cat(r_grid[p] for p in pairs1) 
 
+
+def autokey_encipher(message, keyword):
+    """Encipher with the autokey cipher
+
+    >>> autokey_encipher('meetatthefountain', 'kilt')
+    'wmpmmxxaeyhbryoca'
+    """
+    shifts = [pos(l) for l in keyword + message]
+    pairs = zip(message, shifts)
+    return cat([caesar_encipher_letter(l, k) for l, k in pairs])
+
+def autokey_decipher(ciphertext, keyword):
+    """Decipher with the autokey cipher
+
+    >>> autokey_decipher('wmpmmxxaeyhbryoca', 'kilt')
+    'meetatthefountain'
+    """
+    plaintext = []
+    keys = list(keyword)
+    for c in ciphertext:
+        plaintext_letter = caesar_decipher_letter(c, pos(keys[0]))
+        plaintext += [plaintext_letter]
+        keys = keys[1:] + [plaintext_letter]
+    return cat(plaintext)
+
+
 class PocketEnigma(object):
     """A pocket enigma machine
     The wheel is internally represented as a 26-element list self.wheel_map, 
