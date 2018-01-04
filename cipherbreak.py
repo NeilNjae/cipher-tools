@@ -680,7 +680,7 @@ scytale_break = scytale_break_mp
 
 def railfence_break(message, max_key_length=20,
                      fitness=Pletters, chunksize=500):
-    """Breaks a hill cipher using a matrix of given rank and letter frequencies
+    """Breaks a railfence cipher using a matrix of given rank and letter frequencies
 
     
     """
