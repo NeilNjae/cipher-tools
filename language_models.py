@@ -7,8 +7,6 @@ import itertools
 from math import log10
 import os 
 
-
-
 def datafile(name, sep='\t'):
     """Read key,value pairs from file.
     """

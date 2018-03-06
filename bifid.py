@@ -82,8 +82,6 @@ def bifid_decipher(message, keyword, wrap_alphabet=KeywordWrapAlphabet.from_a,
     return cat(r_grid[p] for p in pairs1) 
 
 
-
-
 def bifid_break_mp(message, wordlist=keywords, fitness=Pletters, max_period=10,
                      number_of_solutions=1, chunksize=500):
     """Breaks a keyword substitution cipher using a dictionary and
