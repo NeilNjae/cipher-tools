@@ -1,8 +1,9 @@
 import collections
 import string
+from utilities import sanitise
 
-def sanitise(text):
-    return [l.lower() for l in text if l in string.ascii_letters]
+# def sanitise(text):
+#     return [l.lower() for l in text if l in string.ascii_letters]
 
 corpora = ['shakespeare.txt', 'sherlock-holmes.txt', 'war-and-peace.txt']
 counts = collections.defaultdict(int)

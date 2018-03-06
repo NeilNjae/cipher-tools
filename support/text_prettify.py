@@ -1,6 +1,6 @@
-from segment import segment
-from utilities import cat, sanitise
 import string
+from support.segment import segment
+from support.utilities import cat, sanitise
 
 
 def tpack(text, width=100):

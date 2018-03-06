@@ -2,9 +2,9 @@ from enum import Enum
 import multiprocessing 
 import itertools
 
-from utilities import *
-from language_models import *
-from column_transposition import transpositions
+from support.utilities import *
+from support.language_models import *
+from cipher.column_transposition import transpositions, transpositions_of
 
 from logger import logger
 

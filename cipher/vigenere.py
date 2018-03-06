@@ -1,8 +1,8 @@
-from utilities import *
-from language_models import *
 from enum import Enum
 from itertools import starmap, cycle
 import multiprocessing
+from support.utilities import *
+from support.language_models import *
 
 from logger import logger
 

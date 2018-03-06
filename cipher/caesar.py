@@ -1,5 +1,6 @@
-from utilities import *
-from language_models import *
+from support.utilities import *
+from support.language_models import *
+
 from logger import logger
 
 def caesar_encipher_letter(accented_letter, shift):

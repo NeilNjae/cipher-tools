@@ -1,4 +1,5 @@
-import language_models
+# import language_models
+import utilities
 
 american = set(open('/usr/share/dict/american-english', 'r').readlines())
 british = set(open('/usr/share/dict/british-english', 'r').readlines())
@@ -11,7 +12,7 @@ words = american | british | cracklib
 # for w in words:
     # sanitised_words.add(language_models.sanitise(w))
     
-sanitised_words = set(language_models.sanitise(w) for w in words)
+sanitised_words = set(utilities.sanitise(w) for w in words)
 
 sanitised_words.discard('')
 

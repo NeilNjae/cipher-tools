@@ -1,5 +1,6 @@
 import string
 import collections
+import unicodedata
 from itertools import zip_longest
 
 # join a a list of letters into a string

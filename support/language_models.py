@@ -1,12 +1,11 @@
 import string
 import random
 import collections
-import unicodedata
 import itertools
 from math import log10
 import os 
 
-import norms
+import support.norms
 
 def datafile(name, sep='\t'):
     """Read key,value pairs from file.
@@ -17,13 +16,13 @@ def datafile(name, sep='\t'):
             yield [splits[0], int(splits[1])]
 
 english_counts = collections.Counter(dict(datafile('count_1l.txt')))
-normalised_english_counts = norms.normalise(english_counts)
+normalised_english_counts = support.norms.normalise(english_counts)
 
 english_bigram_counts = collections.Counter(dict(datafile('count_2l.txt')))
-normalised_english_bigram_counts = norms.normalise(english_bigram_counts)
+normalised_english_bigram_counts = support.norms.normalise(english_bigram_counts)
 
 english_trigram_counts = collections.Counter(dict(datafile('count_3l.txt')))
-normalised_english_trigram_counts = norms.normalise(english_trigram_counts)
+normalised_english_trigram_counts = support.norms.normalise(english_trigram_counts)
 
 with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'words.txt'), 'r') as f:
     keywords = [line.rstrip() for line in f]
@@ -112,9 +111,9 @@ def cosine_distance_score(text):
     >>> cosine_distance_score('abcabc') # doctest: +ELLIPSIS
     0.73777...
     """
-    # return norms.cosine_distance(english_counts, 
+    # return support.norms.cosine_distance(english_counts, 
     #     collections.Counter(sanitise(text)))
-    return 1 - norms.cosine_similarity(english_counts, 
+    return 1 - support.norms.cosine_similarity(english_counts, 
         collections.Counter(sanitise(text)))
 
 

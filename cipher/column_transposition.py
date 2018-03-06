@@ -1,7 +1,8 @@
-from utilities import *
-from language_models import *
+import math
 import multiprocessing 
 from itertools import chain
+from support.utilities import *
+from support.language_models import *
 
 from logger import logger
 
@@ -254,7 +255,7 @@ def scytale_break_mp(message, max_key_length=20,
         fitness=Ptrigrams) # doctest: +ELLIPSIS
     (5, -997.0129085...)
     """
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         helper_args = [(message, trans, False, True, fitness)
             for trans in
                 [[col for col in range(math.ceil(len(message)/rows))]

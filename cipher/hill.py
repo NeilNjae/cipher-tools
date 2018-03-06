@@ -1,9 +1,10 @@
-from utilities import *
-from language_models import *
 import multiprocessing
 import numpy as np
 from numpy import matrix
 from numpy import linalg
+from support.utilities import *
+from support.language_models import *
+from cipher.affine import modular_division_table
 
 from logger import logger
 

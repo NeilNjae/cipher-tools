@@ -1,7 +1,7 @@
 import multiprocessing 
-from utilities import *
-from language_models import *
-from keyword_cipher import KeywordWrapAlphabet
+from support.utilities import *
+from support.language_models import *
+from cipher.keyword_cipher import KeywordWrapAlphabet, keyword_cipher_alphabet_of
 
 from logger import logger
 
