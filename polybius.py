@@ -1,6 +1,8 @@
 from utilities import *
 from language_models import *
-from multiprocessing import Pool
+import multiprocessing 
+
+from keyword_cipher import KeywordWrapAlphabet
 
 from logger import logger
 
@@ -142,7 +144,7 @@ def polybius_break_mp(message, column_labels, row_labels,
     """
     if letters_to_merge is None: 
         letters_to_merge = {'j': 'i'}
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         helper_args = [(message, word, wrap, 
                         column_labels, row_labels, column_first, 
                         letters_to_merge, 
@@ -179,3 +181,5 @@ def polybius_break_worker(message, keyword, wrap_alphabet,
                               fit, sanitise(plaintext)[:50]))
     return (keyword, wrap_alphabet, column_order, row_order, column_first), fit
 
+if __name__ == "__main__":
+    import doctest

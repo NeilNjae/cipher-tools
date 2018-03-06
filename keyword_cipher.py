@@ -2,7 +2,7 @@ from utilities import *
 from language_models import *
 from enum import Enum
 # from itertools import starmap
-from multiprocessing import Pool
+import multiprocessing
 
 from logger import logger
 
@@ -134,7 +134,7 @@ def keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
     [(('elephant', <KeywordWrapAlphabet.from_last: 2>), -52.834575011...), 
     (('elephant', <KeywordWrapAlphabet.from_largest: 3>), -52.834575011...)]
     """
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         helper_args = [(message, word, wrap, fitness)
                        for word in wordlist
                        for wrap in KeywordWrapAlphabet]
@@ -201,7 +201,7 @@ def simulated_annealing_break(message, workers=10,
             cipher_alphabet = cat(cipher_alphabet)
         worker_args.append((ciphertext, plain_alphabet, cipher_alphabet, 
                             initial_temperature, max_iterations, fitness))
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         breaks = pool.starmap(simulated_annealing_break_worker,
                               worker_args, chunksize)
     return max(breaks, key=lambda k: k[1])
@@ -267,3 +267,6 @@ def simulated_annealing_break_worker(message, plain_alphabet, cipher_alphabet,
         temperature = max(temperature - dt, 0.001)
 
     return best_alphabet, best_fitness # current_alphabet, current_fitness
+
+if __name__ == "__main__":
+    import doctest

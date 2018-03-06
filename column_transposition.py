@@ -1,6 +1,7 @@
 from utilities import *
 from language_models import *
-from multiprocessing import Pool
+import multiprocessing 
+from itertools import chain
 
 from logger import logger
 
@@ -25,6 +26,12 @@ def transpositions_of(keyword):
         key = deduplicate(keyword)
         transpositions = tuple(key.index(l) for l in sorted(key))
         return transpositions
+
+
+transpositions = collections.defaultdict(list)
+for word in keywords:
+    transpositions[transpositions_of(word)] += [word]
+
 
 def pad(message_len, group_len, fillvalue):
     padding_length = group_len - message_len % group_len
@@ -197,7 +204,7 @@ def column_transposition_break_mp(message, translist=transpositions,
         fitness=Ptrigrams) # doctest: +ELLIPSIS
     (((2, 0, 5, 3, 1, 4, 6), False, False), -997.0129085...)
     """
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         helper_args = [(message, trans, fillcolumnwise, emptycolumnwise,
                         fitness)
                        for trans in translist
@@ -260,3 +267,5 @@ def scytale_break_mp(message, max_key_length=20,
         return math.trunc(len(message) / len(best[0][0])), best[1]
 scytale_break = scytale_break_mp
 
+if __name__ == "__main__":
+    import doctest

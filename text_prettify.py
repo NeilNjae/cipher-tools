@@ -1,6 +1,5 @@
 from segment import segment
-from cipher import cat
-from language_models import sanitise
+from utilities import cat, sanitise
 import string
 
 

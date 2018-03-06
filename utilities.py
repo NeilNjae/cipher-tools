@@ -1,5 +1,6 @@
 import string
 import collections
+from itertools import zip_longest
 
 # join a a list of letters into a string
 cat = ''.join
@@ -11,17 +12,17 @@ wcat = ' '.join
 lcat = '\n'.join
 
 def pos(letter): 
-	"""Return the position of a letter in the alphabet (0-25)"""
+    """Return the position of a letter in the alphabet (0-25)"""
     if letter in string.ascii_lowercase:
         return ord(letter) - ord('a')
     elif letter in string.ascii_uppercase:
         return ord(letter) - ord('A')
     else:
-        return 0
+        raise ValueError('pos requires input of {} to be an ascii letter'.format(letter))
     
 def unpos(number): 
-	"""Return the letter in the given position in the alphabet (mod 26)"""
-	return chr(number % 26 + ord('a'))
+    """Return the letter in the given position in the alphabet (mod 26)"""
+    return chr(number % 26 + ord('a'))
 
 def every_nth(text, n, fillvalue=''):
     """Returns n strings, each of which consists of every nth character, 
@@ -160,10 +161,6 @@ def index_of_coincidence(text):
     )
 
 
-transpositions = collections.defaultdict(list)
-for word in keywords:
-    transpositions[transpositions_of(word)] += [word]
-
 def frequencies(text):
     """Count the number of occurrences of each character in text
 
@@ -192,3 +189,6 @@ def frequencies(text):
     0
     """
     return collections.Counter(c for c in text)
+
+if __name__ == "__main__":
+    import doctest

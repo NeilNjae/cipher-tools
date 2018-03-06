@@ -1,8 +1,8 @@
 from utilities import *
 from language_models import *
 from enum import Enum
-from itertools import starmap
-from multiprocessing import Pool
+from itertools import starmap, cycle
+import multiprocessing
 
 from logger import logger
 
@@ -52,7 +52,7 @@ def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
              wordlist=['cat', 'elephant', 'kangaroo']) # doctest: +ELLIPSIS
     ('cat', -52.9472712...)
     """
-    with Pool() as pool:
+    with multiprocessing.Pool() as pool:
         helper_args = [(message, word, fitness)
                        for word in wordlist]
         # Gotcha: the helper function here needs to be defined at the top level
@@ -168,3 +168,6 @@ def beaufort_variant_frequency_break(message, max_key_length=20, fitness=Pletter
     results = starmap(worker, [(sanitised_message, i, fitness)
                                for i in range(1, max_key_length+1)])
     return max(results, key=lambda k: k[1])
+
+if __name__ == "__main__":
+    import doctest
