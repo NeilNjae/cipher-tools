@@ -7,51 +7,6 @@ import itertools
 from math import log10
 import os 
 
-unaccent_specials = ''.maketrans({"’": "'", '“': '"', '”': '"'})
-
-def letters(text):
-    """Remove all non-alphabetic characters from a text
-    >>> letters('The Quick')
-    'TheQuick'
-    >>> letters('The Quick BROWN fox jumped! over... the (9lazy) DOG')
-    'TheQuickBROWNfoxjumpedoverthelazyDOG'
-    """
-    return ''.join([c for c in text if c in string.ascii_letters])
-
-def unaccent(text):
-    """Remove all accents from letters. 
-    It does this by converting the unicode string to decomposed compatability
-    form, dropping all the combining accents, then re-encoding the bytes.
-
-    >>> unaccent('hello')
-    'hello'
-    >>> unaccent('HELLO')
-    'HELLO'
-    >>> unaccent('héllo')
-    'hello'
-    >>> unaccent('héllö')
-    'hello'
-    >>> unaccent('HÉLLÖ')
-    'HELLO'
-    """
-    translated_text = text.translate(unaccent_specials)
-    return unicodedata.normalize('NFKD', translated_text).\
-        encode('ascii', 'ignore').\
-        decode('utf-8')
-
-def sanitise(text):
-    """Remove all non-alphabetic characters and convert the text to lowercase
-    
-    >>> sanitise('The Quick')
-    'thequick'
-    >>> sanitise('The Quick BROWN fox jumped! over... the (9lazy) DOG')
-    'thequickbrownfoxjumpedoverthelazydog'
-    >>> sanitise('HÉLLÖ')
-    'hello'
-    """
-    # sanitised = [c.lower() for c in text if c in string.ascii_letters]
-    # return ''.join(sanitised)
-    return letters(unaccent(text)).lower()
 
 
 def datafile(name, sep='\t'):
