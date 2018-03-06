@@ -3,7 +3,8 @@ import collections
 import multiprocessing
 import itertools
 import logging
-from enigma import *
+
+from cipher.enigma import *
 
 
 logger = logging.getLogger('bombe')

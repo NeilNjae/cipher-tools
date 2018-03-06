@@ -2,7 +2,8 @@ import unittest
 import collections
 import string
 
-from enigma import *
+from cipher.enigma import *
+# from ciphers import enigma
 
 class LetterTransformerTest(unittest.TestCase):
 

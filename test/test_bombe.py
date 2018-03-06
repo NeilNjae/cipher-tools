@@ -1,8 +1,8 @@
 import unittest
 import string 
 
-from enigma import *
-from bombe import *
+from cipher.enigma import *
+from cipher.bombe import *
 
 class ScramblerTest(unittest.TestCase):
     def setUp(self):

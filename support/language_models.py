@@ -1,11 +1,12 @@
 import string
-import norms
 import random
 import collections
 import unicodedata
 import itertools
 from math import log10
 import os 
+
+import norms
 
 def datafile(name, sep='\t'):
     """Read key,value pairs from file.
