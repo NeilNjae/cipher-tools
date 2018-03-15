@@ -1,4 +1,5 @@
 from itertools import chain
+import multiprocessing
 from support.utilities import *
 from support.language_models import *
 from cipher.column_transposition import transpositions_of
@@ -91,6 +92,34 @@ def cadenus_decipher(message, keyword, keycolumn, fillvalue='a'):
     rotated_rows = zip(*rotated_columns)
     # return rotated_columns
     return cat(chain(*rotated_rows))
+
+
+def cadenus_break(message, words=keywords, 
+    doubled_letters='vw', fitness=Pbigrams):
+    c = make_cadenus_keycolumn(reverse=True)
+    valid_words = [w for w in words 
+        if max(transpositions_of(w)) <= len(c)]
+    with multiprocessing.Pool() as pool:
+        results = pool.starmap(cadenus_break_worker, 
+                [(message, w, 
+                    make_cadenus_keycolumn(doubled_letters=doubled_letters, 
+                        start=s, reverse=r), 
+                    fitness)
+                for w in words 
+                for s in string.ascii_lowercase 
+                for r in [True, False]
+                if max(transpositions_of(w)) <= len(
+                    make_cadenus_keycolumn(
+                        doubled_letters=doubled_letters, start=s, reverse=r))
+                ])
+    # return list(results)
+    return max(results, key=lambda k: k[1])
+
+def cadenus_break_worker(message, keyword, keycolumn, fitness):
+    message_chunks = chunks(message, 175)
+    plaintext = ''.join(cadenus_decipher(c, keyword, keycolumn) for c in message_chunks)
+    fit = fitness(plaintext)
+    return (keyword, keycolumn), fit
 
 if __name__ == "__main__":
     import doctest

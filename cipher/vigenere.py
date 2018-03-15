@@ -1,6 +1,7 @@
 from enum import Enum
 from itertools import starmap, cycle
 import multiprocessing
+from cipher.caesar import *
 from support.utilities import *
 from support.language_models import *
 

@@ -1,6 +1,12 @@
 import string
 from support.segment import segment
-from support.utilities import cat, sanitise
+from support.utilities import cat, lcat, sanitise
+
+
+def prettify(text, width=100):
+    """Segment a text into words, then pack into lines, and combine the lines
+    into a single string for printing."""
+    return lcat(tpack(segment(text), width=width))
 
 
 def tpack(text, width=100):
