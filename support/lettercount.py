@@ -2,16 +2,12 @@ import collections
 import string
 from utilities import sanitise
 
-# def sanitise(text):
-#     return [l.lower() for l in text if l in string.ascii_letters]
-
 corpora = ['shakespeare.txt', 'sherlock-holmes.txt', 'war-and-peace.txt']
-counts = collections.defaultdict(int)
+counts = collections.Counter()
 
 for corpus in corpora:
     text = sanitise(open(corpus, 'r').read())
-    for letter in text:
-        counts[letter] += 1
+    counts.update(text)
 
 sorted_letters = sorted(counts, key=counts.get, reverse=True)
 
