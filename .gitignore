@@ -6,3 +6,4 @@
 *pyc
 .ipynb*
 *.sublime-workspace
+.directory/*
