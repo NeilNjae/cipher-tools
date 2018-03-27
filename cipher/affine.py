@@ -3,12 +3,18 @@ from support.language_models import *
 from logger import logger
 
 
-modular_division_table = [[0]*26 for _ in range(26)]
-for a in range(26):
-    for b in range(26):
-        c = (a * b) % 26
-        modular_division_table[b][c] = a
+# modular_division_table = [[0]*26 for _ in range(26)]
+# for a in range(26):
+#     for b in range(26):
+#         c = (a * b) % 26
+#         modular_division_table[b][c] = a
 
+
+modular_division_table = {
+    (multiplier, (multiplier * plaintext) % 26): plaintext
+    for plaintext in range(26) 
+    for multiplier in range(26)
+    }
 
 
 
@@ -75,9 +81,12 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
     if letter in string.ascii_letters:
         cipher_number = pos(letter)
         if one_based: cipher_number += 1
+        # plaintext_number = ( 
+        #     modular_division_table[multiplier]
+        #                           [(cipher_number - adder) % 26])
         plaintext_number = ( 
-            modular_division_table[multiplier]
-                                  [(cipher_number - adder) % 26])
+            modular_division_table[multiplier, (cipher_number - adder) % 26]
+            )
         if one_based: plaintext_number -= 1
         if letter in string.ascii_uppercase:
             return unpos(plaintext_number).upper()

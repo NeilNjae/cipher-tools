@@ -42,7 +42,7 @@ def hill_decipher(matrix, message, fillvalue='a'):
     'hellothereaa'
     """
     adjoint = linalg.det(matrix)*linalg.inv(matrix)
-    inverse_determinant = modular_division_table[int(round(linalg.det(matrix))) % 26][1]
+    inverse_determinant = modular_division_table[int(round(linalg.det(matrix))) % 26, 1]
     inverse_matrix = (inverse_determinant * adjoint) % 26
     return hill_encipher(inverse_matrix, message, fillvalue)          
 
