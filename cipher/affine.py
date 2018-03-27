@@ -3,19 +3,11 @@ from support.language_models import *
 from logger import logger
 
 
-# modular_division_table = [[0]*26 for _ in range(26)]
-# for a in range(26):
-#     for b in range(26):
-#         c = (a * b) % 26
-#         modular_division_table[b][c] = a
-
-
 modular_division_table = {
     (multiplier, (multiplier * plaintext) % 26): plaintext
     for plaintext in range(26) 
     for multiplier in range(26)
     }
-
 
 
 def affine_encipher_letter(accented_letter, multiplier=1, adder=0, one_based=True):
@@ -28,19 +20,6 @@ def affine_encipher_letter(accented_letter, multiplier=1, adder=0, one_based=Tru
             for l in string.ascii_letters)
     'filoruxadgjmpsvybehknqtwzcFILORUXADGJMPSVYBEHKNQTWZC'
     """
-    # letter = unaccent(accented_letter)
-    # if letter in string.ascii_letters:
-    #     if letter in string.ascii_uppercase:
-    #         alphabet_start = ord('A')
-    #     else:
-    #         alphabet_start = ord('a')
-    #     letter_number = ord(letter) - alphabet_start
-    #     if one_based: letter_number += 1
-    #     cipher_number = (letter_number * multiplier + adder) % 26
-    #     if one_based: cipher_number -= 1
-    #     return chr(cipher_number % 26 + alphabet_start)
-    # else:
-    #     return letter
     letter = unaccent(accented_letter)
     if letter in string.ascii_letters:
         letter_number = pos(letter)
@@ -64,20 +43,6 @@ def affine_decipher_letter(letter, multiplier=1, adder=0, one_based=True):
             for l in 'filoruxadgjmpsvybehknqtwzcFILORUXADGJMPSVYBEHKNQTWZC')
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     """
-    # if letter in string.ascii_letters:
-    #     if letter in string.ascii_uppercase:
-    #         alphabet_start = ord('A')
-    #     else:
-    #         alphabet_start = ord('a')
-    #     cipher_number = ord(letter) - alphabet_start
-    #     if one_based: cipher_number += 1
-    #     plaintext_number = ( 
-    #         modular_division_table[multiplier]
-    #                               [(cipher_number - adder) % 26])
-    #     if one_based: plaintext_number -= 1
-    #     return chr(plaintext_number % 26 + alphabet_start) 
-    # else:
-    #     return letter
     if letter in string.ascii_letters:
         cipher_number = pos(letter)
         if one_based: cipher_number += 1
