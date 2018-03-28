@@ -14,9 +14,14 @@ import cipher.bifid
 import cipher.autokey
 import cipher.pocket_enigma
 
+import support.language_models
+import support.norms
+import support.segment
+import support.text_prettify
+import support.utilities
+
 
 def load_tests(loader, tests, ignore):
-
     tests.addTests(doctest.DocTestSuite(cipher.caesar))
     tests.addTests(doctest.DocTestSuite(cipher.affine))
     tests.addTests(doctest.DocTestSuite(cipher.keyword_cipher))
@@ -30,4 +35,11 @@ def load_tests(loader, tests, ignore):
     tests.addTests(doctest.DocTestSuite(cipher.autokey))
     tests.addTests(doctest.DocTestSuite(cipher.pocket_enigma, 
         extraglobs={'pe': cipher.pocket_enigma.PocketEnigma(1, 'a')}))
+
+    tests.addTests(doctest.DocTestSuite(support.language_models))
+    tests.addTests(doctest.DocTestSuite(support.norms))
+    tests.addTests(doctest.DocTestSuite(support.segment))
+    tests.addTests(doctest.DocTestSuite(support.text_prettify))
+    tests.addTests(doctest.DocTestSuite(support.utilities))
+
     return tests

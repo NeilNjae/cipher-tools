@@ -6,6 +6,7 @@ from math import log10
 import os 
 
 import support.norms
+from support.utilities import sanitise
 
 def datafile(name, sep='\t'):
     """Read key,value pairs from file.
@@ -109,7 +110,7 @@ def cosine_distance_score(text):
     of the frequency distribution.
 
     >>> cosine_distance_score('abcabc') # doctest: +ELLIPSIS
-    0.73777...
+    0.73771...
     """
     # return support.norms.cosine_distance(english_counts, 
     #     collections.Counter(sanitise(text)))
