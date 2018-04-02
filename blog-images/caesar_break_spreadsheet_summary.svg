@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="276.51752mm"
+   height="194.4409mm"
+   id="svg1520"
+   sodipodi:docname="caesar_break_spreadsheet_summary.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata1524">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1241"
+     inkscape:window-height="816"
+     id="namedview1522"
+     showgrid="false"
+     inkscape:zoom="0.63840751"
+     inkscape:cx="492.38707"
+     inkscape:cy="350.58728"
+     inkscape:window-x="1518"
+     inkscape:window-y="144"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1520" />
+  <defs
+     id="defs1372">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipEmfPath1">
+      <path
+         d="M 0,0 H 1122.0254 V 793.34026 H 0 Z"
+         id="path1368"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <pattern
+       id="EMFhbasepattern"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+  </defs>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 313.95102,70.988444 H 137.74554 V 12.542929 h 352.41097 v 58.445515 z"
+     id="path1374"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1382"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,51.645132)"
+       x="0"
+       y="0"
+       id="text1380"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1378"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1376">Ciphertext</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 313.95102,141.97689 H 137.74554 V 83.531373 h 352.41097 v 58.445517 z"
+     id="path1384"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1392"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,122.63358)"
+       x="0"
+       y="0"
+       id="text1390"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1388"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1386">Best key</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 313.95102,212.96533 H 137.74554 v -58.44551 h 352.41097 v 58.44551 z"
+     id="path1394"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1402"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,193.62202)"
+       x="0"
+       y="0"
+       id="text1400"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1398"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1396">Plaintext</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 125.58041,501.0749 V 676.48701 H 68.87277 V 325.70057 h 56.70764 z"
+     id="path1404"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1412"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="rotate(-90,386.43177,279.5902)"
+       x="0"
+       y="0"
+       id="text1410"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1408"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1406">Shift</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 268.38846,313.19543 H 137.74554 v -58.4833 h 261.24805 v 58.4833 z"
+     id="path1414"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1422"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,293.85211)"
+       x="0"
+       y="0"
+       id="text1420"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1418"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1416">Alphabet and counts</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 267.89732,676.48701 H 137.74554 V 325.70057 H 398.0491 v 350.78644 z"
+     id="path1424"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1432"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,510.97324)"
+       x="0"
+       y="0"
+       id="text1430"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1428"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1426">Shifted plaintext</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 819.25727,313.19543 H 688.65214 v -58.4833 h 261.24805 v 58.4833 z"
+     id="path1434"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1442"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(698.77715,293.85211)"
+       x="0"
+       y="0"
+       id="text1440"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1438"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1436">Alphabet</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 818.80391,676.48701 H 688.65214 V 325.70057 h 260.30355 v 350.78644 z"
+     id="path1444"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1452"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(698.77715,510.97324)"
+       x="0"
+       y="0"
+       id="text1450"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1448"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1446">Plaintext probability</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 543.84175,313.19543 H 413.19884 v -58.4833 h 261.24805 v 58.4833 z"
+     id="path1454"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1462"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(423.32385,293.85211)"
+       x="0"
+       y="0"
+       id="text1460"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1458"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1456">Alphabet</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 543.35062,676.48701 H 413.19884 V 325.70057 h 260.30355 v 350.78644 z"
+     id="path1464"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1472"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(423.32385,510.97324)"
+       x="0"
+       y="0"
+       id="text1470"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1468"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1466">Plaintext counts</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 1039.023,676.48701 H 964.10544 V 325.70057 h 149.87286 v 350.78644 z"
+     id="path1474"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1486"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:112.1991992%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(974.23045,496.12573)"
+       x="0"
+       y="0"
+       id="text1484"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1478"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1476">Total </tspan></tspan><tspan
+         sodipodi:role="line"
+         x="0"
+         y="29.732788"
+         id="tspan1482"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1480">probability</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="m 1039.023,747.43767 h -74.91756 v -58.44551 h 149.87286 v 58.44551 z"
+     id="path1488"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1496"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(974.23045,728.13214)"
+       x="0"
+       y="0"
+       id="text1494"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1492"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1490">Best shift</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#b0b0de;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="M 268.38846,747.43767 H 137.74554 v -58.44551 h 261.24805 v 58.44551 z"
+     id="path1498"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <g
+     clip-path="url(#clipEmfPath1)"
+     id="g1512"
+     transform="translate(-68.87277,-12.542929)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,728.13214)"
+       x="0"
+       y="0"
+       id="text1504"><tspan
+         sodipodi:role="line"
+         x="0"
+         y="0"
+         id="tspan1502"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1500">Deciphered plaintext</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;line-height:125%;font-family:Ubuntu;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(147.87055,728.13214)"
+       x="433.4111"
+       y="-605.49854"
+       id="text1510"><tspan
+         sodipodi:role="line"
+         x="433.4111"
+         y="-605.49854"
+         id="tspan1508"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:26.5px;font-family:Ubuntu;fill:#000000"
+           id="tspan1506">Dashboard</tspan></tspan></text>
+  </g>
+  <path
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="m 488.79643,43.333553 c -0.30224,-0.22668 -0.49114,-0.528919 -0.60448,-0.868938 -0.11334,-0.377799 -0.15112,-0.717818 -0.0756,-1.095617 0.0756,-0.377799 0.22668,-0.680039 0.49114,-0.944498 0.22668,-0.302239 0.52892,-0.491139 0.86894,-0.604479 0.3778,-0.113339 0.71782,-0.151119 1.09562,-0.07556 0.3778,0.07556 0.68003,0.226679 0.94449,0.491138 l 81.00012,70.950661 c 0.30224,0.22668 0.49114,0.52892 0.60448,0.86894 0.11334,0.3778 0.15112,0.71782 0.0756,1.09562 -0.0756,0.3778 -0.22668,0.68004 -0.49114,0.9445 -0.22668,0.30224 -0.52892,0.49114 -0.86893,0.60448 -0.3778,0.11334 -0.71782,0.15112 -1.09562,0.0756 -0.3778,-0.0756 -0.68004,-0.22668 -0.9445,-0.49114 z"
+     id="path1514"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <path
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="m 490.15651,114.81314 c -0.3778,0 -0.71782,-0.0756 -1.02006,-0.26446 -0.34002,-0.1889 -0.60448,-0.45336 -0.79338,-0.7556 -0.1889,-0.34002 -0.26446,-0.68004 -0.26446,-1.05784 0,-0.3778 0.0756,-0.71782 0.26446,-1.02006 0.1889,-0.34002 0.45336,-0.60447 0.79338,-0.79337 0.30224,-0.1889 0.64226,-0.26446 1.02006,-0.26446 h 81.00012 c 0.3778,0 0.71782,0.0756 1.05783,0.26446 0.30224,0.1889 0.5667,0.45335 0.7556,0.79337 0.1889,0.30224 0.26446,0.64226 0.26446,1.02006 0,0.3778 -0.0756,0.71782 -0.26446,1.05784 -0.1889,0.30224 -0.45336,0.5667 -0.7556,0.7556 -0.34001,0.1889 -0.68003,0.26446 -1.05783,0.26446 z"
+     id="path1516"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+  <path
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     clip-path="url(#clipEmfPath1)"
+     d="m 491.51658,185.27266 c -0.26446,0.26446 -0.56669,0.41558 -0.94449,0.49114 -0.3778,0.0756 -0.71782,0.0378 -1.09562,-0.0756 -0.34002,-0.11334 -0.64226,-0.30224 -0.86894,-0.60448 -0.26446,-0.26446 -0.41558,-0.5667 -0.49114,-0.9445 -0.0756,-0.37779 -0.0378,-0.71781 0.0756,-1.09561 0.11334,-0.34002 0.30224,-0.64226 0.60448,-0.86894 l 81.00012,-70.98845 c 0.26446,-0.26445 0.5667,-0.41557 0.9445,-0.49113 0.3778,-0.0756 0.71782,-0.0378 1.09562,0.0756 0.34001,0.11334 0.64225,0.30224 0.86893,0.60447 0.26446,0.26446 0.41558,0.5667 0.49114,0.9445 0.0756,0.3778 0.0378,0.71782 -0.0756,1.09562 -0.11334,0.34002 -0.30224,0.64226 -0.60448,0.86894 z"
+     id="path1518"
+     inkscape:connector-curvature="0"
+     transform="translate(-68.87277,-12.542929)" />
+</svg>
