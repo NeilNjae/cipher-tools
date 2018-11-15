@@ -194,13 +194,23 @@ def simulated_annealing_break(message, workers=10,
     worker_args = []
     ciphertext = sanitise(message)
     for i in range(workers):
-        if not plain_alphabet:
-            plain_alphabet = string.ascii_lowercase
-        if not cipher_alphabet:
-            cipher_alphabet = list(string.ascii_lowercase)
-            random.shuffle(cipher_alphabet)
-            cipher_alphabet = cat(cipher_alphabet)
-        worker_args.append((ciphertext, plain_alphabet, cipher_alphabet, 
+        if plain_alphabet is None:
+            used_plain_alphabet = string.ascii_lowercase
+        else:
+            used_plain_alphabet = plain_alphabet
+        if cipher_alphabet is None:
+            used_cipher_alphabet = list(string.ascii_lowercase)
+            random.shuffle(used_cipher_alphabet)
+            used_cipher_alphabet = cat(used_cipher_alphabet)
+        else:
+            used_cipher_alphabet = cipher_alphabet
+        # if not plain_alphabet:
+        #     plain_alphabet = string.ascii_lowercase
+        # if not cipher_alphabet:
+        #     cipher_alphabet = list(string.ascii_lowercase)
+        #     random.shuffle(cipher_alphabet)
+        #     cipher_alphabet = cat(cipher_alphabet)
+        worker_args.append((ciphertext, used_plain_alphabet, used_cipher_alphabet, 
                             initial_temperature, max_iterations, fitness))
     with multiprocessing.Pool() as pool:
         breaks = pool.starmap(simulated_annealing_break_worker,
