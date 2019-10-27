@@ -160,7 +160,7 @@ def monoalphabetic_break_hillclimbing(message,
                               max_iterations=20000,
                               plain_alphabet=None, 
                               cipher_alphabet=None, 
-                              fitness=Pletters, chunksize=1):
+                              fitness=Ptrigrams, chunksize=1):
     return simulated_annealing_break(message, 
                               workers=1, 
                               initial_temperature=0,
@@ -175,7 +175,7 @@ def monoalphabetic_break_hillclimbing_mp(message,
                               max_iterations=20000,
                               plain_alphabet=None, 
                               cipher_alphabet=None, 
-                              fitness=Pletters, chunksize=1):
+                              fitness=Ptrigrams, chunksize=1):
     return simulated_annealing_break(message, 
                               workers=workers, 
                               initial_temperature=0,
@@ -190,7 +190,7 @@ def simulated_annealing_break(message, workers=10,
                               max_iterations=20000,
                               plain_alphabet=None, 
                               cipher_alphabet=None, 
-                              fitness=Pletters, chunksize=1):
+                              fitness=Ptrigrams, chunksize=1):
     worker_args = []
     ciphertext = sanitise(message)
     for i in range(workers):
