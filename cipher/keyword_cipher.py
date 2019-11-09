@@ -206,6 +206,9 @@ def simulated_annealing_break(message, workers=10,
                               fitness=Ptrigrams, chunksize=1):
     worker_args = []
     ciphertext = sanitise(message)
+    if swap_index_finder is None:
+        swap_index_finder = gaussian_swap_index
+        
     for i in range(workers):
         if plain_alphabet is None:
             used_plain_alphabet = string.ascii_lowercase
