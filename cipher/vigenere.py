@@ -44,6 +44,16 @@ beaufort_variant_encipher=vigenere_decipher
 beaufort_variant_decipher=vigenere_encipher
 
 
+def index_of_coincidence_scan(text, max_key_length=20):
+    """Finds the index of coincidence of the text, using different chunk sizes."""
+    stext = sanitise(text)
+    iocs = {}
+    for i in range(1, max_key_length + 1):
+        splits = every_nth(stext, i)
+        mean_ioc = sum(index_of_coincidence(s) for s in splits) / i
+        iocs[i] = mean_ioc
+    return iocs
+
 def vigenere_keyword_break_mp(message, wordlist=keywords, fitness=Pletters,
                               chunksize=500):
     """Breaks a vigenere cipher using a dictionary and frequency analysis.
